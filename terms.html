@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<script>/* Midan theme: apply saved theme instantly to avoid flash */(function(){var s=localStorage.getItem("midan-theme");if(s==="dark"||s==="light")document.documentElement.setAttribute("data-theme",s);})();</script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Conditions — Midān Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold:        #C9A24A;
+  --gold-lt:     #E8C77A;
+  --gold-dim:    rgba(201,162,74,0.12);
+  --navy:        #0D2A5C;
+  --blue:        #1847F5;
+  --blue-dim:    rgba(24,71,245,0.08);
+
+  --bg:          #F6F3EC;
+  --bg-2:        #EDE9DF;
+  --bg-3:        #E4DED3;
+  --bg-ink:      #0F0E0B;
+  --text-1:      #0F0E0B;
+  --text-2:      #2E2C28;
+  --text-3:      #5A5750;
+  --text-4:      #8A867E;
+  --border:      rgba(15,14,11,0.09);
+  --border-md:   rgba(15,14,11,0.15);
+  --nav-bg:      rgba(246,243,236,0.92);
+  --tag-bg:      rgba(15,14,11,0.04);
+  --card-bg:     #EDEAE2;
+  --shadow:      rgba(15,14,11,0.07);
+  --logo-navy:   #0D2A5C;
+  --pattern-col: rgba(201,162,74,0.07);
+}
+
+[data-theme="dark"] {
+  --bg:          #0C0B08;
+  --bg-2:        #131210;
+  --bg-3:        #1A1916;
+  --bg-ink:      #080807;
+  --text-1:      #F2EDE4;
+  --text-2:      #D4CFC6;
+  --text-3:      #A8A49C;
+  --text-4:      #857F77;
+  --border:      rgba(242,237,228,0.07);
+  --border-md:   rgba(242,237,228,0.12);
+  --nav-bg:      rgba(12,11,8,0.92);
+  --tag-bg:      rgba(242,237,228,0.05);
+  --card-bg:     #161512;
+  --shadow:      rgba(0,0,0,0.45);
+  --logo-navy:   #FFFFFF;
+  --pattern-col: rgba(201,162,74,0.05);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ═══ GEOMETRIC PATTERN ═══ */
+.geo-pattern {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-width='0.4' opacity='0.12'%3E%3Crect x='10' y='10' width='60' height='60' transform='rotate(45 40 40)'/%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Ccircle cx='40' cy='40' r='28'/%3E%3Cline x1='40' y1='0' x2='40' y2='80'/%3E%3Cline x1='0' y1='40' x2='80' y2='40'/%3E%3Cline x1='0' y1='0' x2='80' y2='80'/%3E%3Cline x1='80' y1='0' x2='0' y2='80'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+.bg-vline {
+  position: fixed; top: 0; bottom: 0; left: 52px;
+  width: 0.5px; background: var(--border); z-index: 0; pointer-events: none;
+}
+.bg-wash {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 5% 25%, rgba(24,71,245,0.045) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 70% at 95% 80%, rgba(201,162,74,0.06) 0%, transparent 65%);
+  transition: background 0.5s ease;
+}
+
+/* ═══ LOGO THEME SWITCHER ═══ */
+.logo-light-only { display: inline-flex; }
+.logo-dark-only  { display: none; }
+[data-theme="dark"] .logo-light-only { display: none; }
+[data-theme="dark"] .logo-dark-only  { display: inline-flex; }
+
+/* ═══ NAVBAR ═══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px 0 72px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border-bottom: 0.5px solid var(--border);
+  transition: background 0.4s, border-color 0.4s;
+  opacity: 0; animation: navIn 0.7s ease 0.1s forwards;
+}
+@keyframes navIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+.nav-left { display: flex; align-items: center; gap: 36px; }
+.nav-links { display:flex; align-items:center; gap:36px; list-style:none; }
+.nav-links a { font-size:11.5px; font-weight:400; letter-spacing:0.05em; color:var(--text-3); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--text-1); }
+
+.nav-right { display:flex; align-items:center; gap:14px; }
+
+.logo-group { display:flex; align-items:center; gap:9px; text-decoration:none; cursor:pointer; }
+.logo-mark { width:22px; height:28px; flex-shrink:0; }
+.logo-word { font-size:15px; font-weight:600; letter-spacing:0.1em; color:var(--text-1); transition:color 0.25s; user-select:none; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif; }
+
+.t-toggle {
+  width:30px; height:30px; background:var(--tag-bg); border:0.5px solid var(--border-md);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:background 0.2s, border-color 0.2s; color:var(--text-3);
+}
+.t-toggle:hover { background:var(--border); color:var(--text-1); }
+.t-toggle svg { width:13px; height:13px; }
+/* ── Theme toggle icons ── */
+.t-toggle .icon-sun  { display:block; }
+.t-toggle .icon-moon { display:none;  }
+[data-theme="dark"] .t-toggle .icon-sun  { display:none;  }
+[data-theme="dark"] .t-toggle .icon-moon { display:block; }
+.t-toggle svg { width:13px; height:13px; transition: opacity 0.2s; }
+
+.nav-contact {
+  font-size:11px; font-weight:500; letter-spacing:0.08em;
+  color:var(--bg); background:var(--text-1); text-decoration:none;
+  padding:7px 18px; border-radius:2px; transition:background 0.25s; white-space:nowrap;
+}
+.nav-contact:hover { background:var(--navy); }
+
+/* ═══ PAGE HEADER ═══ */
+.page-header {
+  position: relative; z-index: 10;
+  padding: 140px 48px 72px 72px;
+  border-bottom: 0.5px solid var(--border);
+  opacity: 0; animation: up 0.9s ease 0.3s forwards;
+}
+@keyframes up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+.page-header .kicker {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
+}
+.kicker-bar { width: 20px; height: 1.5px; background: var(--gold); border-radius: 1px; flex-shrink: 0; }
+.kicker-text { font-size: 10px; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-3); }
+
+.page-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 600; line-height: 1.0; letter-spacing: -0.02em;
+  color: var(--text-1); margin-bottom: 24px;
+}
+.page-title em { font-style: italic; color: var(--gold); }
+
+.page-meta {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.page-meta-item {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.06em; color: var(--text-4);
+}
+.page-meta-sep { width: 3px; height: 3px; background: var(--gold); border-radius: 50%; }
+
+/* ═══ CONTENT LAYOUT ═══ */
+.content-wrap {
+  position: relative; z-index: 10;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 0;
+  max-width: 1300px;
+  padding: 0 48px 0 72px;
+  margin: 0 auto;
+}
+
+/* ═══ SIDEBAR TOC ═══ */
+.toc-sidebar {
+  padding: 60px 40px 80px 0;
+  border-right: 0.5px solid var(--border);
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  align-self: start;
+}
+.toc-sidebar::-webkit-scrollbar { display: none; }
+
+.toc-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--text-4); margin-bottom: 20px;
+}
+.toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.toc-list a {
+  display: block; font-size: 11.5px; font-weight: 400; letter-spacing: 0.02em;
+  color: var(--text-3); text-decoration: none; padding: 6px 0;
+  border-left: 1.5px solid transparent;
+  padding-left: 12px; margin-left: -1px;
+  transition: color 0.2s, border-color 0.2s;
+  line-height: 1.4;
+}
+.toc-list a:hover { color: var(--text-1); border-left-color: var(--gold); }
+.toc-list a.active { color: var(--text-1); border-left-color: var(--gold); font-weight: 500; }
+
+/* ═══ MAIN CONTENT ═══ */
+.terms-content {
+  padding: 60px 0 100px 60px;
+  max-width: 720px;
+}
+
+.tc-section {
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.tc-section.is-visible { opacity: 1; transform: translateY(0); }
+
+.tc-section-num {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+}
+
+.tc-section h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 600; line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--text-1); margin-bottom: 20px;
+  padding-bottom: 16px; border-bottom: 0.5px solid var(--border);
+}
+
+.tc-section p {
+  font-size: 14.5px; line-height: 1.85; color: var(--text-2);
+  margin-bottom: 16px;
+}
+.tc-section p:last-child { margin-bottom: 0; }
+
+.tc-section ul {
+  list-style: none; margin: 16px 0; display: flex; flex-direction: column; gap: 10px;
+}
+.tc-section ul li {
+  font-size: 14px; line-height: 1.75; color: var(--text-2);
+  padding-left: 20px; position: relative;
+}
+.tc-section ul li::before {
+  content: '';
+  position: absolute; left: 0; top: 10px;
+  width: 5px; height: 1.5px; background: var(--gold); border-radius: 1px;
+}
+
+.tc-section strong { color: var(--text-1); font-weight: 500; }
+
+/* Highlighted callout block */
+.tc-callout {
+  background: var(--gold-dim);
+  border-left: 2px solid var(--gold);
+  border-radius: 0 2px 2px 0;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+.tc-callout p {
+  font-size: 13.5px; line-height: 1.75; color: var(--text-2); margin: 0;
+}
+
+/* Sub-product tag */
+.product-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--tag-bg); border: 0.5px solid var(--border-md);
+  border-radius: 2px; padding: 4px 10px;
+  font-size: 10.5px; font-weight: 500; letter-spacing: 0.06em;
+  color: var(--text-3); margin: 4px 4px 4px 0;
+}
+.product-tags { display: flex; flex-wrap: wrap; margin-bottom: 20px; }
+
+/* Contact block */
+.contact-block {
+  background: var(--card-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-top: 24px;
+}
+.contact-block p { font-size: 13.5px; line-height: 1.8; color: var(--text-2); margin-bottom: 8px; }
+.contact-block p:last-child { margin-bottom: 0; }
+.contact-block a { color: var(--gold); text-decoration: none; font-weight: 500; }
+.contact-block a:hover { text-decoration: underline; }
+
+/* ═══ DIVIDER ═══ */
+.tc-divider {
+  width: 40px; height: 1px; background: var(--border-md);
+  margin: 40px 0;
+}
+
+/* ═══ FOOTER ═══ */
+.footer {
+  position: relative; z-index: 10;
+  background: var(--bg-3); border-top: 0.5px solid var(--border);
+  padding: 36px 48px 36px 72px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  transition: background 0.4s;
+}
+.footer-logo { display: flex; align-items: center; gap: 9px; }
+.footer-wordmark { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-1); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+.footer-copy { font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--text-3); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 11px; letter-spacing: 0.04em; color: var(--text-4); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text-1); }
+.footer-links a.active { color: var(--gold); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  .content-wrap {
+    grid-template-columns: 1fr;
+    padding: 0 24px;
+  }
+  .toc-sidebar {
+    display: none;
+  }
+  .terms-content {
+    padding: 40px 0 80px 0;
+  }
+  .page-header {
+    padding: 120px 24px 56px 24px;
+  }
+  nav { padding: 0 24px; }
+  .footer { padding: 28px 24px; flex-wrap: wrap; gap: 12px; }
+}
+
+
+/* ═══════════════════════════════════════════
+   MIDĀN — Mobile & Touch Enhancements
+   Injected globally across all pages
+═══════════════════════════════════════════ */
+
+/* ── Touch momentum scrolling ── */
+html { -webkit-overflow-scrolling: touch; }
+
+/* ── Prevent horizontal overflow on mobile ── */
+body { max-width: 100vw; }
+
+/* ── Respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto !important; }
+}
+
+/* ── Ensure touch targets are at least 44×44px ── */
+.t-toggle { min-width: 44px; min-height: 44px; width: 44px; height: 44px; }
+.nav-contact { min-height: 44px; display: inline-flex; align-items: center; }
+.cta-primary, .btn-dark, .btn-light, .btn-ghost, .btn-border, .form-submit {
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* ── Hide bg-vline on mobile (reclaim space) ── */
+@media (max-width: 960px) {
+  .bg-vline { display: none; }
+}
+
+/* ── Mobile Hamburger Menu Button ── */
+.mob-menu-btn {
+  display: none;
+  width: 44px; height: 44px;
+  background: var(--tag-bg);
+  border: 0.5px solid var(--border-md);
+  border-radius: 2px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+  flex-shrink: 0;
+}
+.mob-menu-btn span {
+  display: block; width: 16px; height: 1px;
+  background: var(--text-2);
+  border-radius: 1px;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.2s, width 0.3s;
+  transform-origin: center;
+}
+.mob-menu-btn.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.mob-menu-btn.is-open span:nth-child(2) { opacity: 0; width: 0; }
+.mob-menu-btn.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── Mobile Navigation Drawer ── */
+.mob-nav {
+  display: none;
+  position: fixed;
+  top: 60px; left: 0; right: 0;
+  z-index: 190;
+  background: var(--nav-bg);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border-bottom: 0.5px solid var(--border-md);
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.mob-nav.is-open { max-height: 400px; }
+.mob-nav-inner {
+  padding: 24px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.mob-nav-link {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 15px; font-weight: 400; letter-spacing: 0.02em;
+  color: var(--text-2); text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--border);
+  transition: color 0.2s;
+  min-height: 52px;
+}
+.mob-nav-link:last-child { border-bottom: none; }
+.mob-nav-link:hover, .mob-nav-link.active { color: var(--text-1); }
+.mob-nav-link.active { color: var(--gold); }
+.mob-nav-arrow { font-size: 12px; color: var(--text-4); }
+.mob-nav-cta {
+  margin-top: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em;
+  color: var(--bg); background: var(--text-1); text-decoration: none;
+  padding: 14px 26px; border-radius: 2px; transition: background 0.25s;
+  min-height: 48px;
+}
+.mob-nav-cta:hover { background: var(--navy); }
+
+@media (max-width: 960px) {
+  .mob-menu-btn { display: flex; }
+  .mob-nav { display: block; }
+  /* Hide desktop contact button in nav on mobile */
+  nav > .nav-right > .nav-contact { display: none; }
+}
+
+/* ── Hero padding fix on small screens ── */
+@media (max-width: 480px) {
+  .hero-inner,
+  .about-hero,
+  .work-hero,
+  .wwu-hero,
+  .page-header,
+  .intent-section,
+  .belief-left,
+  .belief-right,
+  .origin-section,
+  .founder-section,
+  .beliefs-section,
+  .structure-section,
+  .cta-band,
+  .civix-section,
+  .products-section,
+  .who-section,
+  .offer-section,
+  .wont-section,
+  .principles-band,
+  .contact-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .about-hero { padding-top: 84px !important; }
+  .work-hero  { padding-top: 84px !important; }
+  .wwu-hero   { padding-top: 84px !important; }
+  .footer     { padding: 24px 16px !important; }
+}
+
+/* ── Domain band: scrollable on mobile ── */
+@media (max-width: 780px) {
+  .domain-band-inner {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .domain-band-inner::-webkit-scrollbar { display: none; }
+  .db-item { min-width: 160px; flex-shrink: 0; }
+}
+
+/* ── 2-column footer on mobile ── */
+@media (max-width: 480px) {
+  .footer {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 16px 12px !important;
+    align-items: start !important;
+  }
+  .footer-logo  { grid-column: 1; grid-row: 1; }
+  .footer-copy  { grid-column: 1 / -1; grid-row: 2; font-size: 10px; }
+  .footer-links { grid-column: 2; grid-row: 1; justify-content: flex-end; flex-wrap: wrap; }
+  .footer-right { display: none !important; }
+}
+
+/* ── Prevent iOS input zoom ── */
+@media (max-width: 768px) {
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ── Terms/Privacy: mobile TOC pill ── */
+@media (max-width: 900px) {
+  .toc-mobile-pill {
+    display: flex !important;
+  }
+}
+.toc-mobile-pill {
+  display: none;
+  position: sticky;
+  top: 68px;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid var(--border);
+  padding: 0 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 0;
+  white-space: nowrap;
+}
+.toc-mobile-pill::-webkit-scrollbar { display: none; }
+.toc-pill-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.04em;
+  color: var(--text-3); text-decoration: none;
+  padding: 10px 14px;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.toc-pill-link:hover, .toc-pill-link.active {
+  color: var(--text-1);
+  border-bottom-color: var(--gold);
+}
+
+/* ── Sector band: 2-col on medium mobile ── */
+@media (max-width: 480px) {
+  .sectors-band { grid-template-columns: 1fr !important; }
+  .sector-cell { border-right: none !important; border-top: 0.5px solid var(--border); }
+  .sector-cell:first-child { border-top: none; }
+}
+
+/* ── Product/partner grids: single col on mobile ── */
+@media (max-width: 600px) {
+  .product-grid,
+  .partner-grid { grid-template-columns: 1fr !important; }
+  .beliefs-grid { grid-template-columns: 1fr !important; }
+  .problem-cards { grid-template-columns: 1fr !important; }
+  .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ── CTA band: stack on mobile ── */
+@media (max-width: 600px) {
+  .cta-band-right, .cta-right {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .btn-light, .btn-ghost, .btn-dark, .btn-border, .cta-primary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* ── Origin word scale on tiny screens ── */
+@media (max-width: 400px) {
+  .origin-word { font-size: clamp(60px, 22vw, 80px) !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="geo-pattern"></div>
+<div class="bg-vline"></div>
+<div class="bg-wash"></div>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav>
+  <div class="nav-left">
+    <a href="midan_v5.html" class="logo-group">
+      <div class="logo-mark">
+        <span class="logo-light-only"><svg width="100%" height="100%" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="url(#tl_grad_ring)"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#0D2A5C"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#0D2A5C"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.513 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.45 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#0D2A5C"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#0D2A5C"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#0D2A5C"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.104 321.634 204.518 326.365 207.691 329.027C210.864 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.429 315.288 206.767 318.461Z" fill="#0D2A5C"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#0D2A5C"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#0D2A5C"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="#E8C77A" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#tl_grad_base)"/>
+<defs>
+<linearGradient id="tl_grad_ring" x1="55" y1="174" x2="275" y2="394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+<linearGradient id="tl_grad_base" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+        <span class="logo-dark-only"><svg width="100%" height="100%" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#F9FBFF"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="#E8C77A"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#C9A24A"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="white" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#C9A24A"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.512 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.449 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="white" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#C9A24A"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="white" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#C9A24A"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="white" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#C9A24A"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="white" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.105 321.634 204.518 326.365 207.691 329.027C210.865 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.43 315.288 206.767 318.461Z" fill="#C9A24A"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="white" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#C9A24A"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="white" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#C9A24A"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="white" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#td_grad_base)"/>
+<defs>
+<linearGradient id="td_grad_base" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+      </div>
+      <span class="logo-word">Midān</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="our-work.html">Our Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="work-with-us.html">Work With Us</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="mob-menu-btn" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <button class="t-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <!-- sun icon: shown in light mode -->
+      <svg class="icon-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="8" cy="8" r="3"/>
+        <line x1="8" y1="1.5" x2="8" y2="3"/><line x1="8" y1="13" x2="8" y2="14.5"/>
+        <line x1="1.5" y1="8" x2="3" y2="8"/><line x1="13" y1="8" x2="14.5" y2="8"/>
+        <line x1="3.5" y1="3.5" x2="4.5" y2="4.5"/><line x1="11.5" y1="11.5" x2="12.5" y2="12.5"/>
+        <line x1="12.5" y1="3.5" x2="11.5" y2="4.5"/><line x1="4.5" y1="11.5" x2="3.5" y2="12.5"/>
+      </svg>
+      <!-- moon icon: shown in dark mode -->
+      <svg class="icon-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z"/>
+      </svg>
+    </button>
+    <a href="work-with-us.html" class="nav-contact">Work With Us</a>
+  </div>
+</nav>
+<div class="mob-nav">
+    <div class="mob-nav-inner">
+      <a href="our-work.html" class="mob-nav-link">Our Work <span class="mob-nav-arrow">→</span></a>
+      <a href="about.html" class="mob-nav-link">About <span class="mob-nav-arrow">→</span></a>
+      <a href="work-with-us.html" class="mob-nav-link">Work With Us <span class="mob-nav-arrow">→</span></a>
+      <a href="work-with-us.html" class="mob-nav-cta">Get in Touch</a>
+    </div>
+  </div>
+
+<!-- ══════════ PAGE HEADER ══════════ -->
+<header class="page-header">
+  <div class="kicker">
+    <div class="kicker-bar"></div>
+    <span class="kicker-text">Legal · midan.in</span>
+  </div>
+  <h1 class="page-title">Terms &amp; <em>Conditions</em></h1>
+  <div class="page-meta">
+    <span class="page-meta-item">Effective: 5 June 2026</span>
+    <span class="page-meta-sep"></span>
+    <span class="page-meta-item">Governing Law: Telangana, India</span>
+    <span class="page-meta-sep"></span>
+    <span class="page-meta-item">Version 1.0</span>
+  </div>
+</header>
+
+<!-- ══════════ CONTENT ══════════ -->
+<div class="content-wrap">
+
+  <!-- Sidebar Table of Contents -->
+  <aside class="toc-sidebar">
+    <div class="toc-label">On this page</div>
+    <ul class="toc-list">
+      <li><a href="#acceptance">01 · Acceptance of Terms</a></li>
+      <li><a href="#entity">02 · About the Company</a></li>
+      <li><a href="#services">03 · Services &amp; Accounts</a></li>
+      <li><a href="#subscriptions">04 · Payments &amp; Subscriptions</a></li>
+      <li><a href="#data">05 · Privacy &amp; Data</a></li>
+      <li><a href="#ip">06 · Intellectual Property</a></li>
+      <li><a href="#acceptable-use">07 · Acceptable Use</a></li>
+      <li><a href="#liability">08 · Disclaimers &amp; Liability</a></li>
+      <li><a href="#termination">09 · Suspension &amp; Termination</a></li>
+      <li><a href="#changes">10 · Changes to These Terms</a></li>
+      <li><a href="#contact">11 · Contact</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Terms Content -->
+  <main class="terms-content">
+
+    <div class="tc-section" id="acceptance">
+      <div class="tc-section-num">01</div>
+      <h2>Acceptance of Terms</h2>
+      <p>By accessing or using any product, application, platform, or service operated by Midan Digital ("Midān," "we," "us," or "our") — including anything available at midan.in or associated subdomains — you agree to these Terms &amp; Conditions ("Terms").</p>
+      <p>If you're accepting on behalf of a company, organisation, or other legal entity, you confirm you have the authority to bind that entity. If you don't agree, please stop using our Services.</p>
+      <div class="tc-callout">
+        <p>Where a separate written agreement or order form exists between you and Midān, that agreement takes precedence over these Terms to the extent of any conflict.</p>
+      </div>
+    </div>
+
+    <div class="tc-section" id="entity">
+      <div class="tc-section-num">02</div>
+      <h2>About the Company</h2>
+      <p>Midan Digital is a sole proprietorship registered under the Udyam Registration Scheme, based in Hyderabad, Telangana, India. We build software products and digital tools for businesses and individuals.</p>
+      <div class="contact-block">
+        <p><strong>Registered Name:</strong> Midan Digital</p>
+        <p><strong>Registration Type:</strong> Sole Proprietorship · Udyam</p>
+        <p><strong>Domain:</strong> <a href="https://midan.in">midan.in</a></p>
+        <p><strong>Email:</strong> <a href="mailto:hellomidan@gmail.com">hellomidan@gmail.com</a></p>
+        <p><strong>Jurisdiction:</strong> Hyderabad, Telangana, India</p>
+      </div>
+    </div>
+
+    <div class="tc-section" id="services">
+      <div class="tc-section-num">03</div>
+      <h2>Services &amp; Accounts</h2>
+      <p>We provide software products, digital platforms, tools, and related services (collectively, the "Services"). The specific features and scope of any Service are described at the point of purchase or within your account. We may update, expand, or discontinue any part of the Services with reasonable notice.</p>
+      <p>To access certain Services, you'll need to create an account. You agree to:</p>
+      <ul>
+        <li>Provide accurate and current information at registration and keep it updated;</li>
+        <li>Keep your login credentials confidential — you're responsible for all activity under your account;</li>
+        <li>Be at least 18 years old, or have the legal capacity to enter contracts in your jurisdiction;</li>
+        <li>If acting on behalf of an organisation, have authority to bind that organisation to these Terms.</li>
+      </ul>
+      <p>If you believe your account has been compromised, please contact us at <a href="mailto:hellomidan@gmail.com" style="color:var(--gold);font-weight:500;">hellomidan@gmail.com</a> immediately. Where a subscription includes multiple users or seats, the account holder is responsible for managing access within their workspace.</p>
+    </div>
+
+    <div class="tc-section" id="subscriptions">
+      <div class="tc-section-num">04</div>
+      <h2>Payments &amp; Subscriptions</h2>
+      <p>Access to paid Services is provided on a subscription basis. Pricing, billing cycles, and included features are confirmed at the time of purchase or in your order details.</p>
+      <ul>
+        <li><strong>Billing —</strong> Subscriptions are billed in advance on the agreed cycle (monthly or annual). Amounts are in Indian Rupees (INR) inclusive of applicable GST unless stated otherwise.</li>
+        <li><strong>Renewals —</strong> Subscriptions renew automatically at the end of each billing period. You can cancel at any time through your account or billing settings — cancellation takes effect at the end of the current period.</li>
+        <li><strong>Refunds —</strong> We don't offer refunds for partial billing periods. Exceptional circumstances will be reviewed at our discretion.</li>
+        <li><strong>Price Changes —</strong> We'll give at least 30 days' notice before changing subscription pricing. Continued use after that date means you accept the new price.</li>
+        <li><strong>Taxes —</strong> You're responsible for any taxes or duties applicable in your jurisdiction beyond those we are required to collect.</li>
+      </ul>
+    </div>
+
+    <div class="tc-section" id="data">
+      <div class="tc-section-num">05</div>
+      <h2>Privacy &amp; Data</h2>
+      <p>We take your data seriously. Our practices are governed by the Digital Personal Data Protection Act, 2023 (DPDPA) and other applicable Indian law. Here's what matters most:</p>
+      <ul>
+        <li><strong>Your data is yours —</strong> You retain full ownership of all data, content, and information you upload or generate through the Services ("Client Data"). We process it only to provide and improve the Services.</li>
+        <li><strong>No selling, no ads —</strong> We don't sell, rent, or share your personal data with third parties for commercial purposes. We are not an advertising platform.</li>
+        <li><strong>Data processing —</strong> Where we handle data on your organisation's behalf, you (as the subscribing entity) are the Data Fiduciary under the DPDPA, and we act as the Data Processor on your instructions.</li>
+        <li><strong>Retention —</strong> We retain Client Data for the duration of your subscription and any legally required period thereafter. On termination, your data remains available for export for 30 days, then is deleted from our systems within a further 60 days.</li>
+        <li><strong>Anonymised data —</strong> Aggregated or de-identified data that cannot reasonably identify you may be used for product improvement and research.</li>
+      </ul>
+      <p>For full details, see our Privacy Policy at <a href="https://midan.in/privacy" style="color:var(--gold);font-weight:500;">midan.in/privacy</a>.</p>
+    </div>
+
+    <div class="tc-section" id="ip">
+      <div class="tc-section-num">06</div>
+      <h2>Intellectual Property</h2>
+      <p>All software, design, content, trademarks, and materials that make up the Midān platforms are owned by Midan Digital or our licensors, protected under applicable Indian and international law.</p>
+      <ul>
+        <li>We grant you a limited, non-exclusive, non-transferable licence to use the Services during your active subscription, for your internal purposes only.</li>
+        <li>You may not copy, modify, distribute, sell, sublicense, or reverse-engineer any part of our Services.</li>
+        <li>You retain full ownership of your Client Data. We only use it to deliver and maintain the Services you've subscribed to.</li>
+      </ul>
+    </div>
+
+    <div class="tc-section" id="acceptable-use">
+      <div class="tc-section-num">07</div>
+      <h2>Acceptable Use</h2>
+      <p>You agree not to use our Services to:</p>
+      <ul>
+        <li>Violate any applicable law, regulation, or the rights of any third party;</li>
+        <li>Upload or transmit content that is unlawful, defamatory, obscene, or harmful;</li>
+        <li>Attempt to gain unauthorised access to any Midān system, server, or network;</li>
+        <li>Introduce malicious code, viruses, or disruptive software;</li>
+        <li>Scrape or systematically extract data from our platforms without our permission;</li>
+        <li>Place an unreasonable load on our infrastructure or interfere with service availability for others;</li>
+        <li>Misrepresent your identity or affiliation with any person or organisation.</li>
+      </ul>
+      <p>Breaching these rules may result in immediate suspension or termination of your access, without refund. Serious violations may be referred to appropriate authorities.</p>
+    </div>
+
+    <div class="tc-section" id="liability">
+      <div class="tc-section-num">08</div>
+      <h2>Disclaimers &amp; Limitation of Liability</h2>
+      <p>The Services are provided <strong>"as is"</strong> and <strong>"as available."</strong> We make commercially reasonable efforts to keep things running smoothly, but we don't guarantee that the Services will be uninterrupted, error-free, or perfectly suited to your specific needs.</p>
+      <div class="tc-callout">
+        <p><strong>To the fullest extent permitted by law, Midan Digital will not be liable for any indirect, incidental, consequential, or exemplary damages</strong> — including loss of revenue, data, or goodwill, service outages, or the cost of alternatives — even if we've been advised of the possibility of such damages.</p>
+      </div>
+      <p>Our total liability for any claim under these Terms is capped at the fees you paid to Midān in the three calendar months before the event giving rise to the claim. Nothing in these Terms limits liability that cannot be excluded under Indian law.</p>
+      <p>You agree to indemnify and hold Midan Digital harmless from any claims, costs, or losses arising from your misuse of the Services, breach of these Terms, or violation of any applicable law or third-party right.</p>
+    </div>
+
+    <div class="tc-section" id="termination">
+      <div class="tc-section-num">09</div>
+      <h2>Suspension &amp; Termination</h2>
+      <p><strong>By You —</strong> You can cancel your subscription at any time through your account or billing settings. Cancellation takes effect at the end of the current billing period, and no refunds are issued for time already paid.</p>
+      <p><strong>By Us —</strong> We may suspend or terminate your access if:</p>
+      <ul>
+        <li>You breach these Terms and don't remedy it within 7 days of being notified;</li>
+        <li>Your use poses a security risk, legal liability, or harm to other users;</li>
+        <li>Payment is overdue by more than 30 days;</li>
+        <li>We're required to do so by law or a competent authority.</li>
+      </ul>
+      <p>On termination: your licence to use the Services ends immediately; your Client Data remains available for export for 30 days before being permanently deleted; any outstanding fees remain payable. Sections on intellectual property, liability, indemnification, and disputes survive termination.</p>
+    </div>
+
+    <div class="tc-section" id="changes">
+      <div class="tc-section-num">10</div>
+      <h2>Changes to These Terms</h2>
+      <p>We may update these Terms from time to time as our Services and legal obligations evolve. When we make material changes, we'll notify you by email or via an in-product notice at least 14 days before they take effect, and update the "Effective" date at the top of this page. Continuing to use the Services after that date means you accept the updated Terms.</p>
+      <p>We recommend checking this page occasionally. Previous versions are available on request.</p>
+      <p>These Terms are governed by the laws of India. Any disputes will first be addressed amicably; if unresolved within 30 days, they may be referred to binding arbitration under the Arbitration and Conciliation Act, 1996, seated in Hyderabad, Telangana. For urgent matters not subject to arbitration, the courts of Hyderabad hold exclusive jurisdiction.</p>
+    </div>
+
+    <div class="tc-section" id="contact">
+      <div class="tc-section-num">11</div>
+      <h2>Contact</h2>
+      <p>Questions about these Terms, your data, or anything else? We're happy to help.</p>
+      <div class="contact-block">
+        <p><strong>Midan Digital</strong></p>
+        <p>Hyderabad, Telangana, India</p>
+        <p>Email: <a href="mailto:hellomidan@gmail.com">hellomidan@gmail.com</a></p>
+        <p>Website: <a href="https://midan.in">midan.in</a></p>
+      </div>
+      <p style="margin-top:20px; font-size:13px; color:var(--text-4); line-height:1.7;">
+        These Terms were last reviewed and updated on 5 June 2026. They do not constitute legal advice — if you need guidance specific to your situation, we recommend speaking with a qualified legal professional.
+      </p>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer-logo">
+    <a href="midan_v5.html" aria-label="Home" style="display:flex;align-items:center;">
+      <div style="width:16px;height:20px;flex-shrink:0;">
+        <span class="logo-light-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="url(#tf_grad_ring)"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#0D2A5C"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#0D2A5C"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.513 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.45 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#0D2A5C"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#0D2A5C"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#0D2A5C"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.104 321.634 204.518 326.365 207.691 329.027C210.864 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.429 315.288 206.767 318.461Z" fill="#0D2A5C"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#0D2A5C"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#0D2A5C"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="#E8C77A" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#tf_grad_base_l)"/>
+<defs>
+<linearGradient id="tf_grad_ring" x1="55" y1="174" x2="275" y2="394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+<linearGradient id="tf_grad_base_l" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+        <span class="logo-dark-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#F9FBFF"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="#E8C77A"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#C9A24A"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="white" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#C9A24A"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.512 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.449 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="white" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#C9A24A"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="white" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#C9A24A"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="white" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#C9A24A"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="white" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.105 321.634 204.518 326.365 207.691 329.027C210.865 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.43 315.288 206.767 318.461Z" fill="#C9A24A"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="white" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#C9A24A"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="white" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#C9A24A"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="white" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#tf_grad_base_d)"/>
+<defs>
+<linearGradient id="tf_grad_base_d" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+      </div>
+    </a>
+    <span class="footer-wordmark">Midān</span>
+  </div>
+  <div class="footer-links">
+    <a href="terms.html" class="active">Terms &amp; Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="mailto:hellomidan@gmail.com">Contact</a>
+  </div>
+  <span class="footer-copy">© 2026 Midān Digital. All rights reserved.</span>
+</footer>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('midan-theme', next);
+}
+</script>
+
+<script>
+/* ── Page-load fade in ── */
+document.documentElement.style.opacity = '0';
+document.documentElement.style.transition = 'opacity 0.35s ease';
+window.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(() => { document.documentElement.style.opacity = '1'; });
+});
+
+/* ── Page-exit transition ── */
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href]');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http') || a.target === '_blank') return;
+  e.preventDefault();
+  document.documentElement.style.opacity = '0';
+  setTimeout(() => { window.location.href = href; }, 320);
+});
+
+/* ── Scroll reveal for sections ── */
+const sections = document.querySelectorAll('.tc-section');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('is-visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+sections.forEach(s => obs.observe(s));
+
+/* ── TOC active state tracking ── */
+const tocLinks = document.querySelectorAll('.toc-list a');
+const sectionEls = document.querySelectorAll('.tc-section');
+
+const tocObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      tocLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sectionEls.forEach(s => tocObs.observe(s));
+
+/* ── Nav scroll behaviour ── */
+const nav = document.querySelector('nav');
+if (nav) {
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 20;
+    nav.style.borderBottomColor = scrolled ? 'var(--border-md)' : 'var(--border)';
+  }, { passive: true });
+}
+</script>
+
+
+<script id="midan-mobile-nav">
+/* ── Mobile Navigation ── */
+(function() {
+  const btn = document.querySelector('.mob-menu-btn');
+  const drawer = document.querySelector('.mob-nav');
+  if (!btn || !drawer) return;
+
+  btn.addEventListener('click', function() {
+    const open = drawer.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  // Close on link click
+  drawer.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      drawer.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Close on outside tap
+  document.addEventListener('touchstart', function(e) {
+    if (drawer.classList.contains('is-open') && !drawer.contains(e.target) && !btn.contains(e.target)) {
+      drawer.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>

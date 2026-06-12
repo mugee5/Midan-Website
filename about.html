@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<script>/* Midan theme: apply saved theme instantly to avoid flash */(function(){var s=localStorage.getItem("midan-theme");if(s==="dark"||s==="light")document.documentElement.setAttribute("data-theme",s);})();</script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Midān</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold:#C9A24A; --gold-lt:#E8C77A; --navy:#0D2A5C; --blue:#1847F5;
+  --bg:#F6F3EC; --bg-2:#EDE9DF; --bg-3:#E4DED3; --bg-ink:#0F0E0B;
+  --text-1:#0F0E0B; --text-2:#2E2C28; --text-3:#5A5750; --text-4:#8A867E;
+  --border:rgba(15,14,11,0.09); --border-md:rgba(15,14,11,0.15);
+  --nav-bg:rgba(246,243,236,0.92); --tag-bg:rgba(15,14,11,0.04);
+  --card-bg:#EDEAE2; --shadow:rgba(15,14,11,0.07); --logo-navy:#0D2A5C;
+}
+[data-theme="dark"] {
+  --bg:#0C0B08; --bg-2:#131210; --bg-3:#1A1916; --bg-ink:#080807;
+  --text-1:#F2EDE4; --text-2:#D4CFC6; --text-3:#A8A49C; --text-4:#857F77;
+  --border:rgba(242,237,228,0.07); --border-md:rgba(242,237,228,0.12);
+  --nav-bg:rgba(12,11,8,0.92); --tag-bg:rgba(242,237,228,0.05);
+  --card-bg:#161512; --shadow:rgba(0,0,0,0.45); --logo-navy:#FFFFFF;
+}
+
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text-1); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; transition:background 0.4s,color 0.4s; }
+
+/* ── Enhanced reveal system ── */
+.reveal { opacity:0; transform:translateY(22px); transition:opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+.reveal.is-visible { opacity:1; transform:translateY(0); }
+.reveal-left { opacity:0; transform:translateX(-28px); transition:opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+.reveal-left.is-visible { opacity:1; transform:translateX(0); }
+.reveal-scale { opacity:0; transform:scale(0.96); transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+.reveal-scale.is-visible { opacity:1; transform:scale(1); }
+
+/* staggered children */
+.stagger > * { opacity:0; transform:translateY(16px); transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.stagger.is-visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0ms; }
+.stagger.is-visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:90ms; }
+.stagger.is-visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:180ms; }
+.stagger.is-visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:270ms; }
+
+/* Gold line draw */
+.line-draw { transform-origin:left; transform:scaleX(0); transition:transform 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s; }
+.line-draw.visible { transform:scaleX(1); }
+
+/* belief card enhanced hover */
+.belief-card { transition:background 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s; }
+.belief-card:hover { background:var(--bg-2); transform:translateY(-2px); box-shadow:0 8px 32px var(--shadow); }
+
+/* nav link underline slide */
+.nav-links a { position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:0.5px; background:var(--gold); transition:width 0.25s ease; }
+.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+
+/* f-fact row hover */
+.f-fact { transition:background 0.2s; border-radius:2px; padding-left:4px; padding-right:4px; }
+.f-fact:hover { background:var(--tag-bg); }
+
+.geo-pattern {
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23C9A24A' stroke-width='0.4' opacity='0.12'%3E%3Crect x='10' y='10' width='60' height='60' transform='rotate(45 40 40)'/%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Ccircle cx='40' cy='40' r='28'/%3E%3Cline x1='40' y1='0' x2='40' y2='80'/%3E%3Cline x1='0' y1='40' x2='80' y2='40'/%3E%3Cline x1='0' y1='0' x2='80' y2='80'/%3E%3Cline x1='80' y1='0' x2='0' y2='80'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;
+}
+.bg-vline { position:fixed; top:0; bottom:0; left:52px; width:0.5px; background:var(--border); z-index:0; pointer-events:none; }
+.bg-wash { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 5% 25%, rgba(24,71,245,0.04) 0%, transparent 70%),radial-gradient(ellipse 50% 70% at 95% 80%, rgba(201,162,74,0.05) 0%, transparent 65%); transition:background 0.5s; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 48px 0 72px; background:var(--nav-bg); backdrop-filter:blur(28px) saturate(1.6); -webkit-backdrop-filter:blur(28px) saturate(1.6); border-bottom:0.5px solid var(--border); transition:background 0.4s,border-color 0.4s; }
+.nav-left { display:flex; align-items:center; gap:36px; }
+.nav-links { display:flex; align-items:center; gap:36px; list-style:none; }
+.nav-links a { font-size:11.5px; font-weight:400; letter-spacing:0.05em; color:var(--text-3); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover,.nav-links a.active { color:var(--text-1); }
+.nav-right { display:flex; align-items:center; gap:14px; }
+.logo-group { display:flex; align-items:center; gap:9px; text-decoration:none; }
+.logo-mark { width:22px; height:28px; flex-shrink:0; }
+.logo-word { font-size:15px; font-weight:600; letter-spacing:0.1em; color:var(--text-1); user-select:none; }
+.t-toggle { width:30px; height:30px; background:var(--tag-bg); border:0.5px solid var(--border-md); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background 0.2s; color:var(--text-3); }
+.t-toggle:hover { background:var(--border); color:var(--text-1); }
+.t-toggle svg { width:13px; height:13px; }
+/* ── Theme toggle icons ── */
+.t-toggle .icon-sun  { display:block; }
+.t-toggle .icon-moon { display:none;  }
+[data-theme="dark"] .t-toggle .icon-sun  { display:none;  }
+[data-theme="dark"] .t-toggle .icon-moon { display:block; }
+.t-toggle svg { width:13px; height:13px; transition: opacity 0.2s; }
+.nav-contact { font-size:11px; font-weight:500; letter-spacing:0.08em; color:var(--bg); background:var(--text-1); text-decoration:none; padding:7px 18px; border-radius:2px; transition:background 0.25s; white-space:nowrap; }
+.nav-contact:hover { background:var(--navy); }
+
+/* HERO */
+.about-hero {
+  position:relative; z-index:10;
+  padding: 160px 48px 100px 72px;
+  border-bottom: 0.5px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  min-height: 88vh;
+}
+.ah-left { display: flex; flex-direction: column; justify-content: flex-end; }
+.ah-kicker { display:flex; align-items:center; gap:10px; margin-bottom:48px; }
+.ah-kicker-bar { width:20px; height:1.5px; background:var(--gold); }
+.ah-kicker-text { font-size:10px; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--text-3); }
+.ah-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 600;
+  line-height: 0.97;
+  letter-spacing: -0.025em;
+  color: var(--text-1);
+  margin-bottom: 40px;
+}
+.ah-title em { font-style: italic; color: var(--gold); }
+.ah-desc { font-size:15px; font-weight:300; line-height:1.85; color:var(--text-2); max-width:460px; }
+
+.ah-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 28px;
+  padding-bottom: 4px;
+}
+.ah-stat {
+  padding: 24px 0;
+  border-top: 0.5px solid var(--border);
+}
+.ah-stat:last-child { border-bottom: 0.5px solid var(--border); }
+.ah-stat-label { font-size:9.5px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.ah-stat-value {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 500;
+  color: var(--text-1);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* WORD ORIGIN */
+.origin-section {
+  position:relative; z-index:10;
+  background: var(--bg-ink);
+  padding: 108px 72px;
+  overflow: hidden;
+}
+.origin-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cg fill='none' stroke='%23E8C77A' stroke-width='0.4' opacity='0.07'%3E%3Crect x='10' y='10' width='80' height='80' rx='2'/%3E%3Crect x='25' y='25' width='50' height='50' transform='rotate(45 50 50)'/%3E%3Ccircle cx='50' cy='50' r='30'/%3E%3Ccircle cx='50' cy='50' r='15'/%3E%3Cline x1='50' y1='10' x2='50' y2='90'/%3E%3Cline x1='10' y1='50' x2='90' y2='50'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:100px 100px; pointer-events:none;
+}
+.origin-inner { position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; max-width:1200px; }
+.origin-word {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(80px, 12vw, 160px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232,199,122,0.3);
+  user-select: none;
+}
+.origin-right { color: rgba(246,243,236,0.9); }
+.origin-label { font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(232,199,122,0.5); margin-bottom:28px; }
+.origin-defs { display:flex; flex-direction:column; gap:0; }
+.origin-def {
+  padding: 24px 0;
+  border-bottom: 0.5px solid rgba(242,237,228,0.07);
+}
+.origin-def:first-child { border-top: 0.5px solid rgba(242,237,228,0.07); }
+.od-arabic {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(232,199,122,0.6);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.od-meaning {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(246,243,236,0.9);
+  margin-bottom: 6px;
+}
+.od-body {
+  font-size: 12.5px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(246,243,236,0.45);
+}
+
+/* FOUNDER SECTION */
+.founder-section {
+  position:relative; z-index:10;
+  padding: 108px 72px;
+  background: var(--bg-2);
+  border-top: 0.5px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.founder-left { }
+.f-label { font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:32px; }
+.f-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text-1);
+  margin-bottom: 28px;
+}
+.f-title em { font-style: italic; color: var(--gold); }
+.f-bio { font-size:14px; font-weight:300; line-height:1.9; color:var(--text-2); }
+.f-bio p + p { margin-top:16px; }
+.f-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size:11.5px; font-weight:500; letter-spacing:0.06em;
+  color:var(--text-1); text-decoration:none;
+  border-bottom:0.5px solid var(--border-md);
+  padding-bottom:3px; margin-top:28px;
+  transition:color 0.2s, border-color 0.2s;
+}
+.f-link:hover { color:var(--gold); border-color:var(--gold); }
+.f-arrow { transition:transform 0.25s; }
+.f-link:hover .f-arrow { transform:translateX(3px); }
+
+.founder-right { padding-top: 4px; }
+.f-facts { display:flex; flex-direction:column; gap:0; }
+.f-fact {
+  padding: 22px 0;
+  border-bottom: 0.5px solid var(--border);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 20px;
+  align-items: baseline;
+}
+.f-fact:first-child { border-top: 0.5px solid var(--border); }
+.ff-key { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-4); }
+.ff-val { font-size:13.5px; font-weight:400; color:var(--text-2); line-height:1.65; }
+.ff-val a { color:var(--blue); text-decoration:none; }
+.ff-val a:hover { text-decoration:underline; }
+
+/* BELIEFS FULL */
+.beliefs-section {
+  position:relative; z-index:10;
+  padding: 108px 72px;
+  background: var(--bg);
+  border-top: 0.5px solid var(--border);
+}
+.beliefs-header {
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin-bottom:64px; padding-bottom:20px; border-bottom:0.5px solid var(--border);
+}
+.beliefs-label { font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); }
+.beliefs-count { font-size:11px; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-4); }
+
+.beliefs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.belief-card {
+  background: var(--bg);
+  padding: 44px 40px;
+  transition: background 0.25s;
+  position: relative;
+}
+.belief-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 40px; right: 40px;
+  height: 0;
+}
+.belief-card:hover { background: var(--bg-2); }
+.bc-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11px; font-style: italic;
+  font-weight: 400; letter-spacing: 0.1em; color: var(--gold);
+  margin-bottom: 16px;
+}
+.bc-title { font-size:17px; font-weight:500; letter-spacing:-0.01em; color:var(--text-1); margin-bottom:12px; line-height:1.25; }
+.bc-body { font-size:13px; font-weight:300; line-height:1.85; color:var(--text-2); }
+
+/* STRUCTURE */
+.structure-section {
+  position:relative; z-index:10;
+  background: var(--bg-2);
+  border-top: 0.5px solid var(--border);
+  padding: 108px 72px;
+}
+.structure-inner { max-width: 820px; }
+.s-label { font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:32px; }
+.s-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 600; letter-spacing:-0.02em; line-height:1.15;
+  color:var(--text-1); margin-bottom:36px;
+}
+.s-title em { font-style:italic; color:var(--gold); }
+.s-body { font-size:14.5px; font-weight:300; line-height:1.9; color:var(--text-2); }
+.s-body p + p { margin-top:18px; }
+.s-body strong { font-weight:500; color:var(--text-1); }
+
+/* CTA BAND */
+.cta-band {
+  position:relative; z-index:10;
+  background: var(--bg-ink);
+  border-top:0.5px solid var(--border);
+  padding: 80px 72px;
+  display:flex; align-items:center; justify-content:space-between; gap:40px;
+  overflow:hidden;
+}
+.cta-band::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23E8C77A' stroke-width='0.35' opacity='0.06'%3E%3Crect x='10' y='10' width='60' height='60' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='28'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px; pointer-events:none;
+}
+.cta-band-left { position:relative; z-index:2; }
+.cta-band-label { font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(232,199,122,0.5); margin-bottom:14px; }
+.cta-band-title {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(24px,3vw,38px); font-weight:600;
+  letter-spacing:-0.02em; line-height:1.15;
+  color:rgba(246,243,236,0.9);
+}
+.cta-band-title em { font-style:italic; color:var(--gold-lt); }
+.cta-band-right { display:flex; gap:12px; flex-shrink:0; position:relative; z-index:2; }
+.btn-light { font-size:11.5px; font-weight:500; letter-spacing:0.07em; color:var(--bg-ink); background:rgba(246,243,236,0.9); text-decoration:none; padding:12px 26px; border-radius:2px; transition:background 0.25s; white-space:nowrap; }
+.btn-light:hover { background:#fff; }
+.btn-ghost { font-size:11.5px; font-weight:400; letter-spacing:0.05em; color:rgba(246,243,236,0.55); border:0.5px solid rgba(246,243,236,0.15); text-decoration:none; padding:12px 26px; border-radius:2px; transition:color 0.2s, border-color 0.2s; white-space:nowrap; }
+.btn-ghost:hover { color:rgba(246,243,236,0.9); border-color:rgba(246,243,236,0.35); }
+
+/* FOOTER */
+.footer { position:relative; z-index:10; background:var(--bg-3); border-top:0.5px solid var(--border); padding:36px 48px 36px 72px; display:flex; align-items:center; justify-content:space-between; gap:20px; transition:background 0.4s; }
+.footer-logo { display:flex; align-items:center; gap:9px; }
+.footer-wordmark { font-size:13px; font-weight:600; letter-spacing:0.1em; color:var(--text-1); }
+.footer-copy { font-size:11px; font-weight:400; letter-spacing:0.04em; color:var(--text-3); }
+.footer-right { display:flex; align-items:center; gap:8px; }
+.footer-loc { font-size:11px; font-weight:400; letter-spacing:0.1em; color:var(--text-3); }
+.footer-loc-dot { width:4px; height:4px; background:var(--gold); border-radius:50%; }
+.footer-links { display:flex; align-items:center; gap:20px; }
+.footer-links a { font-size:11px; letter-spacing:0.04em; color:var(--text-4); text-decoration:none; transition:color 0.2s; }
+.footer-links a:hover { color:var(--text-1); }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(18px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.is-visible { opacity:1; transform:translateY(0); }
+
+@keyframes up { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+
+@media(max-width:960px){
+  nav{padding:0 24px;} .nav-links{display:none;}
+  .about-hero,.origin-inner,.founder-section,.beliefs-grid,.cta-band{grid-template-columns:1fr;}
+  .about-hero,.origin-section,.founder-section,.beliefs-section,.structure-section,.cta-band{padding-left:24px;padding-right:24px;}
+  .about-hero{padding-top:120px; min-height:auto; gap:48px;}
+  .origin-word{font-size:clamp(80px,18vw,120px);}
+  .cta-band{flex-direction:column; align-items:flex-start;}
+  .footer{padding:28px 24px; flex-wrap:wrap; gap:12px;}
+  .f-fact{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .about-hero{padding-top:100px;}
+}
+
+/* ── Theme-aware logo visibility ── */
+.logo-light-only { display:inline-flex; align-items:center; width:100%; height:100%; }
+.logo-dark-only  { display:none; align-items:center; width:100%; height:100%; }
+[data-theme="dark"] .logo-light-only { display:none; }
+[data-theme="dark"] .logo-dark-only  { display:inline-flex; }
+</style>
+
+<style id="midan-anim">
+/* ═══════════════════════════════════════════
+   MIDĀN — Shared Animation CSS
+   Add to <head> or inject into each page's <style>
+═══════════════════════════════════════════ */
+
+/* Base reveal states */
+.reveal,
+.reveal-up,
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Visible state for all */
+.reveal.is-visible,
+.reveal-up.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-scale.is-visible,
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Nav underline slide */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 0.5px;
+  background: var(--gold);
+  transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; }
+
+/* Magnetic CTA */
+.magnetic {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  display: inline-block;
+}
+
+/* Glow card — cursor tracking spotlight */
+.glow-card {
+  position: relative;
+  overflow: hidden;
+}
+.glow-card::after {
+  content: '';
+  position: absolute;
+  left: var(--gx, 50%);
+  top: var(--gy, 50%);
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(201,162,74,0.07) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 50%;
+}
+.glow-card:hover::after { opacity: 1; }
+
+/* Section header gold line draw */
+.line-draw {
+  display: block;
+  height: 1.5px;
+  background: var(--gold);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+.is-visible .line-draw,
+.line-draw.is-visible { transform: scaleX(1); }
+
+/* CTA button press micro */
+.cta-primary, .nav-contact, .btn-dark, .btn-light {
+  transition: background 0.25s, transform 0.15s, box-shadow 0.2s;
+}
+.cta-primary:active, .nav-contact:active, .btn-dark:active, .btn-light:active {
+  transform: scale(0.97);
+}
+
+/* Belief / problem card hover lift */
+.belief-item, .problem-card, .product-card, .belief-card {
+  transition: background 0.3s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+}
+.belief-item:hover, .problem-card:hover, .product-card:hover, .belief-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 36px var(--shadow);
+}
+
+/* Sector cell lift */
+.sector-cell {
+  transition: background 0.25s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sector-cell:hover { transform: translateY(-2px); }
+
+/* f-link arrow spring */
+.f-arrow { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.f-link:hover .f-arrow { transform: translateX(5px); }
+.cta-arrow { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.cta-secondary:hover .cta-arrow { transform: translateX(5px); }
+
+/* Form input focus glow */
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,162,74,0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* pa-item nudge */
+.pa-item {
+  transition: color 0.2s, padding-left 0.18s;
+}
+.pa-item:hover { color: var(--text-1); padding-left: 6px; }
+
+/* Domain band items */
+.db-item {
+  transition: background 0.2s;
+}
+.db-item:hover { background: var(--bg-3); }
+
+
+
+/* ═══════════════════════════════════════════
+   MIDĀN — Mobile & Touch Enhancements
+   Injected globally across all pages
+═══════════════════════════════════════════ */
+
+/* ── Touch momentum scrolling ── */
+html { -webkit-overflow-scrolling: touch; }
+
+/* ── Prevent horizontal overflow on mobile ── */
+body { max-width: 100vw; }
+
+/* ── Respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto !important; }
+}
+
+/* ── Ensure touch targets are at least 44×44px ── */
+.t-toggle { min-width: 44px; min-height: 44px; width: 44px; height: 44px; }
+.nav-contact { min-height: 44px; display: inline-flex; align-items: center; }
+.cta-primary, .btn-dark, .btn-light, .btn-ghost, .btn-border, .form-submit {
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* ── Hide bg-vline on mobile (reclaim space) ── */
+@media (max-width: 960px) {
+  .bg-vline { display: none; }
+}
+
+/* ── Mobile Hamburger Menu Button ── */
+.mob-menu-btn {
+  display: none;
+  width: 44px; height: 44px;
+  background: var(--tag-bg);
+  border: 0.5px solid var(--border-md);
+  border-radius: 2px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+  flex-shrink: 0;
+}
+.mob-menu-btn span {
+  display: block; width: 16px; height: 1px;
+  background: var(--text-2);
+  border-radius: 1px;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.2s, width 0.3s;
+  transform-origin: center;
+}
+.mob-menu-btn.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.mob-menu-btn.is-open span:nth-child(2) { opacity: 0; width: 0; }
+.mob-menu-btn.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── Mobile Navigation Drawer ── */
+.mob-nav {
+  display: none;
+  position: fixed;
+  top: 60px; left: 0; right: 0;
+  z-index: 190;
+  background: var(--nav-bg);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border-bottom: 0.5px solid var(--border-md);
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.mob-nav.is-open { max-height: 400px; }
+.mob-nav-inner {
+  padding: 24px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.mob-nav-link {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 15px; font-weight: 400; letter-spacing: 0.02em;
+  color: var(--text-2); text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--border);
+  transition: color 0.2s;
+  min-height: 52px;
+}
+.mob-nav-link:last-child { border-bottom: none; }
+.mob-nav-link:hover, .mob-nav-link.active { color: var(--text-1); }
+.mob-nav-link.active { color: var(--gold); }
+.mob-nav-arrow { font-size: 12px; color: var(--text-4); }
+.mob-nav-cta {
+  margin-top: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em;
+  color: var(--bg); background: var(--text-1); text-decoration: none;
+  padding: 14px 26px; border-radius: 2px; transition: background 0.25s;
+  min-height: 48px;
+}
+.mob-nav-cta:hover { background: var(--navy); }
+
+@media (max-width: 960px) {
+  .mob-menu-btn { display: flex; }
+  .mob-nav { display: block; }
+  /* Hide desktop contact button in nav on mobile */
+  nav > .nav-right > .nav-contact { display: none; }
+}
+
+/* ── Hero padding fix on small screens ── */
+@media (max-width: 480px) {
+  .hero-inner,
+  .about-hero,
+  .work-hero,
+  .wwu-hero,
+  .page-header,
+  .intent-section,
+  .belief-left,
+  .belief-right,
+  .origin-section,
+  .founder-section,
+  .beliefs-section,
+  .structure-section,
+  .cta-band,
+  .civix-section,
+  .products-section,
+  .who-section,
+  .offer-section,
+  .wont-section,
+  .principles-band,
+  .contact-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .about-hero { padding-top: 84px !important; }
+  .work-hero  { padding-top: 84px !important; }
+  .wwu-hero   { padding-top: 84px !important; }
+  .footer     { padding: 24px 16px !important; }
+}
+
+/* ── Domain band: scrollable on mobile ── */
+@media (max-width: 780px) {
+  .domain-band-inner {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .domain-band-inner::-webkit-scrollbar { display: none; }
+  .db-item { min-width: 160px; flex-shrink: 0; }
+}
+
+/* ── 2-column footer on mobile ── */
+@media (max-width: 480px) {
+  .footer {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 16px 12px !important;
+    align-items: start !important;
+  }
+  .footer-logo  { grid-column: 1; grid-row: 1; }
+  .footer-copy  { grid-column: 1 / -1; grid-row: 2; font-size: 10px; }
+  .footer-links { grid-column: 2; grid-row: 1; justify-content: flex-end; flex-wrap: wrap; }
+  .footer-right { display: none !important; }
+}
+
+/* ── Prevent iOS input zoom ── */
+@media (max-width: 768px) {
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ── Terms/Privacy: mobile TOC pill ── */
+@media (max-width: 900px) {
+  .toc-mobile-pill {
+    display: flex !important;
+  }
+}
+.toc-mobile-pill {
+  display: none;
+  position: sticky;
+  top: 68px;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid var(--border);
+  padding: 0 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 0;
+  white-space: nowrap;
+}
+.toc-mobile-pill::-webkit-scrollbar { display: none; }
+.toc-pill-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.04em;
+  color: var(--text-3); text-decoration: none;
+  padding: 10px 14px;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.toc-pill-link:hover, .toc-pill-link.active {
+  color: var(--text-1);
+  border-bottom-color: var(--gold);
+}
+
+/* ── Sector band: 2-col on medium mobile ── */
+@media (max-width: 480px) {
+  .sectors-band { grid-template-columns: 1fr !important; }
+  .sector-cell { border-right: none !important; border-top: 0.5px solid var(--border); }
+  .sector-cell:first-child { border-top: none; }
+}
+
+/* ── Product/partner grids: single col on mobile ── */
+@media (max-width: 600px) {
+  .product-grid,
+  .partner-grid { grid-template-columns: 1fr !important; }
+  .beliefs-grid { grid-template-columns: 1fr !important; }
+  .problem-cards { grid-template-columns: 1fr !important; }
+  .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ── CTA band: stack on mobile ── */
+@media (max-width: 600px) {
+  .cta-band-right, .cta-right {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .btn-light, .btn-ghost, .btn-dark, .btn-border, .cta-primary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* ── Origin word scale on tiny screens ── */
+@media (max-width: 400px) {
+  .origin-word { font-size: clamp(60px, 22vw, 80px) !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="geo-pattern"></div>
+<div class="bg-vline"></div>
+<div class="bg-wash"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="midan_v5.html" class="logo-group">
+            <div class="logo-mark">
+        <span class="logo-light-only"><svg width="100%" height="100%" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="url(#al_grad_ring)"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#0D2A5C"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#0D2A5C"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.513 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.45 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#0D2A5C"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#0D2A5C"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#0D2A5C"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.104 321.634 204.518 326.365 207.691 329.027C210.864 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.429 315.288 206.767 318.461Z" fill="#0D2A5C"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#0D2A5C"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#0D2A5C"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="#E8C77A" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#al_grad_base)"/>
+<defs>
+<linearGradient id="al_grad_ring" x1="55" y1="174" x2="275" y2="394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+<linearGradient id="al_grad_base" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+        <span class="logo-dark-only"><svg width="100%" height="100%" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#F9FBFF"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="#E8C77A"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#C9A24A"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="white" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#C9A24A"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.512 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.449 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="white" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#C9A24A"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="white" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#C9A24A"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="white" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#C9A24A"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="white" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.105 321.634 204.518 326.365 207.691 329.027C210.865 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.43 315.288 206.767 318.461Z" fill="#C9A24A"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="white" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#C9A24A"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="white" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#C9A24A"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="white" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#ad_grad_base)"/>
+<defs>
+<linearGradient id="ad_grad_base" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+      </div>
+      <span class="logo-word">Midān</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="our-work.html">Our Work</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="work-with-us.html">Work With Us</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="mob-menu-btn" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <button class="t-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <!-- sun icon: shown in light mode -->
+      <svg class="icon-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="8" cy="8" r="3"/>
+        <line x1="8" y1="1.5" x2="8" y2="3"/><line x1="8" y1="13" x2="8" y2="14.5"/>
+        <line x1="1.5" y1="8" x2="3" y2="8"/><line x1="13" y1="8" x2="14.5" y2="8"/>
+        <line x1="3.5" y1="3.5" x2="4.5" y2="4.5"/><line x1="11.5" y1="11.5" x2="12.5" y2="12.5"/>
+        <line x1="12.5" y1="3.5" x2="11.5" y2="4.5"/><line x1="4.5" y1="11.5" x2="3.5" y2="12.5"/>
+      </svg>
+      <!-- moon icon: shown in dark mode -->
+      <svg class="icon-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z"/>
+      </svg>
+    </button>
+    <a href="work-with-us.html" class="nav-contact" magnetic>Work With Us</a>
+  </div>
+</nav>
+<div class="mob-nav">
+    <div class="mob-nav-inner">
+      <a href="our-work.html" class="mob-nav-link">Our Work <span class="mob-nav-arrow">→</span></a>
+      <a href="about.html" class="mob-nav-link active">About <span class="mob-nav-arrow">→</span></a>
+      <a href="work-with-us.html" class="mob-nav-link">Work With Us <span class="mob-nav-arrow">→</span></a>
+      <a href="work-with-us.html" class="mob-nav-cta">Get in Touch</a>
+    </div>
+  </div>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="ah-left">
+    <div class="ah-kicker reveal-left">
+      <div class="ah-kicker-bar"></div>
+      <span class="ah-kicker-text">Who We Are</span>
+    </div>
+    <h1 class="ah-title reveal">A company built<br>on a <em>20-year</em><br>horizon.</h1>
+    <p class="ah-desc reveal">Midān is a Hyderabad-based software company building operational and accountability infrastructure for human development. We exist because the gap between what institutions promise and what they deliver is measurable — and closable with the right tools.</p>
+  </div>
+  <div class="ah-right stagger">
+    <div class="ah-stat">
+      <div class="ah-stat-label">Founded</div>
+      <div class="ah-stat-value">Hyderabad, 2026</div>
+    </div>
+    <div class="ah-stat">
+      <div class="ah-stat-label">Primary Model</div>
+      <div class="ah-stat-value">Software built to sustain the mission — independent by design</div>
+    </div>
+    <div class="ah-stat">
+      <div class="ah-stat-label">Sectors</div>
+      <div class="ah-stat-value">Education, Healthcare, Green Economy</div>
+    </div>
+    <div class="ah-stat">
+      <div class="ah-stat-label">The Thread</div>
+      <div class="ah-stat-value">Software that serves the people systems are built for</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORD ORIGIN -->
+<section class="origin-section">
+  <div class="origin-inner">
+    <div class="origin-word">Midān</div>
+    <div class="origin-right">
+      <div class="origin-label">The Name</div>
+      <div class="origin-defs">
+        <div class="origin-def">
+          <div class="od-arabic">maidān / میدان</div>
+          <div class="od-meaning">An open public square or ground</div>
+          <p class="od-body">Historically, the space at the heart of a city where people gathered, traded, debated, and organised. The lungs of the old city — where nothing was hidden and everything was decided.</p>
+        </div>
+        <div class="origin-def">
+          <div class="od-arabic">maidān / میدان</div>
+          <div class="od-meaning">A field of contest or endeavour</div>
+          <p class="od-body">The domain in which something is built, tested, or won. Used figuratively to mean the arena in which one operates with skill and purpose. The ground you choose to stand on.</p>
+        </div>
+        <div class="origin-def">
+          <div class="od-arabic">Midān</div>
+          <div class="od-meaning">This company</div>
+          <p class="od-body">A Hyderabad-based software company that builds governance infrastructure, operational tools, and accountability systems — for the domains that matter most to the most people.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORIGIN -->
+<section class="founder-section">
+  <div class="founder-left reveal">
+    <div class="f-label">The Origin</div>
+    <h2 class="f-title">Built from <em>first principles.</em><br>Not a pivot.</h2>
+    <div class="f-bio">
+      <p>Midān didn't start from a gap in the market. It started from a set of beliefs about what software should do and who it should serve. The products reflect that. So does the writing.</p>
+      <p>The thinking behind Midān spans community leadership, institutional design, policy interest, and a genuine preoccupation with why organisations fail the people they're supposed to serve. That's not a vertical — it's a way of looking at problems.</p>
+      <p>Midān is being built as a long-arc commitment, not a sprint. The plan has always been to build something that compounds over time and outlasts the moment it was started in.</p>
+    </div>
+  </div>
+  <div class="founder-right reveal">
+    <div class="f-facts">
+      <div class="f-fact">
+        <span class="ff-key">Founded</span>
+        <span class="ff-val">Hyderabad, 2026</span>
+      </div>
+      <div class="f-fact">
+        <span class="ff-key">Structure</span>
+        <span class="ff-val">Independent, bootstrapped — no outside funding or government dependency</span>
+      </div>
+      <div class="f-fact">
+        <span class="ff-key">Products</span>
+        <span class="ff-val">Operational and accountability software across education, healthcare, and the green economy</span>
+      </div>
+      <div class="f-fact">
+        <span class="ff-key">Model</span>
+        <span class="ff-val">Sustainable, independent software — mission funded by what we build, not grants or contracts</span>
+      </div>
+      <div class="f-fact">
+        <span class="ff-key">Writing on</span>
+        <span class="ff-val">AI governance, institutional accountability, ethics in technology</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BELIEFS -->
+<section class="beliefs-section">
+  <div class="beliefs-header">
+    <span class="beliefs-label">What We Believe</span>
+    <span class="beliefs-count">Five foundations</span>
+  </div>
+  <div class="beliefs-grid">
+    <div class="belief-card reveal">
+      <div class="bc-num">I — Value</div>
+      <div class="bc-title">Genuine value over manufactured attention</div>
+      <p class="bc-body">Every product Midān builds must create real benefit — not exploit time, not manufacture anxiety, not extract engagement. We don't compete for attention. We compete for trust. Those are different games with different winning conditions.</p>
+    </div>
+    <div class="belief-card reveal">
+      <div class="bc-num">II — Integrity</div>
+      <div class="bc-title">Sufficiency and integrity as strategic assets</div>
+      <p class="bc-body">We don't need to manufacture dissatisfaction to sell our products. Operating from a position of principle — not urgency — is what allows us to hold the line on our findings and say no to the wrong partnerships. The long-term credibility that comes from that is worth more than whatever short-term growth we'd gain by abandoning it.</p>
+    </div>
+    <div class="belief-card reveal">
+      <div class="bc-num">III — Sovereignty</div>
+      <div class="bc-title">Full creative and intellectual independence</div>
+      <p class="bc-body">Midān never compromises its findings, its data, or its positions for a funding partner, a government, or a client. We work with institutions — we are not owned by them. Independence is not a constraint on what we can build. It is the product.</p>
+    </div>
+    <div class="belief-card reveal">
+      <div class="bc-num">IV — Design</div>
+      <div class="bc-title">Citizen-first by design, not by declaration</div>
+      <p class="bc-body">Whatever the paying client — a school, a corporation, a government department — the end beneficiary of every product is the person the system is supposed to serve. The parent. The student. The community. We build for them, even when they're not the ones writing the cheque.</p>
+    </div>
+    <div class="belief-card reveal" style="grid-column:1/-1; border-top:0.5px solid var(--border);">
+      <div class="bc-num">V — Horizon</div>
+      <div class="bc-title">Legacy over transaction. The 20–30 year view.</div>
+      <p class="bc-body">Every decision is made with a 20–30 year horizon, not a quarterly one. The goal is to build something that outlasts the moment it was started in, that contributes to a more accountable set of institutions in the places it operates, and that represents a body of work someone can look back on with honest pride. We are not optimising for the next funding round.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STRUCTURE -->
+<section class="structure-section">
+  <div class="structure-inner">
+    <div class="s-label reveal">How We Work</div>
+    <h2 class="s-title reveal">Built to last.<br><em>Independent by design.</em></h2>
+    <div class="s-body reveal">
+      <p>Midān generates income through software — tools we own, build for multiple clients simultaneously, and improve over time. This is the financial engine that gives the company independence. <strong>Civic and institutional work happens on Midān's own terms</strong>, never as the primary revenue dependency.</p>
+      <p>The separation matters. A company that depends on a single large partner cannot say no to that partner. Midān's structure is designed to preserve the independence that makes the mission credible — so our findings and positions are always ours.</p>
+      <p>We are not a consultancy. We don't build custom things for individual clients and walk away. We build infrastructure — products that serve many simultaneously, that we own fully, and that compound in value over time. The boundary with institutional partners is always the same: open data, defined deliverables, and Midān retains analytical independence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-band-left">
+    <div class="cta-band-label">Get Involved</div>
+    <div class="cta-band-title">We're early, serious, and<br>building for the <em>long haul.</em></div>
+  </div>
+  <div class="cta-band-right">
+    <a href="work-with-us.html" class="btn-light" magnetic>Work With Us</a>
+    <a href="our-work.html" class="btn-ghost">See Our Work</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">
+    <a href="midan_v5.html" aria-label="Home" style="display:flex;align-items:center;">
+      <div style="width:16px;height:20px;flex-shrink:0;">
+        <span class="logo-light-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="url(#abf_grad_ring)"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#0D2A5C"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#0D2A5C"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.513 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.45 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#0D2A5C"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#0D2A5C"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#0D2A5C"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.104 321.634 204.518 326.365 207.691 329.027C210.864 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.429 315.288 206.767 318.461Z" fill="#0D2A5C"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#0D2A5C"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="#E8C77A" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#0D2A5C"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="#E8C77A" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#abf_grad_base_l)"/>
+<defs>
+<linearGradient id="abf_grad_ring" x1="55" y1="174" x2="275" y2="394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+<linearGradient id="abf_grad_base_l" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+        <span class="logo-dark-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#F9FBFF"/>
+<rect x="81" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="#E8C77A"/>
+<path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/>
+<path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#C9A24A"/>
+<path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="white" stroke="#E8C77A"/>
+<path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#C9A24A"/>
+<path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.512 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.449 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="white" stroke="#E8C77A"/>
+<path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#C9A24A"/>
+<path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="white" stroke="#E8C77A"/>
+<path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#C9A24A"/>
+<path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="white" stroke="#E8C77A"/>
+<path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#C9A24A"/>
+<path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="white" stroke="#E8C77A"/>
+<path d="M206.767 318.461C204.105 321.634 204.518 326.365 207.691 329.027C210.865 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.43 315.288 206.767 318.461Z" fill="#C9A24A"/>
+<path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="white" stroke="#E8C77A"/>
+<path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#C9A24A"/>
+<path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="white" stroke="#E8C77A"/>
+<path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#C9A24A"/>
+<path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="white" stroke="#E8C77A"/>
+<rect x="152" y="96" width="30" height="40" fill="#D9B564"/>
+<rect x="223" y="96" width="30" height="40" fill="#D9B564"/>
+<path d="M330 431H0V446H330V431Z" fill="url(#abf_grad_base_d)"/>
+<defs>
+<linearGradient id="abf_grad_base_d" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E8C77A"/>
+<stop offset="1" stop-color="#C9A24A"/>
+</linearGradient>
+</defs>
+</svg></span>
+      </div>
+    </a>
+    <span class="footer-wordmark">Midān</span>
+  </div>
+  <span class="footer-copy">© 2026 Midān Digital. All rights reserved.</span>
+  <div class="footer-links">
+    <a href="terms.html">Terms &amp; Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+
+</footer>
+
+<script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('midan-theme', next);
+}
+
+// Intersection Observer with stagger support
+// Reveal handled by shared anim.js
+
+// Subtle parallax on hero title
+const heroTitle = document.querySelector('.ah-title');
+if (heroTitle) {
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      heroTitle.style.transform = `translateY(${y * 0.06}px)`;
+    }
+  }, { passive: true });
+}
+
+// Smooth nav background on scroll
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.style.borderBottomColor = window.scrollY > 20
+    ? 'var(--border-md)'
+    : 'var(--border)';
+}, { passive: true });
+</script>
+
+<script id="midan-anim-js">
+/* ═══════════════════════════════════════════
+   MIDĀN — Shared Animation System
+   Inject before 
+<script id="midan-mobile-nav">
+/* ── Mobile Navigation ── */
+(function() {
+  const btn = document.querySelector('.mob-menu-btn');
+  const drawer = document.querySelector('.mob-nav');
+  if (!btn || !drawer) return;
+
+  btn.addEventListener('click', function() {
+    const open = drawer.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  // Close on link click
+  drawer.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      drawer.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Close on outside tap
+  document.addEventListener('touchstart', function(e) {
+    if (drawer.classList.contains('is-open') && !drawer.contains(e.target) && !btn.contains(e.target)) {
+      drawer.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  }, { passive: true });
+})();
+</script>
+
+</body> on every page
+═══════════════════════════════════════════ */
+
+(function(){
+
+  /* ── 1. Page-load fade in ── */
+  document.documentElement.style.opacity = '0';
+  document.documentElement.style.transition = 'opacity 0.35s ease';
+  window.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(() => {
+      document.documentElement.style.opacity = '1';
+    });
+  });
+
+  /* ── 2. Page-exit transition on internal links ── */
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http') || a.target === '_blank') return;
+    e.preventDefault();
+    document.documentElement.style.opacity = '0';
+    setTimeout(() => { window.location.href = href; }, 320);
+  });
+
+  /* ── 3. Scroll reveal with stagger ──
+     Classes: .reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale
+     Add data-delay="100" for extra stagger offset (ms) */
+  const revealEls = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale, [data-reveal]');
+
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const delay = parseInt(el.dataset.delay || 0);
+      setTimeout(() => el.classList.add('is-visible'), delay);
+      revealObs.unobserve(el);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* ── 4. Stagger children inside .stagger-children ── */
+  document.querySelectorAll('.stagger-children').forEach(parent => {
+    const children = parent.children;
+    Array.from(children).forEach((child, i) => {
+      child.style.transitionDelay = `${i * 80}ms`;
+      child.classList.add('reveal-up');
+      revealObs.observe(child);
+    });
+  });
+
+  /* ── 5. Parallax on [data-parallax] elements ── */
+  const parallaxEls = document.querySelectorAll('[data-parallax]');
+  if (parallaxEls.length) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        parallaxEls.forEach(el => {
+          const speed = parseFloat(el.dataset.parallax || 0.06);
+          const rect = el.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            el.style.transform = `translateY(${scrollY * speed}px)`;
+          }
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }, { passive: true });
+  }
+
+  /* ── 6. Magnetic hover on .magnetic elements ── */
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) * 0.18;
+      const dy = (e.clientY - cy) * 0.18;
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  });
+
+  /* ── 7. Card cursor-tracking glow ── */
+  document.querySelectorAll('.glow-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--gx', `${x}px`);
+      card.style.setProperty('--gy', `${y}px`);
+    });
+  });
+
+  /* ── 8. Nav scroll behaviour ── */
+  const nav = document.querySelector('nav');
+  if (nav) {
+    const update = () => {
+      const scrolled = window.scrollY > 20;
+      nav.style.borderBottomColor = scrolled ? 'var(--border-md)' : 'var(--border)';
+      nav.style.backdropFilter = scrolled ? 'blur(32px) saturate(1.8)' : 'blur(28px) saturate(1.6)';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  /* ── 9. Number counter for [data-count] ── */
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const obs2 = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      let start = 0;
+      const duration = 1200;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      obs2.unobserve(el);
+    }, { threshold: 0.5 });
+    obs2.observe(el);
+  });
+
+})();
+
+</script>
+</body>
+</html>
