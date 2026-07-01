@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interacto — Presenter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- QR code generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- Supabase JS (only used when mode = supabase) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --white:#FFFFFF; --off-white:#F9FAFB; --surface:#F2F4F6; --surface-2:#E8EAED;
+  --border-app:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.14);
+  --green:#16A34A; --green-lt:#22C55E; --green-dim:rgba(22,197,94,0.10); --green-dark:#15803D;
+  --red:#DC2626; --red-dim:rgba(220,38,38,0.08); --amber:#D97706;
+  --text-1:#0A0A0A; --text-2:#374151; --text-3:#6B7280; --text-4:#9CA3AF;
+  --shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg:0 10px 40px rgba(0,0,0,0.10);
+  --radius:10px; --radius-sm:6px;
+  --gold:#C9A24A;
+}
+
+html, body { height:100%; }
+body {
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--off-white); color:var(--text-1);
+  -webkit-font-smoothing:antialiased; line-height:1.5;
+  font-size:14px;
+}
+button, input, textarea, select { font-family:inherit; font-size:inherit; color:inherit; }
+button { cursor:pointer; border:none; background:none; }
+::selection { background:var(--green-dim); }
+
+/* ─── TOP BAR ─── */
+.topbar {
+  position:sticky; top:0; z-index:100; height:52px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px;
+  background:rgba(255,255,255,0.85); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-app);
+}
+.tb-back { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--text-3); text-decoration:none; transition:color 0.2s; }
+.tb-back:hover { color:var(--text-1); }
+.tb-brand { position:absolute; left:50%; transform:translateX(-50%); font-weight:600; font-size:16px; letter-spacing:-0.01em; color:var(--green); }
+.tb-brand span { color:var(--text-4); font-weight:500; }
+.tb-right { display:flex; align-items:center; gap:10px; }
+.mode-pill {
+  display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:500;
+  padding:5px 10px; border-radius:999px; border:1px solid var(--border-app);
+  color:var(--text-3); background:var(--white); cursor:pointer; transition:all 0.2s;
+}
+.mode-pill:hover { border-color:var(--border-strong); }
+.mode-pill .dot { width:6px; height:6px; border-radius:50%; background:var(--text-4); }
+.mode-pill.live .dot { background:var(--green-lt); }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  font-weight:500; border-radius:var(--radius-sm); transition:all 0.2s;
+  padding:9px 16px; white-space:nowrap;
+}
+.btn:active { transform:scale(0.97); }
+.btn-primary { background:var(--green); color:#fff; }
+.btn-primary:hover { background:var(--green-dark); }
+.btn-ghost { background:transparent; color:var(--text-2); border:1px solid var(--border-app); }
+.btn-ghost:hover { background:var(--surface); border-color:var(--border-strong); }
+.btn-danger { background:transparent; color:var(--red); border:1px solid var(--red-dim); }
+.btn-danger:hover { background:var(--red-dim); }
+.btn-sm { padding:6px 12px; font-size:13px; }
+.btn-block { width:100%; padding:12px 16px; }
+
+/* ─── LAYOUT ─── */
+.page { max-width:1180px; margin:0 auto; padding:40px 24px 80px; }
+.view { animation:viewIn 0.35s cubic-bezier(0.22,1,0.36,1); }
+@keyframes viewIn { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:none;} }
+
+/* ─── DASHBOARD ─── */
+.greeting { font-size:26px; font-weight:600; letter-spacing:-0.02em; }
+.greeting-sub { color:var(--text-3); margin-top:4px; }
+.create-card {
+  margin:32px 0; padding:44px 24px; text-align:center;
+  border:1.5px dashed var(--green); border-radius:var(--radius);
+  background:var(--white); cursor:pointer;
+  transition:all 0.2s; width:100%;
+}
+.create-card:hover { background:var(--green-dim); border-style:solid; }
+.create-card:active { transform:scale(0.995); }
+.create-plus {
+  width:48px; height:48px; margin:0 auto 14px; border-radius:50%;
+  background:var(--green-dim); color:var(--green); display:flex; align-items:center; justify-content:center;
+  font-size:26px; font-weight:300; transition:all 0.2s;
+}
+.create-card:hover .create-plus { background:var(--green); color:#fff; }
+.create-title { font-size:16px; font-weight:600; }
+.create-desc { color:var(--text-3); margin-top:4px; font-size:13px; }
+
+.section-label { font-size:12px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-4); margin:36px 0 14px; }
+.session-list { display:flex; flex-direction:column; gap:10px; }
+.session-row {
+  display:flex; align-items:center; gap:16px; padding:16px 18px;
+  background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius);
+  box-shadow:var(--shadow); cursor:pointer; transition:all 0.2s;
+}
+.session-row:hover { transform:translateY(-1px); box-shadow:var(--shadow-lg); border-color:var(--border-strong); }
+.sr-main { flex:1; min-width:0; }
+.sr-name { font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sr-meta { color:var(--text-3); font-size:12.5px; margin-top:2px; }
+.sr-status { font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px; text-transform:uppercase; letter-spacing:0.03em; }
+.sr-status.active { background:var(--green-dim); color:var(--green-dark); }
+.sr-status.ended { background:var(--surface); color:var(--text-3); }
+.sr-status.lobby { background:rgba(217,119,6,0.10); color:var(--amber); }
+.sr-del { color:var(--text-4); padding:6px; border-radius:var(--radius-sm); transition:all 0.2s; font-size:13px; }
+.sr-del:hover { background:var(--red-dim); color:var(--red); }
+
+.empty {
+  text-align:center; padding:48px 20px; color:var(--text-3);
+}
+.empty-icon { font-size:30px; margin-bottom:10px; opacity:0.5; }
+
+/* ─── SETUP ─── */
+.setup-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+.setup-head h2 { font-size:20px; font-weight:600; letter-spacing:-0.01em; }
+.field-label { font-size:12px; font-weight:600; color:var(--text-2); margin-bottom:7px; display:block; }
+.input, .textarea, .select {
+  width:100%; border:1px solid var(--border-app); border-radius:var(--radius-sm);
+  padding:10px 14px; background:var(--white); transition:all 0.2s; outline:none;
+}
+.input:focus, .textarea:focus, .select:focus { border-color:var(--green); box-shadow:0 0 0 3px var(--green-dim); }
+.input-lg { font-size:18px; font-weight:600; padding:14px 16px; }
+.textarea { resize:vertical; min-height:60px; }
+.select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%236B7280' stroke-width='1.3' fill='none'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
+
+.q-card {
+  background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:18px; margin-bottom:14px; position:relative;
+  animation:viewIn 0.3s ease;
+}
+.q-card-head { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.q-drag { color:var(--text-4); cursor:grab; font-size:15px; letter-spacing:-2px; user-select:none; }
+.q-num { font-size:12px; font-weight:600; color:var(--text-3); }
+.q-head-actions { margin-left:auto; display:flex; align-items:center; gap:4px; }
+.icon-btn { width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:var(--radius-sm); color:var(--text-4); transition:all 0.2s; }
+.icon-btn:hover { background:var(--surface); color:var(--text-2); }
+.icon-btn.del:hover { background:var(--red-dim); color:var(--red); }
+.icon-btn:disabled { opacity:0.3; cursor:default; }
+.q-row { display:grid; grid-template-columns:180px 1fr; gap:12px; margin-bottom:12px; }
+.opt-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.opt-correct {
+  width:24px; height:24px; border-radius:50%; border:1.5px solid var(--border-strong);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s; color:transparent;
+}
+.opt-correct.on { background:var(--green); border-color:var(--green); color:#fff; }
+.opt-correct.hidden { visibility:hidden; }
+.opt-del { color:var(--text-4); padding:6px; border-radius:var(--radius-sm); transition:all 0.2s; }
+.opt-del:hover { background:var(--red-dim); color:var(--red); }
+.add-link { display:inline-flex; align-items:center; gap:6px; color:var(--green-dark); font-weight:500; font-size:13px; padding:6px 4px; transition:opacity 0.2s; }
+.add-link:hover { opacity:0.75; }
+.q-meta-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
+.q-toggle { display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--text-2); }
+.q-toggle input { width:15px; height:15px; accent-color:var(--green); }
+.q-toggle .num-input { width:64px; padding:6px 8px; }
+
+.add-q-btn {
+  width:100%; padding:14px; border:1.5px dashed var(--border-strong); border-radius:var(--radius);
+  color:var(--text-2); font-weight:500; transition:all 0.2s; background:var(--white);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.add-q-btn:hover { border-color:var(--green); color:var(--green-dark); background:var(--green-dim); }
+
+.action-bar {
+  position:sticky; bottom:0; margin-top:20px; padding:16px 0;
+  display:flex; justify-content:flex-end; gap:10px;
+  background:linear-gradient(transparent, var(--off-white) 30%);
+}
+
+/* ─── LIVE ─── */
+.live-wrap { display:grid; grid-template-columns:38% 1fr; gap:0; min-height:calc(100vh - 52px); }
+.live-left { border-right:1px solid var(--border-app); padding:28px 26px; display:flex; flex-direction:column; }
+.live-right { padding:28px 30px; background:var(--off-white); }
+.live-session-name { font-size:18px; font-weight:600; letter-spacing:-0.01em; }
+.live-status-row { display:flex; align-items:center; gap:8px; margin-top:6px; color:var(--text-3); font-size:13px; }
+.live-dot { width:8px; height:8px; border-radius:50%; background:var(--green-lt); box-shadow:0 0 0 0 rgba(34,197,94,0.5); animation:pulse 2s infinite; }
+@keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(34,197,94,0.45);} 70%{box-shadow:0 0 0 8px rgba(34,197,94,0);} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0);} }
+
+.qr-box { margin:22px 0 14px; padding:18px; background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius); text-align:center; }
+.qr-box #qrcode { display:inline-block; line-height:0; }
+.qr-box #qrcode img, .qr-box #qrcode canvas { border-radius:6px; }
+.qr-hint { font-size:12px; color:var(--text-3); margin-top:12px; }
+.join-link-row { display:flex; gap:8px; margin-top:10px; }
+.join-link-row .input { font-size:12.5px; color:var(--text-2); background:var(--surface); }
+.copy-btn { flex-shrink:0; }
+.copy-btn.copied { background:var(--green-dim); color:var(--green-dark); border-color:var(--green); }
+
+.share-row { display:flex; gap:8px; margin-top:8px; }
+.wa-btn { flex:1; background:#25D366; color:#fff; }
+.wa-btn:hover { background:#1da851; }
+
+.nav-q { margin-top:22px; }
+.nav-q-label { font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-4); margin-bottom:10px; }
+.nav-q-item {
+  display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:var(--radius-sm);
+  cursor:pointer; transition:all 0.15s; margin-bottom:4px; border:1px solid transparent;
+}
+.nav-q-item:hover { background:var(--surface); }
+.nav-q-item.active { background:var(--green-dim); border-color:var(--green); }
+.nav-q-idx { width:22px; height:22px; flex-shrink:0; border-radius:50%; background:var(--surface-2); color:var(--text-3); font-size:11px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+.nav-q-item.active .nav-q-idx { background:var(--green); color:#fff; }
+.nav-q-text { font-size:13px; color:var(--text-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-q-type { font-size:10px; color:var(--text-4); text-transform:uppercase; letter-spacing:0.04em; }
+
+.live-left-footer { margin-top:auto; padding-top:18px; display:flex; flex-direction:column; gap:8px; }
+
+/* live right */
+.lr-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.lr-tabs { display:flex; gap:4px; background:var(--surface); padding:3px; border-radius:var(--radius-sm); }
+.lr-tab { padding:6px 14px; border-radius:5px; font-size:13px; font-weight:500; color:var(--text-3); transition:all 0.2s; }
+.lr-tab.active { background:var(--white); color:var(--text-1); box-shadow:var(--shadow); }
+
+.active-q-card { background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius); box-shadow:var(--shadow); padding:26px; }
+.aq-type { font-size:11px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:var(--green-dark); margin-bottom:10px; }
+.aq-text { font-size:24px; font-weight:600; letter-spacing:-0.01em; line-height:1.3; }
+.aq-respond { color:var(--text-3); font-size:13px; margin-top:8px; }
+
+.results { margin-top:24px; display:flex; flex-direction:column; gap:14px; }
+.bar-row { }
+.bar-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+.bar-label { font-size:14px; font-weight:500; color:var(--text-2); display:flex; align-items:center; gap:8px; }
+.bar-label .check { color:var(--green); font-weight:700; }
+.bar-val { font-size:13px; color:var(--text-3); font-variant-numeric:tabular-nums; }
+.bar-track { height:34px; background:var(--surface); border-radius:var(--radius-sm); overflow:hidden; }
+.bar-fill { height:100%; background:var(--green-lt); border-radius:var(--radius-sm); width:0; transition:width 0.6s cubic-bezier(0.22,1,0.36,1); }
+.bar-fill.correct { background:var(--green); }
+.bar-fill.dim { background:var(--surface-2); }
+
+.yn-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
+.yn-block { padding:30px 20px; border-radius:var(--radius); text-align:center; border:1px solid var(--border-app); transition:all 0.4s; }
+.yn-block.yes { background:var(--green-dim); }
+.yn-block.no { background:var(--red-dim); }
+.yn-pct { font-size:44px; font-weight:700; letter-spacing:-0.02em; }
+.yn-block.yes .yn-pct { color:var(--green-dark); }
+.yn-block.no .yn-pct { color:var(--red); }
+.yn-lbl { font-size:14px; font-weight:500; color:var(--text-2); margin-top:4px; }
+.yn-count { font-size:12px; color:var(--text-3); margin-top:2px; }
+
+.text-feed { display:flex; flex-direction:column; gap:10px; margin-top:24px; max-height:420px; overflow-y:auto; }
+.text-resp { padding:14px 16px; background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius); animation:slideIn 0.4s ease; }
+@keyframes slideIn { from { opacity:0; transform:translateY(-8px);} to { opacity:1; transform:none;} }
+.tr-who { font-size:11px; color:var(--text-4); margin-bottom:4px; font-weight:500; }
+.tr-body { font-size:14px; color:var(--text-1); }
+
+.lr-actions { display:flex; justify-content:space-between; align-items:center; margin-top:24px; }
+.resp-count { color:var(--text-3); font-size:13px; }
+
+/* leaderboard */
+.leaderboard { background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px; }
+.lb-title { font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+.lb-row { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border-app); }
+.lb-row:last-child { border-bottom:none; }
+.lb-rank { width:26px; height:26px; flex-shrink:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; background:var(--surface); color:var(--text-3); }
+.lb-row.r1 .lb-rank { background:linear-gradient(135deg,#F4D03F,#C9A24A); color:#fff; }
+.lb-row.r2 .lb-rank { background:linear-gradient(135deg,#D1D5DB,#9CA3AF); color:#fff; }
+.lb-row.r3 .lb-rank { background:linear-gradient(135deg,#D8A47F,#B07A52); color:#fff; }
+.lb-name { flex:1; font-weight:500; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.lb-score { font-weight:700; color:var(--green-dark); font-variant-numeric:tabular-nums; }
+.lb-score small { color:var(--text-4); font-weight:500; }
+
+/* analytics */
+.stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:22px 0; }
+.stat-card { background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); }
+.stat-val { font-size:28px; font-weight:700; letter-spacing:-0.02em; }
+.stat-lbl { font-size:12px; color:var(--text-3); margin-top:2px; }
+.analytics-q { background:var(--white); border:1px solid var(--border-app); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:14px; }
+.aq-q-text { font-weight:600; margin-bottom:6px; }
+.aq-q-meta { font-size:12px; color:var(--text-4); margin-bottom:14px; }
+
+.toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--text-1); color:#fff; padding:11px 20px; border-radius:999px; font-size:13px; font-weight:500;
+  opacity:0; pointer-events:none; transition:all 0.3s cubic-bezier(0.22,1,0.36,1); z-index:300; box-shadow:var(--shadow-lg);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+.hidden { display:none !important; }
+.skeleton { background:linear-gradient(90deg,var(--surface) 25%,var(--surface-2) 50%,var(--surface) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:var(--radius-sm); }
+@keyframes shimmer { from{background-position:200% 0;} to{background-position:-200% 0;} }
+
+@media (max-width:860px) {
+  .live-wrap { grid-template-columns:1fr; }
+  .live-left { border-right:none; border-bottom:1px solid var(--border-app); }
+  .q-row { grid-template-columns:1fr; }
+  .stat-grid { grid-template-columns:1fr 1fr; }
+  .tb-brand { font-size:15px; }
+}
+</style>
+
+<style id="ui-v2">
+/* ════════ UI v2 — modern SaaS elevation (system SF · gradients · depth) ════════ */
+:root{
+  --off-white:#F7FAF9; --white:#FFFFFF; --surface:#EFF4F3; --surface-2:#E5EBEA;
+  --border-app:rgba(16,24,40,0.07); --border-strong:rgba(16,24,40,0.13);
+  --green:#16A34A; --green-lt:#22C55E; --green-dark:#15803D; --green-dim:rgba(22,197,94,0.10);
+  --text-1:#0B1220; --text-2:#3A4452; --text-3:#667085; --text-4:#98A2B3;
+  --grad-brand:linear-gradient(135deg,#0FB37D 0%,#16A34A 48%,#22C55E 100%);
+  --grad-bar:linear-gradient(90deg,#16A34A 0%,#2BD46B 100%);
+  --shadow:0 1px 2px rgba(16,24,40,0.05), 0 4px 14px rgba(16,24,40,0.06);
+  --shadow-lg:0 16px 48px rgba(16,24,40,0.14), 0 4px 12px rgba(16,24,40,0.06);
+  --radius:14px; --radius-sm:10px;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  letter-spacing:-0.011em; color:var(--text-1);
+  background:
+    radial-gradient(900px 520px at 8% -8%, rgba(34,197,94,0.12), transparent 60%),
+    radial-gradient(820px 600px at 100% -4%, rgba(13,148,136,0.08), transparent 55%),
+    radial-gradient(760px 540px at 50% 116%, rgba(34,197,94,0.06), transparent 60%),
+    var(--off-white);
+  background-attachment:fixed;
+}
+
+/* ── top bar: glass ── */
+.topbar{ height:56px; background:rgba(247,250,249,0.72);
+  backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--border-app); }
+.tb-brand{ font-weight:700; letter-spacing:-0.02em;
+  background:var(--grad-brand); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.tb-brand span{ -webkit-text-fill-color:var(--text-4); }
+.tb-back{ font-weight:500; }
+
+/* ── buttons ── */
+.btn{ border-radius:10px; font-weight:600;
+  transition:transform .16s cubic-bezier(.22,1,.36,1), box-shadow .2s, filter .2s, background .2s, border-color .2s; }
+.btn-primary{ background:var(--grad-brand); color:#fff;
+  box-shadow:0 1px 2px rgba(16,24,40,.10), 0 8px 18px rgba(22,163,74,.28); }
+.btn-primary:hover{ filter:brightness(1.05); transform:translateY(-1px);
+  box-shadow:0 2px 4px rgba(16,24,40,.12), 0 12px 26px rgba(22,163,74,.36); }
+.btn-primary:active{ transform:translateY(0) scale(.985); }
+.btn-ghost{ background:rgba(255,255,255,0.72); border:1px solid var(--border-app);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+.btn-ghost:hover{ background:#fff; border-color:var(--border-strong); box-shadow:var(--shadow); transform:translateY(-1px); }
+.btn-danger:hover{ box-shadow:0 6px 16px rgba(220,38,38,.16); }
+
+/* ── mode pill ── */
+.mode-pill{ border-radius:999px; background:rgba(255,255,255,0.72); backdrop-filter:blur(6px); }
+.mode-pill.live{ border-color:rgba(22,197,94,.4); background:var(--green-dim); color:var(--green-dark); }
+.mode-pill.live .dot{ background:var(--green-lt); box-shadow:0 0 0 3px rgba(34,197,94,.18); }
+
+/* ── dashboard ── */
+.greeting{ font-size:30px; font-weight:700; letter-spacing:-0.03em; }
+.greeting-sub{ font-size:15px; }
+.create-card{ border-radius:18px; border:1.5px dashed rgba(22,163,74,.45);
+  background:rgba(255,255,255,0.62); backdrop-filter:blur(6px); }
+.create-card:hover{ border-style:solid; border-color:var(--green);
+  background:linear-gradient(180deg, rgba(34,197,94,.09), rgba(34,197,94,.03));
+  box-shadow:0 12px 32px rgba(22,163,74,.14); transform:translateY(-1px); }
+.create-plus{ background:var(--grad-brand); color:#fff; box-shadow:0 6px 16px rgba(22,163,74,.32);
+  transition:transform .25s cubic-bezier(.22,1,.36,1); }
+.create-card:hover .create-plus{ transform:rotate(90deg) scale(1.05); }
+.create-title{ letter-spacing:-0.01em; }
+
+/* ── surfaces ── */
+.session-row,.q-card,.active-q-card,.leaderboard,.stat-card,.analytics-q{
+  border-radius:16px; border:1px solid var(--border-app);
+  background:rgba(255,255,255,0.92); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  box-shadow:var(--shadow); }
+.session-row:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lg); border-color:rgba(22,163,74,.30); }
+.sr-status{ border-radius:999px; }
+
+/* ── live ── */
+.live-wrap{ min-height:calc(100vh - 56px); }
+.live-left{ background:rgba(255,255,255,0.5); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-right:1px solid var(--border-app); }
+.live-right{ background:transparent; }
+.live-session-name{ font-weight:700; letter-spacing:-0.02em; }
+.live-dot{ box-shadow:0 0 0 3px rgba(34,197,94,.16); }
+.qr-box{ border-radius:16px; background:#fff; border:1px solid var(--border-app); box-shadow:var(--shadow); }
+.nav-q-item{ border-radius:10px; }
+.nav-q-item.active{ background:var(--green-dim); border-color:rgba(22,197,94,.45); }
+.nav-q-item.active .nav-q-idx{ background:var(--grad-brand); color:#fff; }
+.lr-tab.active{ box-shadow:var(--shadow); }
+
+/* ── active question + results ── */
+.aq-text{ font-size:26px; font-weight:700; letter-spacing:-0.02em; }
+.aq-type{ letter-spacing:.06em; }
+.bar-track{ background:var(--surface); border-radius:10px; height:38px; }
+.bar-fill{ background:var(--grad-bar); border-radius:10px; box-shadow:inset 0 1px 0 rgba(255,255,255,.30);
+  transition:width .6s cubic-bezier(.22,1,.36,1); }
+.bar-fill.correct{ background:var(--grad-bar); }
+.bar-fill.dim{ background:linear-gradient(90deg,#D7DEDC,#E7ECEB); }
+.bar-label{ font-weight:550; }
+
+/* ── yes/no ── */
+.yn-block{ border-radius:16px; }
+.yn-block.yes{ background:linear-gradient(160deg, rgba(34,197,94,.16), rgba(34,197,94,.05)); border-color:rgba(22,197,94,.30); }
+.yn-block.no{ background:linear-gradient(160deg, rgba(220,38,38,.12), rgba(220,38,38,.04)); border-color:rgba(220,38,38,.25); }
+.yn-pct{ letter-spacing:-0.03em; }
+
+/* ── leaderboard ── */
+.lb-title{ font-weight:700; }
+.lb-row.r1 .lb-rank{ background:linear-gradient(135deg,#FDE68A,#D4A017); color:#fff; box-shadow:0 4px 12px rgba(212,160,23,.35); }
+.lb-row.r2 .lb-rank{ background:linear-gradient(135deg,#EEF1F4,#A8B0BD); color:#fff; }
+.lb-row.r3 .lb-rank{ background:linear-gradient(135deg,#FBD3A6,#B07A52); color:#fff; }
+.lb-score{ color:var(--green-dark); }
+
+/* ── analytics ── */
+.stat-val{ letter-spacing:-0.03em;
+  background:var(--grad-brand); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* ── inputs ── */
+.input,.textarea,.select{ border-radius:10px; background:#fff; transition:border-color .18s, box-shadow .18s; }
+.input:focus,.textarea:focus,.select:focus{ border-color:var(--green); box-shadow:0 0 0 4px rgba(34,197,94,.14); }
+.input-lg{ letter-spacing:-0.01em; }
+.add-q-btn{ border-radius:14px; }
+.add-q-btn:hover{ background:linear-gradient(180deg, rgba(34,197,94,.08), rgba(34,197,94,.03)); border-color:var(--green); color:var(--green-dark); }
+.opt-correct.on{ background:var(--grad-brand); border-color:transparent; }
+
+/* ── toast ── */
+.toast{ border-radius:999px; background:rgba(11,18,32,.92); backdrop-filter:blur(10px); box-shadow:var(--shadow-lg); }
+.empty-icon{ opacity:.6; }
+
+/* ── word cloud ── */
+.cloud{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px 18px; padding:24px 8px; line-height:1.05; }
+.cloud-word{ font-weight:700; letter-spacing:-0.02em; background:var(--grad-brand);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  transition:font-size .5s cubic-bezier(.22,1,.36,1); }
+/* ── live Q&A ── */
+.qa-list{ display:flex; flex-direction:column; gap:10px; margin-top:6px; }
+.qa-item{ display:flex; gap:14px; align-items:flex-start; padding:14px 16px; border:1px solid var(--border-app);
+  border-radius:14px; background:rgba(255,255,255,0.92); box-shadow:var(--shadow); }
+.qa-up{ display:flex; flex-direction:column; align-items:center; gap:1px; min-width:42px; padding:7px 0; border-radius:10px;
+  background:var(--green-dim); color:var(--green-dark); font-weight:700; font-size:13px; }
+.qa-up-ic{ font-size:10px; }
+.qa-q{ font-size:16px; font-weight:600; letter-spacing:-0.01em; color:var(--text-1); }
+.qa-who{ font-size:12px; color:var(--text-3); margin-top:3px; }
+
+/* ── faster building: templates + add chips ── */
+.tmpl-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 22px; }
+.tmpl-label{ font-size:11px; font-weight:600; color:var(--text-4); text-transform:uppercase; letter-spacing:.05em; margin-right:2px; }
+.tmpl-chip{ font-size:13px; font-weight:500; padding:7px 13px; border-radius:999px; border:1px solid var(--border-app); background:rgba(255,255,255,.7); color:var(--text-2); transition:all .15s; }
+.tmpl-chip:hover{ border-color:var(--green); color:var(--green-dark); background:var(--green-dim); transform:translateY(-1px); }
+.add-q-row{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 8px; }
+.add-q-chip{ font-size:13px; font-weight:600; padding:9px 14px; border-radius:10px; border:1.5px dashed rgba(22,163,74,.4); background:rgba(255,255,255,.55); color:var(--green-dark); transition:all .15s; }
+.add-q-chip:hover{ border-style:solid; border-color:var(--green); background:var(--green-dim); transform:translateY(-1px); }
+
+/* ── winners podium ── */
+.podium{ display:grid; grid-template-columns:1fr 1fr 1fr; align-items:end; gap:14px; margin:8px 0 24px; max-width:560px; }
+.pod{ display:flex; flex-direction:column; align-items:center; }
+.pod-empty{ visibility:hidden; }
+.pod-head{ text-align:center; margin-bottom:8px; }
+.pod-medal{ font-size:30px; line-height:1; }
+.pod-name{ font-size:13px; font-weight:600; color:var(--text-1); margin-top:2px; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pod-block{ width:100%; display:flex; align-items:flex-start; justify-content:center; padding-top:12px; border-radius:14px 14px 0 0;
+  color:#fff; box-shadow:var(--shadow); transform-origin:bottom; animation:podRise .5s cubic-bezier(.22,1,.36,1) both; }
+.pod-score{ font-weight:800; font-size:18px; letter-spacing:-0.02em; }
+.pod-score small{ font-size:11px; font-weight:600; opacity:.85; margin-left:2px; }
+.pod-1 .pod-block{ height:120px; background:linear-gradient(180deg,#FCD34D,#D4A017); animation-delay:.15s; }
+.pod-2 .pod-block{ height:88px; background:linear-gradient(180deg,#E5E7EB,#9CA3AF); }
+.pod-3 .pod-block{ height:64px; background:linear-gradient(180deg,#FBD3A6,#B07A52); animation-delay:.3s; }
+@keyframes podRise{ from{ transform:scaleY(0); opacity:.3; } to{ transform:scaleY(1); opacity:1; } }
+@media (max-width:560px){ .podium{ gap:8px; } }
+
+/* ── files for download (presenter) ── */
+.files-section{ margin-top:22px; }
+.files-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.files-add{ font-size:12px; font-weight:600; color:var(--green-dark); background:var(--green-dim); border:1px solid rgba(22,197,94,.3);
+  padding:5px 11px; border-radius:999px; cursor:pointer; transition:all .15s; }
+.files-add:hover{ background:var(--green); color:#fff; border-color:transparent; }
+.files-empty{ font-size:12.5px; color:var(--text-3); line-height:1.5; padding:4px 2px; }
+.file-row{ display:flex; align-items:center; gap:10px; padding:9px 11px; border:1px solid var(--border-app); border-radius:10px;
+  background:rgba(255,255,255,.85); margin-bottom:8px; }
+.file-ic{ font-size:18px; flex-shrink:0; }
+.file-meta{ flex:1; min-width:0; }
+.file-name{ font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.file-size{ font-size:11px; color:var(--text-4); margin-top:1px; }
+.file-del{ color:var(--text-4); padding:4px 6px; border-radius:6px; font-size:12px; transition:all .15s; }
+.file-del:hover{ background:var(--red-dim); color:var(--red); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="tb-back">← Back to Midān</a>
+  <div class="tb-brand">Interacto <span>· Presenter</span></div>
+  <div class="tb-right">
+    <span class="mode-pill live" id="modePill" title="Live — synced via Supabase"><span class="dot"></span><span id="modeText">Live</span></span>
+    <button class="btn btn-primary btn-sm" id="newSessionTop">New Session</button>
+  </div>
+</div>
+
+<div id="app"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   INTERACTO — DATA ENGINE
+   One API, two adapters. Flip MODE with the pill in the top bar
+   (persisted in localStorage as "interacto-mode").
+
+     • demo     → fully local. State in localStorage, cross-tab sync via
+                  BroadcastChannel. "Simulate participants" injects fake
+                  responses so you can test on one machine, no account.
+     • supabase → real cross-device sync. Paste your config below and
+                  run the SQL in the comment block once.
+
+   DATA MODEL (identical in both modes)
+     session  { id, name, status:'lobby'|'active'|'ended',
+                currentQuestion:int|null,
+                questions:[{id,type,text,options[],correctAnswer,points,timeLimit}],
+                createdAt }
+     participant { id, name, score }
+     response    { sessionId, qIndex, participantId, value, correct, awarded }
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 🔧 SUPABASE CONFIG — replace these two values ───────────────────
+   1. Create a free project at supabase.com
+   2. Settings → API → copy URL + anon public key
+   3. Run this SQL once in the SQL editor:
+
+      create table sessions (
+        id text primary key,
+        name text,
+        status text default 'lobby',
+        current_question int,
+        questions jsonb default '[]',
+        created_at timestamptz default now()
+      );
+      create table participants (
+        id text primary key,
+        session_id text references sessions(id) on delete cascade,
+        name text,
+        score int default 0
+      );
+      create table responses (
+        id bigint generated always as identity primary key,
+        session_id text references sessions(id) on delete cascade,
+        q_index int,
+        participant_id text,
+        value text,
+        correct boolean,
+        awarded int default 0,
+        created_at timestamptz default now()
+      );
+      -- enable realtime
+      alter publication supabase_realtime add table sessions, participants, responses;
+      -- starter (open) RLS — TIGHTEN before production:
+      alter table sessions enable row level security;
+      alter table participants enable row level security;
+      alter table responses enable row level security;
+      create policy "open" on sessions for all using (true) with check (true);
+      create policy "open" on participants for all using (true) with check (true);
+      create policy "open" on responses for all using (true) with check (true);
+   ──────────────────────────────────────────────────────────────────── */
+const SUPABASE_URL = 'https://kvbcwdbdxqqcexfqwzpi.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2YmN3ZGJkeHFxY2V4ZnF3enBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MzM4MDIsImV4cCI6MjA5ODMwOTgwMn0.mxvZXWOVb0cOlUd5B3KtRVeZw5jsu9XqY9aj7xQ-R80';
+
+const Interacto = (function () {
+  let MODE = 'supabase';   // permanent backend — Supabase is the source of truth (falls back to local only if unconfigured)
+  const isConfigured = () => SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20;
+
+  /* presenter's own session history (ids), stored locally per device */
+  const OWNED = 'interacto:owned';
+  function ownedIds() { try { return JSON.parse(localStorage.getItem(OWNED) || '[]'); } catch (e) { return []; } }
+  function ownedAdd(id) { const l = ownedIds(); if (!l.includes(id)) { l.unshift(id); localStorage.setItem(OWNED, JSON.stringify(l)); } }
+  function ownedRemove(id) { localStorage.setItem(OWNED, JSON.stringify(ownedIds().filter(x => x !== id))); }
+
+  /* ---------- shared helpers ---------- */
+  function genId(len) {
+    const c = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    let s = ''; for (let i = 0; i < len; i++) s += c[Math.floor(Math.random() * c.length)];
+    return s;
+  }
+  function scoreFor(q, value, msTaken) {
+    // quiz scoring: base points + speed bonus (faster = more, capped)
+    if (q.type !== 'quiz') return { correct: null, awarded: 0 };
+    const correct = String(value) === String(q.correctAnswer);
+    if (!correct) return { correct: false, awarded: 0 };
+    const base = q.points || 100;
+    const limit = (q.timeLimit || 20) * 1000;
+    const speed = msTaken != null ? Math.max(0, 1 - msTaken / limit) : 0.5;
+    return { correct: true, awarded: Math.round(base * (0.5 + 0.5 * speed)) };
+  }
+
+  /* ════════ DEMO ADAPTER ════════ */
+  const Demo = (function () {
+    const KEY = id => 'interacto:session:' + id;
+    const channels = {};
+    function chan(id) {
+      if (!channels[id]) channels[id] = new BroadcastChannel('interacto:' + id);
+      return channels[id];
+    }
+    function read(id) { try { return JSON.parse(localStorage.getItem(KEY(id))); } catch (e) { return null; } }
+    function write(s) {
+      localStorage.setItem(KEY(s.id), JSON.stringify(s));
+      chan(s.id).postMessage({ type: 'state' });
+    }
+    function indexAdd(id) {
+      const list = JSON.parse(localStorage.getItem('interacto:index') || '[]');
+      if (!list.includes(id)) { list.unshift(id); localStorage.setItem('interacto:index', JSON.stringify(list)); }
+    }
+    return {
+      async createSession(name, questions) {
+        const id = genId(6);
+        const s = { id, name, status: 'lobby', currentQuestion: null, questions,
+          participants: {}, responses: {}, files: [], createdAt: Date.now() };
+        write(s); ownedAdd(id); return s;
+      },
+      async getSession(id) { return read(id); },
+      listSessions() {
+        const list = JSON.parse(localStorage.getItem('interacto:index') || '[]');
+        return list.map(read).filter(Boolean);
+      },
+      async update(id, patch) { const s = read(id); if (!s) return; Object.assign(s, patch); write(s); return s; },
+      async deleteSession(id) {
+        localStorage.removeItem(KEY(id));
+        ownedRemove(id);
+      },
+      async addParticipant(id, pid, name) {
+        const s = read(id); if (!s) return;
+        s.participants[pid] = { id: pid, name, score: 0 }; write(s);
+      },
+      async uploadFile(id, file) {
+        const s = read(id); if (!s) return;
+        const url = await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(file); });
+        const meta = { id: genId(6), name: file.name, size: file.size, url };
+        s.files = (s.files || []).concat(meta); write(s); return meta;
+      },
+      async removeFile(id, fileId) { const s = read(id); if (!s) return; s.files = (s.files || []).filter(f => f.id !== fileId); write(s); },
+      async submit(id, qIndex, pid, value, msTaken) {
+        const s = read(id); if (!s) return;
+        const q = s.questions[qIndex];
+        const { correct, awarded } = scoreFor(q, value, msTaken);
+        s.responses[qIndex] = s.responses[qIndex] || {};
+        s.responses[qIndex][pid] = { value, correct, awarded };
+        if (s.participants[pid]) s.participants[pid].score += awarded;
+        write(s);
+        return { correct, awarded, correctAnswer: q.correctAnswer };
+      },
+      subscribe(id, cb) {
+        const c = chan(id);
+        const handler = () => cb(read(id));
+        c.addEventListener('message', handler);
+        window.addEventListener('storage', handler);
+        cb(read(id));
+        return () => { c.removeEventListener('message', handler); window.removeEventListener('storage', handler); };
+      }
+    };
+  })();
+
+  /* ════════ SUPABASE ADAPTER ════════ */
+  const Supa = (function () {
+    let sb = null;
+    function client() {
+      if (!sb) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      return sb;
+    }
+    // assemble a demo-shaped object from the 3 tables so the UI is mode-agnostic
+    async function assemble(id) {
+      const c = client();
+      const [{ data: s }, { data: ps }, { data: rs }] = await Promise.all([
+        c.from('sessions').select('*').eq('id', id).single(),
+        c.from('participants').select('*').eq('session_id', id),
+        c.from('responses').select('*').eq('session_id', id)
+      ]);
+      if (!s) return null;
+      const participants = {}; (ps || []).forEach(p => participants[p.id] = { id: p.id, name: p.name, score: p.score });
+      const responses = {};
+      (rs || []).forEach(r => { responses[r.q_index] = responses[r.q_index] || {};
+        responses[r.q_index][r.participant_id] = { value: r.value, correct: r.correct, awarded: r.awarded }; });
+      return { id: s.id, name: s.name, status: s.status, currentQuestion: s.current_question,
+        questions: s.questions, participants, responses, files: s.files || [], createdAt: s.created_at };
+    }
+    return {
+      async createSession(name, questions) {
+        const id = genId(6); const c = client();
+        await c.from('sessions').insert({ id, name, status: 'lobby', current_question: null, questions });
+        ownedAdd(id);
+        return await assemble(id);
+      },
+      async getSession(id) { return await assemble(id); },
+      listSessions() { return []; /* presenter history lives client-side in demo; query sessions table if you add auth */ },
+      async update(id, patch) {
+        const map = { currentQuestion: 'current_question' };
+        const row = {}; Object.keys(patch).forEach(k => row[map[k] || k] = patch[k]);
+        await client().from('sessions').update(row).eq('id', id);
+        return await assemble(id);
+      },
+      async deleteSession(id) { await client().from('sessions').delete().eq('id', id); ownedRemove(id); },
+      async addParticipant(id, pid, name) {
+        await client().from('participants').insert({ id: pid, session_id: id, name, score: 0 });
+      },
+      async uploadFile(id, file) {
+        const c = client();
+        const path = id + '/' + Date.now() + '-' + file.name.replace(/[^\w.\-]+/g, '_');
+        const up = await c.storage.from('session-files').upload(path, file, { upsert: false, contentType: file.type || undefined });
+        if (up.error) throw up.error;
+        const { data: pub } = c.storage.from('session-files').getPublicUrl(path);
+        const meta = { id: genId(6), name: file.name, size: file.size, url: pub.publicUrl, path };
+        const s = await assemble(id);
+        await c.from('sessions').update({ files: (s.files || []).concat(meta) }).eq('id', id);
+        return meta;
+      },
+      async removeFile(id, fileId) {
+        const c = client();
+        const s = await assemble(id);
+        const f = (s.files || []).find(x => x.id === fileId);
+        if (f && f.path) await c.storage.from('session-files').remove([f.path]);
+        await c.from('sessions').update({ files: (s.files || []).filter(x => x.id !== fileId) }).eq('id', id);
+      },
+      async submit(id, qIndex, pid, value, msTaken) {
+        const s = await assemble(id); const q = s.questions[qIndex];
+        const { correct, awarded } = scoreFor(q, value, msTaken);
+        const c = client();
+        await c.from('responses').insert({ session_id: id, q_index: qIndex, participant_id: pid, value: String(value), correct, awarded });
+        if (awarded) await c.rpc; // (optional) increment via SQL; simple approach: re-read + update
+        if (awarded) {
+          const cur = (s.participants[pid]?.score || 0) + awarded;
+          await c.from('participants').update({ score: cur }).eq('id', pid);
+        }
+        return { correct, awarded, correctAnswer: q.correctAnswer };
+      },
+      subscribe(id, cb) {
+        const c = client();
+        const refresh = async () => cb(await assemble(id));
+        const ch = c.channel('room:' + id)
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions', filter: 'id=eq.' + id }, refresh)
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'participants', filter: 'session_id=eq.' + id }, refresh)
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'responses', filter: 'session_id=eq.' + id }, refresh)
+          .subscribe();
+        refresh();
+        return () => c.removeChannel(ch);
+      }
+    };
+  })();
+
+  function adapter() {
+    if (MODE === 'supabase' && isConfigured()) return Supa;
+    return Demo;
+  }
+
+  return {
+    get mode() { return (MODE === 'supabase' && isConfigured()) ? 'supabase' : 'demo'; },
+    get configured() { return isConfigured(); },
+    setMode(m) { MODE = m; localStorage.setItem('interacto-mode', m); },
+    genId, scoreFor,
+    createSession: (...a) => adapter().createSession(...a),
+    getSession: (...a) => adapter().getSession(...a),
+    async listSessions() {            // presenter history: own ids (local) hydrated from the active backend
+      const ids = ownedIds();
+      const ad = adapter();
+      const arr = await Promise.all(ids.map(id => ad.getSession(id).catch(() => null)));
+      return arr.filter(Boolean);
+    },
+    update: (...a) => adapter().update(...a),
+    deleteSession: (...a) => adapter().deleteSession(...a),
+    addParticipant: (...a) => adapter().addParticipant(...a),
+    submit: (...a) => adapter().submit(...a),
+    uploadFile: (...a) => adapter().uploadFile(...a),
+    removeFile: (...a) => adapter().removeFile(...a),
+    subscribe: (...a) => adapter().subscribe(...a),
+  };
+})();
+</script>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   PRESENTER UI  — dashboard · setup · live · analytics
+   ════════════════════════════════════════════════════════════════════ */
+const app = document.getElementById('toast') && document.getElementById('app');
+const QTYPES = {
+  multiple: 'Multiple Choice', quiz: 'Quiz (scored)', wordcloud: 'Word Cloud',
+  qa: 'Live Q&A', open: 'Open Text', rating: 'Rating 1–5', yesno: 'Yes / No'
+};
+// short labels for the "add question" chip row
+const ADD_TYPES = [
+  ['multiple', 'Poll'], ['quiz', 'Quiz'], ['wordcloud', 'Word Cloud'],
+  ['qa', 'Q&A'], ['rating', 'Rating'], ['yesno', 'Yes/No'], ['open', 'Open Text']
+];
+// one-click starter templates
+const TEMPLATES = {
+  icebreaker: { label: '✨ Icebreaker', name: 'Icebreaker', make: () => [
+    Object.assign(blankQuestion('wordcloud'), { text: 'In one word, how are you feeling today?' }),
+    Object.assign(blankQuestion('multiple'), { text: 'Coffee or tea?', options: ['Coffee', 'Tea', 'Neither'] })
+  ]},
+  quiz: { label: '🎯 Quick Quiz', name: 'Quick Quiz', make: () => [
+    Object.assign(blankQuestion('quiz'), { options: ['', '', '', ''] }),
+    Object.assign(blankQuestion('quiz'), { options: ['', '', '', ''] }),
+    Object.assign(blankQuestion('quiz'), { options: ['', '', '', ''] })
+  ]},
+  qa: { label: '💬 Q&A Session', name: 'Q&A', make: () => [
+    Object.assign(blankQuestion('qa'), { text: 'Ask me anything' })
+  ]},
+  feedback: { label: '⭐ Feedback', name: 'Feedback', make: () => [
+    Object.assign(blankQuestion('rating'), { text: "How would you rate today's session?" }),
+    Object.assign(blankQuestion('open'), { text: "What's one thing we could improve?" })
+  ]}
+};
+
+let draft = null;        // session being built in setup
+let liveUnsub = null;    // active subscription cleanup
+let liveState = null;    // latest session snapshot in live view
+let simTimers = [];      // demo simulation handles
+
+/* ---------- utilities ---------- */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function esc(s) { return (s == null ? '' : String(s)).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function fmtSize(b) { b = +b || 0; if (b < 1024) return b + ' B'; if (b < 1048576) return (b / 1024).toFixed(0) + ' KB'; return (b / 1048576).toFixed(1) + ' MB'; }
+function fileIcon(name) {
+  const e = (name.split('.').pop() || '').toLowerCase();
+  if (['pdf'].includes(e)) return '📄';
+  if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'heic'].includes(e)) return '🖼️';
+  if (['doc', 'docx', 'txt', 'rtf', 'md', 'pages'].includes(e)) return '📝';
+  if (['xls', 'xlsx', 'csv', 'numbers'].includes(e)) return '📊';
+  if (['ppt', 'pptx', 'key'].includes(e)) return '📽️';
+  if (['zip', 'rar', '7z', 'tar', 'gz'].includes(e)) return '🗜️';
+  if (['mp3', 'wav', 'm4a', 'ogg'].includes(e)) return '🎵';
+  if (['mp4', 'mov', 'webm', 'avi'].includes(e)) return '🎬';
+  return '📎';
+}
+function joinUrl(id) {
+  const base = location.href.replace(/[^/]*$/, '');
+  return base + 'interacto-join.html?session=' + id;
+}
+function fmtDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' · ' +
+         d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+}
+function cleanupLive() {
+  if (liveUnsub) { liveUnsub(); liveUnsub = null; }
+  simTimers.forEach(clearTimeout); simTimers = [];
+}
+
+/* ---------- status pill (permanent live) ---------- */
+function renderModePill() {
+  const pill = document.getElementById('modePill');
+  if (!pill) return;
+  const live = Interacto.configured;
+  pill.classList.toggle('live', live);
+  const t = document.getElementById('modeText');
+  if (t) t.textContent = live ? 'Live' : 'Offline';
+  pill.title = live ? 'Live — synced via Supabase' : 'Supabase not configured';
+}
+
+/* ════════ DASHBOARD ════════ */
+async function renderDashboard() {
+  cleanupLive();
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const sessions = await Interacto.listSessions();
+  const rows = sessions.length ? sessions.map(s => {
+    const pc = Object.keys(s.participants || {}).length;
+    return `<div class="session-row" data-open="${s.id}">
+      <div class="sr-main">
+        <div class="sr-name">${esc(s.name)}</div>
+        <div class="sr-meta">${fmtDate(s.createdAt)} · ${s.questions.length} question${s.questions.length !== 1 ? 's' : ''} · ${pc} joined</div>
+      </div>
+      <span class="sr-status ${s.status}">${s.status}</span>
+      <button class="sr-del" data-del="${s.id}" title="Delete">✕</button>
+    </div>`;
+  }).join('') : `<div class="empty"><div class="empty-icon">◎</div>No sessions yet. Create your first one above.</div>`;
+
+  document.getElementById('app').innerHTML = `<div class="view"><div class="page">
+    <div class="greeting">${greet}, Presenter</div>
+    <div class="greeting-sub">Ready to engage your audience?</div>
+    <button class="create-card" id="createCard">
+      <div class="create-plus">+</div>
+      <div class="create-title">Create New Session</div>
+      <div class="create-desc">Build polls, quizzes and Q&amp;A — your audience joins with a QR code</div>
+    </button>
+    <div class="section-label">Recent Sessions</div>
+    <div class="session-list">${rows}</div>
+  </div></div>`;
+
+  document.getElementById('createCard').onclick = startSetup;
+  document.querySelectorAll('[data-open]').forEach(el => el.onclick = e => {
+    if (e.target.dataset.del) return;
+    openSession(el.dataset.open);
+  });
+  document.querySelectorAll('[data-del]').forEach(el => el.onclick = async e => {
+    e.stopPropagation();
+    if (confirm('Delete this session?')) { await Interacto.deleteSession(el.dataset.del); renderDashboard(); }
+  });
+}
+
+async function openSession(id) {
+  const s = await Interacto.getSession(id);
+  if (!s) { toast('Session not found'); renderDashboard(); return; }
+  if (s.status === 'ended') renderAnalytics(id);
+  else renderLive(id);
+}
+
+/* ════════ SETUP ════════ */
+function blankQuestion(type) {
+  return { id: Interacto.genId(5), type: type || 'multiple', text: '',
+    options: (type === 'open' || type === 'rating' || type === 'yesno' || type === 'wordcloud' || type === 'qa') ? [] : ['', ''],
+    correctAnswer: 0, points: 100, timeLimit: 20 };
+}
+function startSetup() {
+  draft = { name: '', questions: [blankQuestion('multiple')] };
+  renderSetup();
+}
+function renderSetup() {
+  document.getElementById('app').innerHTML = `<div class="view"><div class="page">
+    <div class="setup-head"><h2>New Session</h2>
+      <button class="btn btn-ghost btn-sm" id="cancelSetup">Cancel</button></div>
+    <div style="margin-bottom:14px">
+      <label class="field-label">Session name</label>
+      <input class="input input-lg" id="sessName" placeholder="e.g. Week 3 — Newton's Laws" value="${esc(draft.name)}">
+    </div>
+    <div class="tmpl-row">
+      <span class="tmpl-label">Quick start</span>
+      ${Object.entries(TEMPLATES).map(([k, t]) => `<button class="tmpl-chip" data-tmpl="${k}">${t.label}</button>`).join('')}
+    </div>
+    <div id="qList"></div>
+    <div class="add-q-row">
+      ${ADD_TYPES.map(([k, v]) => `<button class="add-q-chip" data-addtype="${k}">+ ${v}</button>`).join('')}
+    </div>
+    <div class="action-bar">
+      <button class="btn btn-ghost" id="cancelSetup2">Cancel</button>
+      <button class="btn btn-primary" id="launch">Launch Session →</button>
+    </div>
+  </div></div>`;
+  document.getElementById('sessName').oninput = e => draft.name = e.target.value;
+  document.querySelectorAll('[data-addtype]').forEach(el => el.onclick = () => { draft.questions.push(blankQuestion(el.dataset.addtype)); renderQList(); });
+  document.querySelectorAll('[data-tmpl]').forEach(el => el.onclick = () => {
+    const t = TEMPLATES[el.dataset.tmpl];
+    if (draft.questions.some(q => q.text.trim() || (q.options || []).some(o => o.trim())) &&
+        !confirm('Replace your current questions with the "' + t.label.replace(/^\S+\s/, '') + '" template?')) return;
+    if (!draft.name.trim()) draft.name = t.name;
+    draft.questions = t.make();
+    renderSetup();
+  });
+  document.getElementById('cancelSetup').onclick = document.getElementById('cancelSetup2').onclick = renderDashboard;
+  document.getElementById('launch').onclick = launchSession;
+  renderQList();
+}
+function renderQList() {
+  const list = document.getElementById('qList');
+  list.innerHTML = draft.questions.map((q, i) => {
+    const hasOpts = q.type === 'multiple' || q.type === 'quiz';
+    const optsHtml = hasOpts ? `
+      <div class="q-opts" data-qi="${i}">
+        ${q.options.map((o, oi) => `
+          <div class="opt-row">
+            <button class="opt-correct ${q.type === 'quiz' ? (q.correctAnswer === oi ? 'on' : '') : 'hidden'}"
+              data-correct="${i}:${oi}" title="Mark correct">✓</button>
+            <input class="input" placeholder="Option ${oi + 1}" value="${esc(o)}" data-opt="${i}:${oi}">
+            <button class="opt-del" data-optdel="${i}:${oi}" ${q.options.length <= 2 ? 'style="visibility:hidden"' : ''}>✕</button>
+          </div>`).join('')}
+        ${q.options.length < 6 ? `<button class="add-link" data-addopt="${i}">+ Add option</button>` : ''}
+      </div>` : '';
+    const quizMeta = q.type === 'quiz' ? `
+      <div class="q-meta-row">
+        <label class="q-toggle">Points <input type="number" class="input num-input" min="10" step="10" value="${q.points}" data-pts="${i}"></label>
+        <label class="q-toggle">Time limit (s) <input type="number" class="input num-input" min="5" step="5" value="${q.timeLimit}" data-tl="${i}"></label>
+      </div>` : '';
+    return `<div class="q-card">
+      <div class="q-card-head">
+        <span class="q-drag" title="Drag to reorder">⋮⋮</span>
+        <span class="q-num">Question ${i + 1}</span>
+        <div class="q-head-actions">
+          <button class="icon-btn" data-dup="${i}" title="Duplicate">⧉</button>
+          <button class="icon-btn" data-up="${i}" ${i === 0 ? 'disabled' : ''} title="Move up">↑</button>
+          <button class="icon-btn" data-down="${i}" ${i === draft.questions.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
+          <button class="icon-btn del" data-delq="${i}" ${draft.questions.length <= 1 ? 'disabled' : ''} title="Delete">✕</button>
+        </div>
+      </div>
+      <div class="q-row">
+        <select class="select" data-type="${i}">
+          ${Object.entries(QTYPES).map(([k, v]) => `<option value="${k}" ${q.type === k ? 'selected' : ''}>${v}</option>`).join('')}
+        </select>
+        <input class="input" placeholder="Type your question…" value="${esc(q.text)}" data-qtext="${i}">
+      </div>
+      ${optsHtml}${quizMeta}
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('[data-type]').forEach(el => el.onchange = e => {
+    const i = +el.dataset.type; const t = e.target.value;
+    const cur = draft.questions[i];
+    draft.questions[i] = Object.assign(blankQuestion(t), { id: cur.id, text: cur.text });
+    if ((t === 'multiple' || t === 'quiz') && (cur.type === 'multiple' || cur.type === 'quiz')) {
+      draft.questions[i].options = cur.options.length ? cur.options : ['', ''];
+    }
+    renderQList();
+  });
+  list.querySelectorAll('[data-qtext]').forEach(el => el.oninput = e => draft.questions[+el.dataset.qtext].text = e.target.value);
+  list.querySelectorAll('[data-opt]').forEach(el => el.oninput = e => {
+    const [i, oi] = el.dataset.opt.split(':').map(Number); draft.questions[i].options[oi] = e.target.value;
+  });
+  // bulk-paste: pasting newline-separated text fills multiple options at once
+  list.querySelectorAll('[data-opt]').forEach(el => el.onpaste = e => {
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!text || !/[\n\r]/.test(text)) return;
+    e.preventDefault();
+    const [i, oi] = el.dataset.opt.split(':').map(Number);
+    const q = draft.questions[i];
+    const lines = text.split(/[\n\r]+/).map(s => s.trim().replace(/^[-*•\d.)\s]+/, '')).filter(Boolean);
+    lines.forEach((line, k) => {
+      const target = oi + k;
+      if (target < q.options.length) q.options[target] = line;
+      else if (q.options.length < 6) q.options.push(line);
+    });
+    renderQList();
+  });
+  list.querySelectorAll('[data-dup]').forEach(el => el.onclick = () => {
+    const i = +el.dataset.dup;
+    const copy = JSON.parse(JSON.stringify(draft.questions[i]));
+    copy.id = Interacto.genId(5);
+    draft.questions.splice(i + 1, 0, copy);
+    renderQList();
+  });
+  list.querySelectorAll('[data-correct]').forEach(el => el.onclick = () => {
+    const [i, oi] = el.dataset.correct.split(':').map(Number); draft.questions[i].correctAnswer = oi; renderQList();
+  });
+  list.querySelectorAll('[data-addopt]').forEach(el => el.onclick = () => { draft.questions[+el.dataset.addopt].options.push(''); renderQList(); });
+  list.querySelectorAll('[data-optdel]').forEach(el => el.onclick = () => {
+    const [i, oi] = el.dataset.optdel.split(':').map(Number);
+    draft.questions[i].options.splice(oi, 1);
+    if (draft.questions[i].correctAnswer >= draft.questions[i].options.length) draft.questions[i].correctAnswer = 0;
+    renderQList();
+  });
+  list.querySelectorAll('[data-pts]').forEach(el => el.oninput = e => draft.questions[+el.dataset.pts].points = +e.target.value || 100);
+  list.querySelectorAll('[data-tl]').forEach(el => el.oninput = e => draft.questions[+el.dataset.tl].timeLimit = +e.target.value || 20);
+  list.querySelectorAll('[data-delq]').forEach(el => el.onclick = () => { draft.questions.splice(+el.dataset.delq, 1); renderQList(); });
+  list.querySelectorAll('[data-up]').forEach(el => el.onclick = () => { const i = +el.dataset.up; [draft.questions[i - 1], draft.questions[i]] = [draft.questions[i], draft.questions[i - 1]]; renderQList(); });
+  list.querySelectorAll('[data-down]').forEach(el => el.onclick = () => { const i = +el.dataset.down; [draft.questions[i + 1], draft.questions[i]] = [draft.questions[i], draft.questions[i + 1]]; renderQList(); });
+}
+async function launchSession() {
+  if (!draft.name.trim()) { toast('Give your session a name'); return; }
+  for (const q of draft.questions) {
+    if (!q.text.trim()) { toast('Every question needs text'); return; }
+    if ((q.type === 'multiple' || q.type === 'quiz') && q.options.filter(o => o.trim()).length < 2) {
+      toast('Multiple choice needs at least 2 options'); return;
+    }
+  }
+  const clean = draft.questions.map(q => ({ ...q, options: q.options.filter(o => o.trim()) }));
+  const s = await Interacto.createSession(draft.name.trim(), clean);
+  draft = null;
+  renderLive(s.id);
+}
+
+/* ════════ LIVE ════════ */
+function renderLive(id) {
+  cleanupLive();
+  document.getElementById('app').innerHTML = `<div class="view"><div class="live-wrap">
+    <div class="live-left">
+      <div class="live-session-name" id="lvName"></div>
+      <div class="live-status-row"><span class="live-dot"></span><span id="lvCount">0 joined</span></div>
+      <div class="qr-box">
+        <div id="qrcode"></div>
+        <div class="qr-hint">Scan to join — no app needed</div>
+      </div>
+      <div class="join-link-row">
+        <input class="input" id="joinLink" readonly>
+        <button class="btn btn-ghost copy-btn" id="copyBtn">Copy</button>
+      </div>
+      <div class="share-row">
+        <button class="btn wa-btn" id="waBtn">Share on WhatsApp</button>
+      </div>
+      <div class="nav-q">
+        <div class="nav-q-label">Questions</div>
+        <div id="navQ"></div>
+      </div>
+      <div class="files-section">
+        <div class="files-head">
+          <span class="nav-q-label">Files for download</span>
+          <label class="files-add" title="Upload a file">+ Upload<input type="file" id="fileInput" multiple hidden></label>
+        </div>
+        <div id="filesList"></div>
+      </div>
+      <div class="live-left-footer">
+        <button class="btn btn-ghost btn-block" id="simBtn">Simulate 8 participants</button>
+        <button class="btn btn-danger btn-block" id="endBtn">End Session</button>
+      </div>
+    </div>
+    <div class="live-right" id="liveRight"></div>
+  </div></div>`;
+
+  // QR + link
+  new QRCode(document.getElementById('qrcode'), { text: joinUrl(id), width: 168, height: 168,
+    colorDark: '#0A0A0A', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  document.getElementById('joinLink').value = joinUrl(id);
+  document.getElementById('copyBtn').onclick = () => {
+    navigator.clipboard.writeText(joinUrl(id));
+    const b = document.getElementById('copyBtn'); b.textContent = 'Copied'; b.classList.add('copied');
+    setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('copied'); }, 1600);
+  };
+  document.getElementById('waBtn').onclick = () => {
+    const txt = encodeURIComponent('Join my live session "' + (liveState?.name || '') + '" on Interacto: ' + joinUrl(id));
+    window.open('https://wa.me/?text=' + txt, '_blank');
+  };
+  document.getElementById('endBtn').onclick = () => endSession(id);
+  document.getElementById('simBtn').onclick = () => simulate(id);
+  document.getElementById('simBtn').style.display = Interacto.mode === 'demo' ? '' : 'none';
+
+  const fileInput = document.getElementById('fileInput');
+  if (fileInput) fileInput.onchange = async e => {
+    const files = [...e.target.files]; e.target.value = '';
+    for (const f of files) {
+      if (f.size > 25 * 1048576) { toast('"' + f.name + '" is over 25 MB'); continue; }
+      toast('Uploading ' + f.name + '…');
+      try { await Interacto.uploadFile(id, f); toast('Uploaded ' + f.name); }
+      catch (err) { toast('Upload failed: ' + (err.message || err)); }
+    }
+  };
+
+  liveUnsub = Interacto.subscribe(id, s => { if (!s) return; liveState = s; paintLive(id, s); });
+}
+
+function paintLive(id, s) {
+  document.getElementById('lvName').textContent = s.name;
+  const pc = Object.keys(s.participants || {}).length;
+  document.getElementById('lvCount').textContent = pc + ' joined';
+
+  // question navigator
+  document.getElementById('navQ').innerHTML = s.questions.map((q, i) => `
+    <div class="nav-q-item ${s.currentQuestion === i ? 'active' : ''}" data-nav="${i}">
+      <span class="nav-q-idx">${i + 1}</span>
+      <div style="min-width:0;flex:1">
+        <div class="nav-q-text">${esc(q.text) || '<em>Untitled</em>'}</div>
+        <div class="nav-q-type">${QTYPES[q.type]}</div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('[data-nav]').forEach(el => el.onclick = () => Interacto.update(id, { currentQuestion: +el.dataset.nav, status: 'active' }));
+
+  // files for download
+  const fl = document.getElementById('filesList');
+  if (fl) {
+    const files = s.files || [];
+    fl.innerHTML = files.length ? files.map(f => `
+      <div class="file-row">
+        <span class="file-ic">${fileIcon(f.name)}</span>
+        <div class="file-meta"><div class="file-name">${esc(f.name)}</div><div class="file-size">${fmtSize(f.size)}</div></div>
+        <button class="file-del" data-filedel="${f.id}" title="Remove">✕</button>
+      </div>`).join('') : `<div class="files-empty">Share slides, handouts or notes — your audience downloads them from their phone.</div>`;
+    fl.querySelectorAll('[data-filedel]').forEach(el => el.onclick = async () => {
+      if (confirm('Remove this file?')) { try { await Interacto.removeFile(id, el.dataset.filedel); } catch (e) { toast('Could not remove file'); } }
+    });
+  }
+
+  paintRight(id, s);
+}
+
+/* bar series shared by initial render + in-place updates (keeps the grow animation smooth) */
+function barSeries(q, respArr, total) {
+  const counts = q.type === 'rating'
+    ? [1,2,3,4,5].map(n => respArr.filter(([, r]) => String(r.value) === String(n)).length)
+    : q.options.map((_, oi) => respArr.filter(([, r]) => String(r.value) === String(oi)).length);
+  const max = Math.max(1, ...counts);
+  return counts.map(c => ({ w: c / max * 100, val: c + ' · ' + (total ? Math.round(c / total * 100) : 0) + '%' }));
+}
+function updateBars(right, q, respArr, total, pc, s) {
+  const series = barSeries(q, respArr, total);
+  const fills = right.querySelectorAll('.bar-fill');
+  const vals = right.querySelectorAll('.bar-val');
+  series.forEach((b, i) => { if (fills[i]) fills[i].style.width = b.w + '%'; if (vals[i]) vals[i].textContent = b.val; });
+  const rc = right.querySelector('.aq-respond'); if (rc) rc.textContent = total + ' of ' + pc + ' responded';
+  const lb = right.querySelector('#lbWrap'); if (lb) lb.innerHTML = renderLeaderboard(s);
+}
+
+function paintRight(id, s) {
+  const right = document.getElementById('liveRight');
+  const idx = s.currentQuestion;
+  if (idx == null) {
+    right.innerHTML = `<div class="empty" style="padding-top:120px">
+      <div class="empty-icon">▶</div>
+      <div style="font-weight:600;color:var(--text-2);font-size:16px">Pick a question to begin</div>
+      <div style="margin-top:6px">Click any question on the left to push it live to your audience.</div>
+    </div>`;
+    right._sig = null;
+    return;
+  }
+  const q = s.questions[idx];
+  const resp = s.responses[idx] || {};
+  const respArr = Object.entries(resp);
+  const total = respArr.length;
+  const pc = Object.keys(s.participants || {}).length;
+
+  // fast path: same question still live → update bars in place so they animate instead of resetting
+  const isBar = (q.type === 'multiple' || q.type === 'quiz' || q.type === 'rating');
+  const sig = idx + '|' + q.type;
+  if (isBar && right._sig === sig && right.querySelector('.active-q-card')) {
+    updateBars(right, q, respArr, total, pc, s); return;
+  }
+
+  let viz = '';
+  if (q.type === 'multiple' || q.type === 'quiz') {
+    const counts = q.options.map((_, oi) => respArr.filter(([, r]) => String(r.value) === String(oi)).length);
+    const max = Math.max(1, ...counts);
+    viz = `<div class="results">` + q.options.map((o, oi) => {
+      const c = counts[oi]; const pct = total ? Math.round(c / total * 100) : 0;
+      const isCorrect = q.type === 'quiz' && q.correctAnswer === oi;
+      return `<div class="bar-row">
+        <div class="bar-top">
+          <span class="bar-label">${esc(o)} ${isCorrect ? '<span class="check">✓</span>' : ''}</span>
+          <span class="bar-val">${c} · ${pct}%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill ${isCorrect ? 'correct' : (q.type === 'quiz' ? 'dim' : '')}" style="width:${c / max * 100}%"></div></div>
+      </div>`;
+    }).join('') + `</div>`;
+  } else if (q.type === 'yesno') {
+    const yes = respArr.filter(([, r]) => r.value === 'yes').length;
+    const no = respArr.filter(([, r]) => r.value === 'no').length;
+    const yp = total ? Math.round(yes / total * 100) : 0, np = total ? Math.round(no / total * 100) : 0;
+    viz = `<div class="yn-grid">
+      <div class="yn-block yes"><div class="yn-pct">${yp}%</div><div class="yn-lbl">Yes</div><div class="yn-count">${yes} votes</div></div>
+      <div class="yn-block no"><div class="yn-pct">${np}%</div><div class="yn-lbl">No</div><div class="yn-count">${no} votes</div></div>
+    </div>`;
+  } else if (q.type === 'rating') {
+    const counts = [1, 2, 3, 4, 5].map(n => respArr.filter(([, r]) => String(r.value) === String(n)).length);
+    const max = Math.max(1, ...counts);
+    const avg = total ? (respArr.reduce((a, [, r]) => a + Number(r.value), 0) / total).toFixed(1) : '—';
+    viz = `<div style="font-size:13px;color:var(--text-3);margin-top:18px">Average rating: <strong style="color:var(--text-1)">${avg}</strong></div>
+    <div class="results">` + [1, 2, 3, 4, 5].map((n, ni) => {
+      const c = counts[ni]; const pct = total ? Math.round(c / total * 100) : 0;
+      return `<div class="bar-row"><div class="bar-top"><span class="bar-label">${'★'.repeat(n)}</span><span class="bar-val">${c} · ${pct}%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${c / max * 100}%"></div></div></div>`;
+    }).join('') + `</div>`;
+  } else if (q.type === 'open') {
+    viz = `<div class="text-feed">` + (respArr.length
+      ? respArr.slice().reverse().map(([pid, r]) => `<div class="text-resp"><div class="tr-who">${esc(s.participants[pid]?.name || 'Anonymous')}</div><div class="tr-body">${esc(r.value)}</div></div>`).join('')
+      : `<div class="empty">Waiting for the first response…</div>`) + `</div>`;
+  } else if (q.type === 'wordcloud') {
+    const freq = {};
+    respArr.forEach(([, r]) => String(r.value || '').split(/[,\n]+/).forEach(w => {
+      const t = w.trim().toLowerCase(); if (t) freq[t] = (freq[t] || 0) + 1;
+    }));
+    const entries = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 40);
+    const max = Math.max(1, ...entries.map(e => e[1]));
+    viz = entries.length
+      ? `<div class="cloud">` + entries.map(([w, c]) => {
+          const sz = 18 + Math.round((c / max) * 44); const op = (0.55 + (c / max) * 0.45).toFixed(2);
+          return `<span class="cloud-word" style="font-size:${sz}px;opacity:${op}" title="${c} mention${c !== 1 ? 's' : ''}">${esc(w)}</span>`;
+        }).join('') + `</div>`
+      : `<div class="empty" style="padding-top:60px"><div class="empty-icon">☁️</div>Waiting for the first word…</div>`;
+  } else if (q.type === 'qa') {
+    const items = respArr.map(([pid, r]) => ({ name: s.participants[pid]?.name || 'Anonymous', text: r.value, up: r.awarded || 0 }))
+      .filter(i => i.text && i.text.trim()).sort((a, b) => b.up - a.up);
+    viz = items.length
+      ? `<div class="qa-list">` + items.map(i => `
+          <div class="qa-item">
+            <div class="qa-up"><span class="qa-up-ic">▲</span><span>${i.up}</span></div>
+            <div class="qa-body"><div class="qa-q">${esc(i.text)}</div><div class="qa-who">${esc(i.name)}</div></div>
+          </div>`).join('') + `</div>`
+      : `<div class="empty" style="padding-top:60px"><div class="empty-icon">💬</div>No questions yet — they'll appear here as your audience asks.</div>`;
+  }
+
+  const last = idx >= s.questions.length - 1;
+  right.innerHTML = `
+    <div class="active-q-card">
+      <div class="aq-type">${QTYPES[q.type]}</div>
+      <div class="aq-text">${esc(q.text)}</div>
+      <div class="aq-respond">${total} of ${pc} responded</div>
+      ${viz}
+    </div>
+    <div class="lr-actions">
+      <span class="resp-count">Question ${idx + 1} of ${s.questions.length}</span>
+      ${last ? `<button class="btn btn-ghost" id="toAnalytics">View Results →</button>`
+             : `<button class="btn btn-primary" id="nextQ">Next Question →</button>`}
+    </div>
+    <div style="height:24px"></div>
+    <div id="lbWrap">${renderLeaderboard(s)}</div>`;
+  right._sig = sig;
+
+  const nextBtn = document.getElementById('nextQ');
+  if (nextBtn) nextBtn.onclick = () => Interacto.update(id, { currentQuestion: idx + 1, status: 'active' });
+  const toA = document.getElementById('toAnalytics');
+  if (toA) toA.onclick = () => endSession(id);
+}
+
+function renderLeaderboard(s) {
+  const ps = Object.values(s.participants || {}).filter(p => p.score > 0).sort((a, b) => b.score - a.score).slice(0, 8);
+  if (!ps.length) return '';
+  return `<div class="leaderboard">
+    <div class="lb-title">🏆 Leaderboard</div>
+    ${ps.map((p, i) => `<div class="lb-row r${i + 1}">
+      <span class="lb-rank">${i + 1}</span>
+      <span class="lb-name">${esc(p.name)}</span>
+      <span class="lb-score">${p.score}<small> pts</small></span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderPodium(s) {
+  const top = Object.values(s.participants || {}).filter(p => p.score > 0).sort((a, b) => b.score - a.score).slice(0, 3);
+  if (!top.length) return '';
+  const medals = ['🥇', '🥈', '🥉'];
+  const order = [top[1], top[0], top[2]];   // display 2nd · 1st · 3rd
+  return `<div class="podium">` + order.map(p => {
+    if (!p) return `<div class="pod pod-empty"></div>`;
+    const pl = top.indexOf(p) + 1;
+    return `<div class="pod pod-${pl}">
+      <div class="pod-head"><div class="pod-medal">${medals[pl - 1]}</div><div class="pod-name">${esc(p.name)}</div></div>
+      <div class="pod-block"><div class="pod-score">${p.score}<small>pts</small></div></div>
+    </div>`;
+  }).join('') + `</div>`;
+}
+
+async function endSession(id) {
+  if (!confirm('End this session? Participants will stop responding.')) return;
+  await Interacto.update(id, { status: 'ended', currentQuestion: null });
+  renderAnalytics(id);
+}
+
+/* ---------- demo simulation ---------- */
+async function simulate(id) {
+  const names = ['Aarav', 'Diya', 'Vivaan', 'Ananya', 'Kabir', 'Ishita', 'Arjun', 'Sara', 'Rohan', 'Meera'];
+  const s = await Interacto.getSession(id);
+  const existing = Object.keys(s.participants || {}).length;
+  const add = Math.min(8, 10 - existing);
+  for (let i = 0; i < add; i++) {
+    const pid = 'sim_' + Interacto.genId(5);
+    await Interacto.addParticipant(id, pid, names[(existing + i) % names.length]);
+    // respond to the active question (if any) after a human-like delay
+    const t = setTimeout(async () => {
+      const cur = await Interacto.getSession(id);
+      if (cur.currentQuestion == null) return;
+      const q = cur.questions[cur.currentQuestion];
+      let val;
+      if (q.type === 'multiple') val = Math.floor(Math.random() * q.options.length);
+      else if (q.type === 'quiz') val = Math.random() < 0.6 ? q.correctAnswer : Math.floor(Math.random() * q.options.length);
+      else if (q.type === 'yesno') val = Math.random() < 0.5 ? 'yes' : 'no';
+      else if (q.type === 'rating') val = 1 + Math.floor(Math.random() * 5);
+      else val = ['Great point!', 'Makes sense.', 'Could you explain more?', 'I disagree a little.', 'Loved this.'][Math.floor(Math.random() * 5)];
+      await Interacto.submit(id, cur.currentQuestion, pid, val, 2000 + Math.random() * 9000);
+    }, 600 + Math.random() * 3500);
+    simTimers.push(t);
+  }
+  toast(add ? 'Simulated ' + add + ' participants' : 'Room is full (demo cap 10)');
+}
+
+/* ════════ ANALYTICS ════════ */
+async function renderAnalytics(id) {
+  cleanupLive();
+  const s = await Interacto.getSession(id);
+  if (!s) { renderDashboard(); return; }
+  const pc = Object.keys(s.participants || {}).length;
+  const totalResp = Object.values(s.responses || {}).reduce((a, r) => a + Object.keys(r).length, 0);
+  const avgPart = s.questions.length ? Math.round(totalResp / s.questions.length) : 0;
+  const rate = pc ? Math.round(avgPart / pc * 100) : 0;
+  const leaders = Object.values(s.participants || {}).sort((a, b) => b.score - a.score);
+
+  const qBlocks = s.questions.map((q, i) => {
+    const resp = s.responses[i] || {}; const arr = Object.entries(resp); const total = arr.length;
+    let body = '';
+    if (q.type === 'multiple' || q.type === 'quiz') {
+      const counts = q.options.map((_, oi) => arr.filter(([, r]) => String(r.value) === String(oi)).length);
+      const max = Math.max(1, ...counts);
+      body = q.options.map((o, oi) => {
+        const c = counts[oi]; const pct = total ? Math.round(c / total * 100) : 0;
+        const isC = q.type === 'quiz' && q.correctAnswer === oi;
+        return `<div class="bar-row"><div class="bar-top"><span class="bar-label">${esc(o)} ${isC ? '<span class="check">✓</span>' : ''}</span><span class="bar-val">${c} · ${pct}%</span></div>
+        <div class="bar-track"><div class="bar-fill ${isC ? 'correct' : (q.type === 'quiz' ? 'dim' : '')}" style="width:${c / max * 100}%"></div></div></div>`;
+      }).join('');
+    } else if (q.type === 'yesno') {
+      const yes = arr.filter(([, r]) => r.value === 'yes').length, no = total - yes;
+      body = `<div class="bar-row"><div class="bar-top"><span class="bar-label">Yes</span><span class="bar-val">${yes}</span></div><div class="bar-track"><div class="bar-fill" style="width:${total ? yes / total * 100 : 0}%"></div></div></div>
+      <div class="bar-row"><div class="bar-top"><span class="bar-label">No</span><span class="bar-val">${no}</span></div><div class="bar-track"><div class="bar-fill dim" style="width:${total ? no / total * 100 : 0}%"></div></div></div>`;
+    } else if (q.type === 'rating') {
+      const avg = total ? (arr.reduce((a, [, r]) => a + Number(r.value), 0) / total).toFixed(1) : '—';
+      body = `<div style="font-size:14px">Average: <strong>${avg}</strong> from ${total} ratings</div>`;
+    } else if (q.type === 'wordcloud') {
+      const freq = {};
+      arr.forEach(([, r]) => String(r.value || '').split(/[,\n]+/).forEach(w => { const t = w.trim().toLowerCase(); if (t) freq[t] = (freq[t] || 0) + 1; }));
+      const entries = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 40);
+      const max = Math.max(1, ...entries.map(e => e[1]));
+      body = entries.length ? `<div class="cloud">` + entries.map(([w, c]) => `<span class="cloud-word" style="font-size:${16 + Math.round((c / max) * 30)}px;opacity:${(0.55 + (c / max) * 0.45).toFixed(2)}" title="${c}">${esc(w)}</span>`).join('') + `</div>` : '<div class="empty">No words</div>';
+    } else if (q.type === 'qa') {
+      const items = arr.map(([pid, r]) => ({ name: s.participants[pid]?.name || 'Anonymous', text: r.value, up: r.awarded || 0 })).filter(i => i.text && i.text.trim()).sort((a, b) => b.up - a.up);
+      body = items.length ? `<div class="qa-list">` + items.map(i => `<div class="qa-item"><div class="qa-up"><span class="qa-up-ic">▲</span><span>${i.up}</span></div><div class="qa-body"><div class="qa-q">${esc(i.text)}</div><div class="qa-who">${esc(i.name)}</div></div></div>`).join('') + `</div>` : '<div class="empty">No questions</div>';
+    } else {
+      body = `<div class="text-feed" style="max-height:240px">${arr.length ? arr.map(([pid, r]) => `<div class="text-resp"><div class="tr-who">${esc(s.participants[pid]?.name || 'Anonymous')}</div><div class="tr-body">${esc(r.value)}</div></div>`).join('') : '<div class="empty">No responses</div>'}</div>`;
+    }
+    return `<div class="analytics-q"><div class="aq-q-text">Q${i + 1}. ${esc(q.text)}</div>
+      <div class="aq-q-meta">${QTYPES[q.type]} · ${total} responses</div><div class="results">${body}</div></div>`;
+  }).join('');
+
+  document.getElementById('app').innerHTML = `<div class="view"><div class="page">
+    <div class="setup-head"><h2>${esc(s.name)} — Results</h2>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" id="exportCsv">Export CSV</button>
+        <button class="btn btn-ghost btn-sm" id="backDash">← Dashboard</button>
+      </div></div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-val">${pc}</div><div class="stat-lbl">Participants</div></div>
+      <div class="stat-card"><div class="stat-val">${s.questions.length}</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat-card"><div class="stat-val">${rate}%</div><div class="stat-lbl">Avg. response rate</div></div>
+      <div class="stat-card"><div class="stat-val">${totalResp}</div><div class="stat-lbl">Total responses</div></div>
+    </div>
+    ${leaders.some(p => p.score > 0) ? `<div class="section-label">Final Standings</div>${renderPodium(s)}${renderLeaderboard(s)}<div style="height:24px"></div>` : ''}
+    <div class="section-label">Question Breakdown</div>
+    ${qBlocks}
+  </div></div>`;
+  document.getElementById('backDash').onclick = renderDashboard;
+  document.getElementById('exportCsv').onclick = () => exportCsv(s);
+}
+
+function exportCsv(s) {
+  const rows = [['Question #', 'Question', 'Type', 'Participant', 'Answer', 'Correct', 'Points']];
+  s.questions.forEach((q, i) => {
+    const resp = s.responses[i] || {};
+    Object.entries(resp).forEach(([pid, r]) => {
+      let ans = r.value;
+      if (q.type === 'multiple' || q.type === 'quiz') ans = q.options[r.value] ?? r.value;
+      rows.push([i + 1, q.text, QTYPES[q.type], s.participants[pid]?.name || 'Anonymous', ans, r.correct == null ? '' : r.correct, r.awarded || 0]);
+    });
+  });
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (s.name || 'session').replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '-results.csv';
+  a.click();
+  toast('CSV exported');
+}
+
+/* ---------- boot ---------- */
+document.getElementById('newSessionTop').onclick = startSetup;
+renderModePill();
+renderDashboard();
+</script>
+</body>
+</html>
