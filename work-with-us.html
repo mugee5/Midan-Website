@@ -466,253 +466,239 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 .db-item:hover { background: var(--bg-3); }
 
 
+</style>
 
-/* ═══════════════════════════════════════════
-   MIDĀN — Mobile & Touch Enhancements
-   Injected globally across all pages
-═══════════════════════════════════════════ */
+<style id="midan-mobile">
+/* ═══════════════════════════════════
+   MIDĀN — MOBILE + RESPONSIVE SYSTEM
+═══════════════════════════════════ */
 
-/* ── Touch momentum scrolling ── */
-html { -webkit-overflow-scrolling: touch; }
+/* ── Hamburger button ── */
+.mob-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5.5px;
+  width: 40px; height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.mob-btn span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--text-1);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
+              opacity   0.22s ease,
+              width     0.28s ease;
+}
+nav.mob-open .mob-btn span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+nav.mob-open .mob-btn span:nth-child(2) { opacity: 0; width: 0; }
+nav.mob-open .mob-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ── Prevent horizontal overflow on mobile ── */
-body { max-width: 100vw; }
+/* ── Mobile drawer ── */
+.mob-drawer {
+  position: fixed;
+  top: 60px; left: 0; right: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  border-bottom: 0.5px solid var(--border-md);
+  z-index: 199;
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
+              opacity   0.25s ease;
+  display: none;
+}
+.mob-drawer.mob-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.mob-drawer ul {
+  list-style: none;
+  padding: 6px 0 10px;
+  margin: 0;
+}
+.mob-drawer ul li a {
+  display: flex;
+  align-items: center;
+  padding: 15px 24px;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text-2);
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--border);
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-drawer ul li:last-child a { border-bottom: none; }
+.mob-drawer ul li a:active { background: var(--bg-2); }
+.mob-drawer .mob-arrow { margin-left: auto; color: var(--text-4); font-style: normal; }
+.mob-drawer .mob-cta {
+  padding: 12px 24px 20px;
+  border-top: 0.5px solid var(--border);
+}
+.mob-drawer .mob-cta a {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--bg);
+  background: var(--text-1);
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
 
-/* ── Respect reduced motion ── */
+/* ── Shared mobile improvements ── */
+a, button { touch-action: manipulation; }
+.domain-band-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.domain-band-inner::-webkit-scrollbar { display: none; }
+
+/* ── 960px breakpoint ── */
+@media (max-width: 960px) {
+  nav { padding: 0 16px !important; }
+  .bg-vline { display: none; }
+  .mob-btn { display: flex; }
+  .mob-drawer { display: block; }
+  .nav-links { display: none !important; }
+  .nav-contact { display: none !important; }
+
+  /* Homepage */
+  .hero-inner { padding: 0 20px !important; }
+  .hero-top { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-medallion { display: none !important; }
+  .hero-lower { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-meta { display: none; }
+  .intent-section { padding: 72px 20px !important; }
+  .intent-intro { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .problem-cards { grid-template-columns: 1fr 1fr !important; }
+  .belief-section { grid-template-columns: 1fr !important; }
+  .belief-left { padding: 64px 20px !important; border-right: none !important; border-bottom: 0.5px solid var(--border); }
+  .belief-right { padding: 48px 20px 64px !important; }
+  .sectors-band { grid-template-columns: 1fr 1fr !important; }
+  .db-item { min-width: 150px; padding: 18px 20px !important; }
+  .footer { padding: 28px 20px !important; flex-wrap: wrap; gap: 12px; }
+
+  /* About */
+  .about-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; min-height: auto !important; }
+  .about-hero h1 { font-size: clamp(34px, 8vw, 56px) !important; }
+  .origin-section { padding: 64px 20px !important; }
+  .origin-inner { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .founder-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; }
+  .beliefs-section { padding: 64px 20px !important; }
+  .beliefs-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .structure-section { padding: 64px 20px !important; }
+  .cta-band { padding: 56px 20px !important; flex-direction: column !important; align-items: flex-start !important; gap: 24px !important; }
+  .f-fact { grid-template-columns: 1fr !important; }
+
+  /* Our Work */
+  .work-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; min-height: auto !important; }
+  .pillar { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
+  .honest-band { padding: 48px 20px !important; flex-direction: column !important; gap: 28px !important; }
+  .civix-section { padding: 64px 20px !important; }
+  .civix-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
+
+  /* Work With Us */
+  .wwu-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; min-height: auto !important; }
+  .who-section { padding: 64px 20px !important; }
+  .wh-term { grid-template-columns: 1fr !important; }
+  .offer-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
+  .wont-section { padding: 64px 20px !important; }
+  .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .partner-grid, .product-grid { grid-template-columns: 1fr !important; }
+  .principles-band { padding: 48px 20px !important; grid-template-columns: 1fr !important; gap: 0 !important; }
+  .contact-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
+  .products-section { padding: 64px 20px !important; }
+  .form-row { grid-template-columns: 1fr !important; }
+  .form-input, .form-select, .form-textarea { font-size: 16px !important; }
+
+  /* Legal */
+  .legal-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; }
+  .legal-body { padding: 48px 20px 72px !important; }
+  .legal-toc { display: none !important; }
+  .legal-content { max-width: 100% !important; }
+}
+
+/* ── 600px breakpoint ── */
+@media (max-width: 600px) {
+  .headline { font-size: clamp(40px, 13vw, 72px) !important; }
+  .hero-lower { margin-top: 36px !important; }
+  .hero-cta-group { flex-wrap: wrap; gap: 14px; }
+  .problem-cards { grid-template-columns: 1fr !important; }
+  .problem-card { padding: 28px 20px 32px !important; }
+  .sectors-band { grid-template-columns: 1fr !important; }
+  .sector-cell { border-right: none !important; border-top: 0.5px solid var(--border) !important; }
+  .sector-cell:first-child { border-top: none !important; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-links { flex-wrap: wrap; gap: 14px; }
+  .origin-word { font-size: clamp(60px, 17vw, 96px) !important; }
+  .about-hero h1 { font-size: clamp(30px, 9vw, 48px) !important; }
+  .work-hero h1, .wwu-hero h1 { font-size: clamp(28px, 9vw, 46px) !important; }
+  .legal-hero h1 { font-size: clamp(26px, 8vw, 42px) !important; }
+  .btn-dark, .btn-light { width: 100%; text-align: center; box-sizing: border-box; padding: 14px 20px !important; }
+  .geo-pattern { opacity: 0.45; }
+}
+
+/* ── Desktop refinements ── */
+@media (min-width: 961px) {
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  html { scroll-behavior: auto !important; }
+  html { scroll-behavior: auto; }
 }
 
-/* ── Ensure touch targets are at least 44×44px ── */
-.t-toggle { min-width: 44px; min-height: 44px; width: 44px; height: 44px; }
-.nav-contact { min-height: 44px; display: inline-flex; align-items: center; }
-.cta-primary, .btn-dark, .btn-light, .btn-ghost, .btn-border, .form-submit {
-  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
-}
-
-/* ── Hide bg-vline on mobile (reclaim space) ── */
-@media (max-width: 960px) {
-  .bg-vline { display: none; }
-}
-
-/* ── Mobile Hamburger Menu Button ── */
-.mob-menu-btn {
-  display: none;
-  width: 44px; height: 44px;
-  background: var(--tag-bg);
-  border: 0.5px solid var(--border-md);
-  border-radius: 2px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 5px;
-  padding: 0;
-  flex-shrink: 0;
-}
-.mob-menu-btn span {
-  display: block; width: 16px; height: 1px;
-  background: var(--text-2);
-  border-radius: 1px;
-  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.2s, width 0.3s;
-  transform-origin: center;
-}
-.mob-menu-btn.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.mob-menu-btn.is-open span:nth-child(2) { opacity: 0; width: 0; }
-.mob-menu-btn.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-/* ── Mobile Navigation Drawer ── */
-.mob-nav {
-  display: none;
-  position: fixed;
-  top: 60px; left: 0; right: 0;
-  z-index: 190;
-  background: var(--nav-bg);
-  backdrop-filter: blur(28px) saturate(1.6);
-  -webkit-backdrop-filter: blur(28px) saturate(1.6);
-  border-bottom: 0.5px solid var(--border-md);
-  padding: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
-}
-.mob-nav.is-open { max-height: 400px; }
-.mob-nav-inner {
-  padding: 24px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.mob-nav-link {
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 15px; font-weight: 400; letter-spacing: 0.02em;
-  color: var(--text-2); text-decoration: none;
-  padding: 14px 0;
-  border-bottom: 0.5px solid var(--border);
-  transition: color 0.2s;
-  min-height: 52px;
-}
-.mob-nav-link:last-child { border-bottom: none; }
-.mob-nav-link:hover, .mob-nav-link.active { color: var(--text-1); }
-.mob-nav-link.active { color: var(--gold); }
-.mob-nav-arrow { font-size: 12px; color: var(--text-4); }
-.mob-nav-cta {
-  margin-top: 18px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em;
-  color: var(--bg); background: var(--text-1); text-decoration: none;
-  padding: 14px 26px; border-radius: 2px; transition: background 0.25s;
-  min-height: 48px;
-}
-.mob-nav-cta:hover { background: var(--navy); }
-
-@media (max-width: 960px) {
-  .mob-menu-btn { display: flex; }
-  .mob-nav { display: block; }
-  /* Hide desktop contact button in nav on mobile */
-  nav > .nav-right > .nav-contact { display: none; }
-}
-
-/* ── Hero padding fix on small screens ── */
-@media (max-width: 480px) {
-  .hero-inner,
-  .about-hero,
-  .work-hero,
-  .wwu-hero,
-  .page-header,
-  .intent-section,
-  .belief-left,
-  .belief-right,
-  .origin-section,
-  .founder-section,
-  .beliefs-section,
-  .structure-section,
-  .cta-band,
-  .civix-section,
-  .products-section,
-  .who-section,
-  .offer-section,
-  .wont-section,
-  .principles-band,
-  .contact-section {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-  .about-hero { padding-top: 84px !important; }
-  .work-hero  { padding-top: 84px !important; }
-  .wwu-hero   { padding-top: 84px !important; }
-  .footer     { padding: 24px 16px !important; }
-}
-
-/* ── Domain band: scrollable on mobile ── */
-@media (max-width: 780px) {
-  .domain-band-inner {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .domain-band-inner::-webkit-scrollbar { display: none; }
-  .db-item { min-width: 160px; flex-shrink: 0; }
-}
-
-/* ── 2-column footer on mobile ── */
-@media (max-width: 480px) {
-  .footer {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    grid-template-rows: auto auto !important;
-    gap: 16px 12px !important;
-    align-items: start !important;
-  }
-  .footer-logo  { grid-column: 1; grid-row: 1; }
-  .footer-copy  { grid-column: 1 / -1; grid-row: 2; font-size: 10px; }
-  .footer-links { grid-column: 2; grid-row: 1; justify-content: flex-end; flex-wrap: wrap; }
-  .footer-right { display: none !important; }
-}
-
-/* ── Prevent iOS input zoom ── */
-@media (max-width: 768px) {
-  .form-input, .form-select, .form-textarea {
-    font-size: 16px !important;
-  }
-}
-
-/* ── Terms/Privacy: mobile TOC pill ── */
-@media (max-width: 900px) {
-  .toc-mobile-pill {
-    display: flex !important;
-  }
-}
-.toc-mobile-pill {
-  display: none;
-  position: sticky;
-  top: 68px;
-  z-index: 100;
-  background: var(--nav-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 0.5px solid var(--border);
-  padding: 0 16px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  gap: 0;
-  white-space: nowrap;
-}
-.toc-mobile-pill::-webkit-scrollbar { display: none; }
-.toc-pill-link {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11px; font-weight: 400; letter-spacing: 0.04em;
-  color: var(--text-3); text-decoration: none;
-  padding: 10px 14px;
-  border-bottom: 1.5px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-  flex-shrink: 0;
-}
-.toc-pill-link:hover, .toc-pill-link.active {
-  color: var(--text-1);
-  border-bottom-color: var(--gold);
-}
-
-/* ── Sector band: 2-col on medium mobile ── */
-@media (max-width: 480px) {
-  .sectors-band { grid-template-columns: 1fr !important; }
-  .sector-cell { border-right: none !important; border-top: 0.5px solid var(--border); }
-  .sector-cell:first-child { border-top: none; }
-}
-
-/* ── Product/partner grids: single col on mobile ── */
-@media (max-width: 600px) {
-  .product-grid,
-  .partner-grid { grid-template-columns: 1fr !important; }
-  .beliefs-grid { grid-template-columns: 1fr !important; }
-  .problem-cards { grid-template-columns: 1fr !important; }
-  .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
-}
-
-/* ── CTA band: stack on mobile ── */
-@media (max-width: 600px) {
-  .cta-band-right, .cta-right {
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-  .btn-light, .btn-ghost, .btn-dark, .btn-border, .cta-primary {
-    width: 100% !important;
-    justify-content: center !important;
-  }
-}
-
-/* ── Origin word scale on tiny screens ── */
-@media (max-width: 400px) {
-  .origin-word { font-size: clamp(60px, 22vw, 80px) !important; }
-}
-
+</style>
+<style id="nav-dd-css">
+.nav-dd{ position:relative; }
+.nav-dd > a{ display:inline-flex; align-items:center; gap:5px; }
+.nav-dd .dd-caret{ font-size:8px; opacity:.55; transition:transform .22s ease; }
+.nav-dd:hover .dd-caret,.nav-dd:focus-within .dd-caret{ transform:rotate(180deg); opacity:.9; }
+.nav-dd::after{ content:''; position:absolute; left:-10px; right:-10px; top:100%; height:16px; }
+.nav-dd-menu{ position:absolute; top:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(6px);
+  min-width:216px; padding:7px; display:flex; flex-direction:column; gap:2px;
+  background:#FFFFFF; border:1px solid var(--border-md); border-radius:12px;
+  box-shadow:0 18px 44px rgba(15,14,11,0.16), 0 2px 8px rgba(15,14,11,0.07);
+  opacity:0; visibility:hidden; transition:opacity .2s ease, transform .2s ease; z-index:300; }
+[data-theme="dark"] .nav-dd-menu{ background:#232118; border-color:rgba(242,237,228,0.17);
+  box-shadow:0 18px 46px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.42); }
+.nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+.nav-dd-menu a{ font-size:12.5px; font-weight:400; letter-spacing:0.02em; color:var(--text-2); padding:9px 12px; border-radius:7px;
+  text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:14px; transition:background .16s, color .16s; }
+.nav-dd-menu a::after{ display:none !important; }
+.nav-dd-menu a:hover{ background:var(--tag-bg); color:var(--text-1); }
+.dd-soon{ font-size:8.5px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--gold);
+  border:0.5px solid var(--border-md); padding:2px 7px; border-radius:99px; }
+#hydgo{ scroll-margin-top:90px; }
+.mob-drawer ul li a.mob-sub{ padding-left:36px; font-size:13px; color:var(--text-3); position:relative; }
+.mob-drawer ul li a.mob-sub::before{ content:'—'; position:absolute; left:18px; color:var(--text-4); }
 </style>
 </head>
 <body>
@@ -723,7 +709,7 @@ body { max-width: 100vw; }
 
 <nav>
   <div class="nav-left">
-    <a href="midan_v5.html" class="logo-group" aria-label="Home">
+    <a href="index.html" class="logo-group" aria-label="Home">
       <div class="logo-mark" style="width:22px;height:28px;flex-shrink:0;">
         <span class="logo-light-only" style="width:22px;height:28px;"><svg width="22" height="28" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/><rect x="81" y="96" width="30" height="40" fill="#D9B564"/><path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="url(#wwu_nav_grad_ring)"/><path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/><path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#0D2A5C"/><path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#0D2A5C"/><path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.513 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.45 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#0D2A5C"/><path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#0D2A5C"/><path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#0D2A5C"/><path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M206.767 318.461C204.104 321.634 204.518 326.365 207.691 329.027C210.864 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.429 315.288 206.767 318.461Z" fill="#0D2A5C"/><path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#0D2A5C"/><path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#0D2A5C"/><path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="#E8C77A" stroke="#E8C77A"/><rect x="152" y="96" width="30" height="40" fill="#D9B564"/><rect x="223" y="96" width="30" height="40" fill="#D9B564"/><path d="M330 431H0V446H330V431Z" fill="url(#wwu_nav_grad_base_l)"/><defs><linearGradient id="wwu_nav_grad_ring" x1="55" y1="174" x2="275" y2="394" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C77A"/><stop offset="1" stop-color="#C9A24A"/></linearGradient><linearGradient id="wwu_nav_grad_base_l" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C77A"/><stop offset="1" stop-color="#C9A24A"/></linearGradient></defs></svg></span>
         <span class="logo-dark-only" style="width:22px;height:28px;"><svg width="22" height="28" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#F9FBFF"/><rect x="81" y="96" width="30" height="40" fill="#D9B564"/><path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="#E8C77A"/><path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/><path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#C9A24A"/><path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="white" stroke="#E8C77A"/><path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#C9A24A"/><path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.512 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.449 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="white" stroke="#E8C77A"/><path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#C9A24A"/><path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="white" stroke="#E8C77A"/><path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#C9A24A"/><path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="white" stroke="#E8C77A"/><path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#C9A24A"/><path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="white" stroke="#E8C77A"/><path d="M206.767 318.461C204.105 321.634 204.518 326.365 207.691 329.027C210.865 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.43 315.288 206.767 318.461Z" fill="#C9A24A"/><path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="white" stroke="#E8C77A"/><path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#C9A24A"/><path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="white" stroke="#E8C77A"/><path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#C9A24A"/><path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="white" stroke="#E8C77A"/><rect x="152" y="96" width="30" height="40" fill="#D9B564"/><rect x="223" y="96" width="30" height="40" fill="#D9B564"/><path d="M330 431H0V446H330V431Z" fill="url(#wwu_nav_grad_base_d)"/><defs><linearGradient id="wwu_nav_grad_base_d" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C77A"/><stop offset="1" stop-color="#C9A24A"/></linearGradient></defs></svg></span>
@@ -733,13 +719,17 @@ body { max-width: 100vw; }
     <ul class="nav-links">
       <li><a href="our-work.html">Our Work</a></li>
       <li><a href="about.html">About</a></li>
+      <li class="nav-dd">
+        <a href="products.html" class="nav-dd-trigger">Products<span class="dd-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-dd-menu">
+          <a href="interacto.html">Interacto</a>
+          <a href="products.html#hydgo">HydGo <span class="dd-soon">Soon</span></a>
+        </div>
+      </li>
       <li><a href="work-with-us.html" class="active">Work With Us</a></li>
     </ul>
   </div>
   <div class="nav-right">
-    <button class="mob-menu-btn" aria-label="Open navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
     <button class="t-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
       <!-- sun icon: shown in light mode -->
       <svg class="icon-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
@@ -754,17 +744,21 @@ body { max-width: 100vw; }
         <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z"/>
       </svg>
     </button>
+    <button class="mob-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <a href="#contact" class="nav-contact" magnetic>Get In Touch</a>
   </div>
 </nav>
-<div class="mob-nav">
-    <div class="mob-nav-inner">
-      <a href="our-work.html" class="mob-nav-link">Our Work <span class="mob-nav-arrow">→</span></a>
-      <a href="about.html" class="mob-nav-link">About <span class="mob-nav-arrow">→</span></a>
-      <a href="work-with-us.html" class="mob-nav-link active">Work With Us <span class="mob-nav-arrow">→</span></a>
-      <a href="work-with-us.html" class="mob-nav-cta">Get in Touch</a>
-    </div>
-  </div>
+<div class="mob-drawer">
+  <ul>
+      <li><a href="our-work.html">Our Work<em class="mob-arrow">›</em></a></li>
+      <li><a href="about.html">About<em class="mob-arrow">›</em></a></li>
+      <li><a href="products.html">Products<em class="mob-arrow">›</em></a></li>
+      <li><a href="interacto.html" class="mob-sub">Interacto<em class="mob-arrow">›</em></a></li>
+      <li><a href="products.html#hydgo" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
+      <li><a href="work-with-us.html">Work With Us<em class="mob-arrow">›</em></a></li>
+  </ul>
+  <div class="mob-cta"><a href="#contact">Get in touch</a></div>
+</div>
 
 <!-- HERO -->
 <section class="wwu-hero">
@@ -1039,7 +1033,7 @@ body { max-width: 100vw; }
 
 <footer class="footer">
   <div class="footer-logo">
-    <a href="midan_v5.html" aria-label="Home" style="display:flex;align-items:center;">
+    <a href="index.html" aria-label="Home" style="display:flex;align-items:center;">
       <div style="width:16px;height:20px;flex-shrink:0;">
         <span class="logo-light-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/><rect x="81" y="96" width="30" height="40" fill="#D9B564"/><path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="url(#wwu_ftr_grad_ring)"/><path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/><path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#0D2A5C"/><path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#0D2A5C"/><path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.513 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.45 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#0D2A5C"/><path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#0D2A5C"/><path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#0D2A5C"/><path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M206.767 318.461C204.104 321.634 204.518 326.365 207.691 329.027C210.864 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.429 315.288 206.767 318.461Z" fill="#0D2A5C"/><path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#0D2A5C"/><path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="#E8C77A" stroke="#E8C77A"/><path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#0D2A5C"/><path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="#E8C77A" stroke="#E8C77A"/><rect x="152" y="96" width="30" height="40" fill="#D9B564"/><rect x="223" y="96" width="30" height="40" fill="#D9B564"/><path d="M330 431H0V446H330V431Z" fill="url(#wwu_ftr_grad_base_l)"/><defs><linearGradient id="wwu_ftr_grad_ring" x1="55" y1="174" x2="275" y2="394" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C77A"/><stop offset="1" stop-color="#C9A24A"/></linearGradient><linearGradient id="wwu_ftr_grad_base_l" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C77A"/><stop offset="1" stop-color="#C9A24A"/></linearGradient></defs></svg></span>
         <span class="logo-dark-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#F9FBFF"/><rect x="81" y="96" width="30" height="40" fill="#D9B564"/><path d="M165 394C225.751 394 275 344.751 275 284C275 223.249 225.751 174 165 174C104.249 174 55 223.249 55 284C55 344.751 104.249 394 165 394Z" fill="#E8C77A"/><path d="M165 374C214.706 374 255 333.706 255 284C255 234.294 214.706 194 165 194C115.294 194 75 234.294 75 284C75 333.706 115.294 374 165 374Z" fill="#F4F4F4"/><path d="M165.5 226C169.642 226 173 222.642 173 218.5C173 214.358 169.642 211 165.5 211C161.358 211 158 214.358 158 218.5C158 222.642 161.358 226 165.5 226Z" fill="#C9A24A"/><path d="M167.497 259.526L184.236 227.066C185.733 224.163 182.17 221.297 179.656 223.381L167.476 233.476C166.386 234.379 164.814 234.398 163.703 233.521L151.201 223.66C148.703 221.689 145.26 224.452 146.641 227.318L162.128 259.454C163.203 261.683 166.363 261.726 167.497 259.526Z" fill="white" stroke="#E8C77A"/><path d="M114.132 279.227C114.132 275.084 110.774 271.727 106.632 271.727C102.49 271.727 99.1318 275.084 99.1318 279.227C99.1318 283.369 102.49 286.727 106.632 286.727C110.774 286.727 114.132 283.369 114.132 279.227Z" fill="#C9A24A"/><path d="M147.658 277.229L115.197 260.49C112.294 258.993 109.428 262.556 111.512 265.071L121.607 277.251C122.51 278.34 122.529 279.912 121.653 281.023L111.792 293.525C109.821 296.023 112.583 299.467 115.449 298.086L147.585 282.598C149.815 281.524 149.858 278.364 147.658 277.229Z" fill="white" stroke="#E8C77A"/><path d="M166.28 330.769C162.138 330.769 158.78 334.127 158.78 338.269C158.78 342.411 162.138 345.769 166.28 345.769C170.422 345.769 173.78 342.411 173.78 338.269C173.78 334.127 170.422 330.769 166.28 330.769Z" fill="#C9A24A"/><path d="M164.283 297.243L147.543 329.703C146.046 332.606 149.609 335.472 152.124 333.388L164.304 323.293C165.393 322.39 166.966 322.371 168.076 323.248L180.578 333.109C183.076 335.08 186.52 332.317 185.139 329.451L169.651 297.315C168.577 295.086 165.417 295.043 164.283 297.243Z" fill="white" stroke="#E8C77A"/><path d="M127.827 316.429C125.165 313.256 120.434 312.842 117.261 315.505C114.088 318.167 113.674 322.898 116.337 326.071C118.999 329.244 123.73 329.658 126.903 326.996C130.076 324.333 130.49 319.602 127.827 316.429Z" fill="#C9A24A"/><path d="M152.226 293.349L116.6 301.392C113.414 302.111 113.509 306.683 116.722 307.269L132.284 310.111C133.676 310.365 134.701 311.557 134.744 312.971L135.226 328.887C135.322 332.067 139.651 332.93 140.959 330.029L155.622 297.509C156.639 295.253 154.64 292.804 152.226 293.349Z" fill="white" stroke="#E8C77A"/><path d="M203.324 242.92C206.253 245.849 211.002 245.849 213.931 242.92C216.86 239.991 216.86 235.242 213.931 232.313C211.002 229.384 206.253 229.384 203.324 232.313C200.395 235.242 200.395 239.991 203.324 242.92Z" fill="#C9A24A"/><path d="M181.03 268.039L215.819 256.922C218.931 255.928 218.438 251.382 215.186 251.077L199.435 249.603C198.026 249.471 196.901 248.373 196.735 246.968L194.868 231.154C194.495 227.995 190.107 227.513 189.057 230.516L177.285 264.191C176.468 266.527 178.672 268.792 181.03 268.039Z" fill="white" stroke="#E8C77A"/><path d="M206.767 318.461C204.105 321.634 204.518 326.365 207.691 329.027C210.865 331.69 215.595 331.276 218.258 328.103C220.92 324.93 220.506 320.199 217.333 317.537C214.16 314.874 209.43 315.288 206.767 318.461Z" fill="#C9A24A"/><path d="M179.801 298.441L193.907 332.129C195.169 335.142 199.655 334.255 199.674 330.989L199.77 315.169C199.779 313.754 200.775 312.538 202.16 312.25L217.751 309.012C220.866 308.365 220.963 303.951 217.88 303.167L183.307 294.375C180.909 293.765 178.845 296.158 179.801 298.441Z" fill="white" stroke="#E8C77A"/><path d="M219.688 280.607C219.688 284.749 223.046 288.107 227.188 288.107C231.33 288.107 234.688 284.749 234.688 280.607C234.688 276.464 231.33 273.107 227.188 273.107C223.046 273.107 219.688 276.464 219.688 280.607Z" fill="#C9A24A"/><path d="M186.162 282.604L218.622 299.343C221.525 300.84 224.391 297.277 222.307 294.762L212.212 282.582C211.309 281.493 211.29 279.921 212.166 278.81L222.028 266.308C223.998 263.81 221.236 260.366 218.37 261.747L186.234 277.235C184.005 278.309 183.962 281.469 186.162 282.604Z" fill="white" stroke="#E8C77A"/><path d="M128.787 241.122C131.716 238.193 131.716 233.444 128.787 230.515C125.858 227.586 121.109 227.586 118.18 230.515C115.251 233.444 115.251 238.193 118.18 241.122C121.109 244.051 125.858 244.051 128.787 241.122Z" fill="#C9A24A"/><path d="M153.905 263.416L142.789 228.627C141.795 225.516 137.249 226.008 136.944 229.26L135.47 245.011C135.338 246.42 134.24 247.545 132.835 247.711L117.021 249.578C113.862 249.951 113.38 254.339 116.383 255.389L150.058 267.161C152.394 267.978 154.659 265.774 153.905 263.416Z" fill="white" stroke="#E8C77A"/><rect x="152" y="96" width="30" height="40" fill="#D9B564"/><rect x="223" y="96" width="30" height="40" fill="#D9B564"/><path d="M330 431H0V446H330V431Z" fill="url(#wwu_ftr_grad_base_d)"/><defs><linearGradient id="wwu_ftr_grad_base_d" x1="0" y1="431" x2="1.36082" y2="460.938" gradientUnits="userSpaceOnUse"><stop stop-color="#E8C77A"/><stop offset="1" stop-color="#C9A24A"/></linearGradient></defs></svg></span>
@@ -1074,45 +1068,7 @@ function toggleTheme() {
 <script id="midan-anim-js">
 /* ═══════════════════════════════════════════
    MIDĀN — Shared Animation System
-   Inject before 
-<script id="midan-mobile-nav">
-/* ── Mobile Navigation ── */
-(function() {
-  const btn = document.querySelector('.mob-menu-btn');
-  const drawer = document.querySelector('.mob-nav');
-  if (!btn || !drawer) return;
-
-  btn.addEventListener('click', function() {
-    const open = drawer.classList.toggle('is-open');
-    btn.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', open);
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-
-  // Close on link click
-  drawer.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      drawer.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-
-  // Close on outside tap
-  document.addEventListener('touchstart', function(e) {
-    if (drawer.classList.contains('is-open') && !drawer.contains(e.target) && !btn.contains(e.target)) {
-      drawer.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  }, { passive: true });
-})();
-</script>
-
-</body> on every page
+   Inject before </body> on every page
 ═══════════════════════════════════════════ */
 
 (function(){
@@ -1243,6 +1199,41 @@ function toggleTheme() {
     obs2.observe(el);
   });
 
+})();
+
+</script>
+
+<script id="midan-mobile-js">
+/* ── Mobile nav ── */
+(function(){
+  var nav = document.querySelector('nav');
+  var drawer = document.querySelector('.mob-drawer');
+  var btn = document.querySelector('.mob-btn');
+  if (!btn || !drawer || !nav) return;
+
+  function close() {
+    nav.classList.remove('mob-open');
+    drawer.classList.remove('mob-open');
+    btn.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = nav.classList.toggle('mob-open');
+    drawer.classList.toggle('mob-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+  document.addEventListener('click', function(e){
+    if (nav.classList.contains('mob-open') && !nav.contains(e.target) && !drawer.contains(e.target)) close();
+  }, { passive: true });
+
+  /* Active page highlight */
+  var page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a, .mob-drawer a').forEach(function(a){
+    if (a.getAttribute('href') === page) a.classList.add('active');
+  });
 })();
 
 </script>

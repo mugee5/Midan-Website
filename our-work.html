@@ -405,253 +405,239 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 .db-item:hover { background: var(--bg-3); }
 
 
+</style>
 
-/* ═══════════════════════════════════════════
-   MIDĀN — Mobile & Touch Enhancements
-   Injected globally across all pages
-═══════════════════════════════════════════ */
+<style id="midan-mobile">
+/* ═══════════════════════════════════
+   MIDĀN — MOBILE + RESPONSIVE SYSTEM
+═══════════════════════════════════ */
 
-/* ── Touch momentum scrolling ── */
-html { -webkit-overflow-scrolling: touch; }
+/* ── Hamburger button ── */
+.mob-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5.5px;
+  width: 40px; height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.mob-btn span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--text-1);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
+              opacity   0.22s ease,
+              width     0.28s ease;
+}
+nav.mob-open .mob-btn span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+nav.mob-open .mob-btn span:nth-child(2) { opacity: 0; width: 0; }
+nav.mob-open .mob-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ── Prevent horizontal overflow on mobile ── */
-body { max-width: 100vw; }
+/* ── Mobile drawer ── */
+.mob-drawer {
+  position: fixed;
+  top: 60px; left: 0; right: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  border-bottom: 0.5px solid var(--border-md);
+  z-index: 199;
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
+              opacity   0.25s ease;
+  display: none;
+}
+.mob-drawer.mob-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.mob-drawer ul {
+  list-style: none;
+  padding: 6px 0 10px;
+  margin: 0;
+}
+.mob-drawer ul li a {
+  display: flex;
+  align-items: center;
+  padding: 15px 24px;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text-2);
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--border);
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-drawer ul li:last-child a { border-bottom: none; }
+.mob-drawer ul li a:active { background: var(--bg-2); }
+.mob-drawer .mob-arrow { margin-left: auto; color: var(--text-4); font-style: normal; }
+.mob-drawer .mob-cta {
+  padding: 12px 24px 20px;
+  border-top: 0.5px solid var(--border);
+}
+.mob-drawer .mob-cta a {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--bg);
+  background: var(--text-1);
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
 
-/* ── Respect reduced motion ── */
+/* ── Shared mobile improvements ── */
+a, button { touch-action: manipulation; }
+.domain-band-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.domain-band-inner::-webkit-scrollbar { display: none; }
+
+/* ── 960px breakpoint ── */
+@media (max-width: 960px) {
+  nav { padding: 0 16px !important; }
+  .bg-vline { display: none; }
+  .mob-btn { display: flex; }
+  .mob-drawer { display: block; }
+  .nav-links { display: none !important; }
+  .nav-contact { display: none !important; }
+
+  /* Homepage */
+  .hero-inner { padding: 0 20px !important; }
+  .hero-top { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-medallion { display: none !important; }
+  .hero-lower { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-meta { display: none; }
+  .intent-section { padding: 72px 20px !important; }
+  .intent-intro { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .problem-cards { grid-template-columns: 1fr 1fr !important; }
+  .belief-section { grid-template-columns: 1fr !important; }
+  .belief-left { padding: 64px 20px !important; border-right: none !important; border-bottom: 0.5px solid var(--border); }
+  .belief-right { padding: 48px 20px 64px !important; }
+  .sectors-band { grid-template-columns: 1fr 1fr !important; }
+  .db-item { min-width: 150px; padding: 18px 20px !important; }
+  .footer { padding: 28px 20px !important; flex-wrap: wrap; gap: 12px; }
+
+  /* About */
+  .about-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; min-height: auto !important; }
+  .about-hero h1 { font-size: clamp(34px, 8vw, 56px) !important; }
+  .origin-section { padding: 64px 20px !important; }
+  .origin-inner { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .founder-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; }
+  .beliefs-section { padding: 64px 20px !important; }
+  .beliefs-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .structure-section { padding: 64px 20px !important; }
+  .cta-band { padding: 56px 20px !important; flex-direction: column !important; align-items: flex-start !important; gap: 24px !important; }
+  .f-fact { grid-template-columns: 1fr !important; }
+
+  /* Our Work */
+  .work-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; min-height: auto !important; }
+  .pillar { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
+  .honest-band { padding: 48px 20px !important; flex-direction: column !important; gap: 28px !important; }
+  .civix-section { padding: 64px 20px !important; }
+  .civix-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
+
+  /* Work With Us */
+  .wwu-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; min-height: auto !important; }
+  .who-section { padding: 64px 20px !important; }
+  .wh-term { grid-template-columns: 1fr !important; }
+  .offer-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
+  .wont-section { padding: 64px 20px !important; }
+  .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .partner-grid, .product-grid { grid-template-columns: 1fr !important; }
+  .principles-band { padding: 48px 20px !important; grid-template-columns: 1fr !important; gap: 0 !important; }
+  .contact-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
+  .products-section { padding: 64px 20px !important; }
+  .form-row { grid-template-columns: 1fr !important; }
+  .form-input, .form-select, .form-textarea { font-size: 16px !important; }
+
+  /* Legal */
+  .legal-hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 110px !important; }
+  .legal-body { padding: 48px 20px 72px !important; }
+  .legal-toc { display: none !important; }
+  .legal-content { max-width: 100% !important; }
+}
+
+/* ── 600px breakpoint ── */
+@media (max-width: 600px) {
+  .headline { font-size: clamp(40px, 13vw, 72px) !important; }
+  .hero-lower { margin-top: 36px !important; }
+  .hero-cta-group { flex-wrap: wrap; gap: 14px; }
+  .problem-cards { grid-template-columns: 1fr !important; }
+  .problem-card { padding: 28px 20px 32px !important; }
+  .sectors-band { grid-template-columns: 1fr !important; }
+  .sector-cell { border-right: none !important; border-top: 0.5px solid var(--border) !important; }
+  .sector-cell:first-child { border-top: none !important; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-links { flex-wrap: wrap; gap: 14px; }
+  .origin-word { font-size: clamp(60px, 17vw, 96px) !important; }
+  .about-hero h1 { font-size: clamp(30px, 9vw, 48px) !important; }
+  .work-hero h1, .wwu-hero h1 { font-size: clamp(28px, 9vw, 46px) !important; }
+  .legal-hero h1 { font-size: clamp(26px, 8vw, 42px) !important; }
+  .btn-dark, .btn-light { width: 100%; text-align: center; box-sizing: border-box; padding: 14px 20px !important; }
+  .geo-pattern { opacity: 0.45; }
+}
+
+/* ── Desktop refinements ── */
+@media (min-width: 961px) {
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  html { scroll-behavior: auto !important; }
+  html { scroll-behavior: auto; }
 }
 
-/* ── Ensure touch targets are at least 44×44px ── */
-.t-toggle { min-width: 44px; min-height: 44px; width: 44px; height: 44px; }
-.nav-contact { min-height: 44px; display: inline-flex; align-items: center; }
-.cta-primary, .btn-dark, .btn-light, .btn-ghost, .btn-border, .form-submit {
-  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
-}
-
-/* ── Hide bg-vline on mobile (reclaim space) ── */
-@media (max-width: 960px) {
-  .bg-vline { display: none; }
-}
-
-/* ── Mobile Hamburger Menu Button ── */
-.mob-menu-btn {
-  display: none;
-  width: 44px; height: 44px;
-  background: var(--tag-bg);
-  border: 0.5px solid var(--border-md);
-  border-radius: 2px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 5px;
-  padding: 0;
-  flex-shrink: 0;
-}
-.mob-menu-btn span {
-  display: block; width: 16px; height: 1px;
-  background: var(--text-2);
-  border-radius: 1px;
-  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.2s, width 0.3s;
-  transform-origin: center;
-}
-.mob-menu-btn.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.mob-menu-btn.is-open span:nth-child(2) { opacity: 0; width: 0; }
-.mob-menu-btn.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-/* ── Mobile Navigation Drawer ── */
-.mob-nav {
-  display: none;
-  position: fixed;
-  top: 60px; left: 0; right: 0;
-  z-index: 190;
-  background: var(--nav-bg);
-  backdrop-filter: blur(28px) saturate(1.6);
-  -webkit-backdrop-filter: blur(28px) saturate(1.6);
-  border-bottom: 0.5px solid var(--border-md);
-  padding: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
-}
-.mob-nav.is-open { max-height: 400px; }
-.mob-nav-inner {
-  padding: 24px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.mob-nav-link {
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 15px; font-weight: 400; letter-spacing: 0.02em;
-  color: var(--text-2); text-decoration: none;
-  padding: 14px 0;
-  border-bottom: 0.5px solid var(--border);
-  transition: color 0.2s;
-  min-height: 52px;
-}
-.mob-nav-link:last-child { border-bottom: none; }
-.mob-nav-link:hover, .mob-nav-link.active { color: var(--text-1); }
-.mob-nav-link.active { color: var(--gold); }
-.mob-nav-arrow { font-size: 12px; color: var(--text-4); }
-.mob-nav-cta {
-  margin-top: 18px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em;
-  color: var(--bg); background: var(--text-1); text-decoration: none;
-  padding: 14px 26px; border-radius: 2px; transition: background 0.25s;
-  min-height: 48px;
-}
-.mob-nav-cta:hover { background: var(--navy); }
-
-@media (max-width: 960px) {
-  .mob-menu-btn { display: flex; }
-  .mob-nav { display: block; }
-  /* Hide desktop contact button in nav on mobile */
-  nav > .nav-right > .nav-contact { display: none; }
-}
-
-/* ── Hero padding fix on small screens ── */
-@media (max-width: 480px) {
-  .hero-inner,
-  .about-hero,
-  .work-hero,
-  .wwu-hero,
-  .page-header,
-  .intent-section,
-  .belief-left,
-  .belief-right,
-  .origin-section,
-  .founder-section,
-  .beliefs-section,
-  .structure-section,
-  .cta-band,
-  .civix-section,
-  .products-section,
-  .who-section,
-  .offer-section,
-  .wont-section,
-  .principles-band,
-  .contact-section {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-  .about-hero { padding-top: 84px !important; }
-  .work-hero  { padding-top: 84px !important; }
-  .wwu-hero   { padding-top: 84px !important; }
-  .footer     { padding: 24px 16px !important; }
-}
-
-/* ── Domain band: scrollable on mobile ── */
-@media (max-width: 780px) {
-  .domain-band-inner {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .domain-band-inner::-webkit-scrollbar { display: none; }
-  .db-item { min-width: 160px; flex-shrink: 0; }
-}
-
-/* ── 2-column footer on mobile ── */
-@media (max-width: 480px) {
-  .footer {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    grid-template-rows: auto auto !important;
-    gap: 16px 12px !important;
-    align-items: start !important;
-  }
-  .footer-logo  { grid-column: 1; grid-row: 1; }
-  .footer-copy  { grid-column: 1 / -1; grid-row: 2; font-size: 10px; }
-  .footer-links { grid-column: 2; grid-row: 1; justify-content: flex-end; flex-wrap: wrap; }
-  .footer-right { display: none !important; }
-}
-
-/* ── Prevent iOS input zoom ── */
-@media (max-width: 768px) {
-  .form-input, .form-select, .form-textarea {
-    font-size: 16px !important;
-  }
-}
-
-/* ── Terms/Privacy: mobile TOC pill ── */
-@media (max-width: 900px) {
-  .toc-mobile-pill {
-    display: flex !important;
-  }
-}
-.toc-mobile-pill {
-  display: none;
-  position: sticky;
-  top: 68px;
-  z-index: 100;
-  background: var(--nav-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 0.5px solid var(--border);
-  padding: 0 16px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  gap: 0;
-  white-space: nowrap;
-}
-.toc-mobile-pill::-webkit-scrollbar { display: none; }
-.toc-pill-link {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11px; font-weight: 400; letter-spacing: 0.04em;
-  color: var(--text-3); text-decoration: none;
-  padding: 10px 14px;
-  border-bottom: 1.5px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-  flex-shrink: 0;
-}
-.toc-pill-link:hover, .toc-pill-link.active {
-  color: var(--text-1);
-  border-bottom-color: var(--gold);
-}
-
-/* ── Sector band: 2-col on medium mobile ── */
-@media (max-width: 480px) {
-  .sectors-band { grid-template-columns: 1fr !important; }
-  .sector-cell { border-right: none !important; border-top: 0.5px solid var(--border); }
-  .sector-cell:first-child { border-top: none; }
-}
-
-/* ── Product/partner grids: single col on mobile ── */
-@media (max-width: 600px) {
-  .product-grid,
-  .partner-grid { grid-template-columns: 1fr !important; }
-  .beliefs-grid { grid-template-columns: 1fr !important; }
-  .problem-cards { grid-template-columns: 1fr !important; }
-  .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
-}
-
-/* ── CTA band: stack on mobile ── */
-@media (max-width: 600px) {
-  .cta-band-right, .cta-right {
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-  .btn-light, .btn-ghost, .btn-dark, .btn-border, .cta-primary {
-    width: 100% !important;
-    justify-content: center !important;
-  }
-}
-
-/* ── Origin word scale on tiny screens ── */
-@media (max-width: 400px) {
-  .origin-word { font-size: clamp(60px, 22vw, 80px) !important; }
-}
-
+</style>
+<style id="nav-dd-css">
+.nav-dd{ position:relative; }
+.nav-dd > a{ display:inline-flex; align-items:center; gap:5px; }
+.nav-dd .dd-caret{ font-size:8px; opacity:.55; transition:transform .22s ease; }
+.nav-dd:hover .dd-caret,.nav-dd:focus-within .dd-caret{ transform:rotate(180deg); opacity:.9; }
+.nav-dd::after{ content:''; position:absolute; left:-10px; right:-10px; top:100%; height:16px; }
+.nav-dd-menu{ position:absolute; top:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(6px);
+  min-width:216px; padding:7px; display:flex; flex-direction:column; gap:2px;
+  background:#FFFFFF; border:1px solid var(--border-md); border-radius:12px;
+  box-shadow:0 18px 44px rgba(15,14,11,0.16), 0 2px 8px rgba(15,14,11,0.07);
+  opacity:0; visibility:hidden; transition:opacity .2s ease, transform .2s ease; z-index:300; }
+[data-theme="dark"] .nav-dd-menu{ background:#232118; border-color:rgba(242,237,228,0.17);
+  box-shadow:0 18px 46px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.42); }
+.nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+.nav-dd-menu a{ font-size:12.5px; font-weight:400; letter-spacing:0.02em; color:var(--text-2); padding:9px 12px; border-radius:7px;
+  text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:14px; transition:background .16s, color .16s; }
+.nav-dd-menu a::after{ display:none !important; }
+.nav-dd-menu a:hover{ background:var(--tag-bg); color:var(--text-1); }
+.dd-soon{ font-size:8.5px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--gold);
+  border:0.5px solid var(--border-md); padding:2px 7px; border-radius:99px; }
+#hydgo{ scroll-margin-top:90px; }
+.mob-drawer ul li a.mob-sub{ padding-left:36px; font-size:13px; color:var(--text-3); position:relative; }
+.mob-drawer ul li a.mob-sub::before{ content:'—'; position:absolute; left:18px; color:var(--text-4); }
 </style>
 </head>
 <body>
@@ -662,7 +648,7 @@ body { max-width: 100vw; }
 
 <nav>
   <div class="nav-left">
-    <a href="midan_v5.html" class="logo-group">
+    <a href="index.html" class="logo-group">
             <div class="logo-mark">
         <span class="logo-light-only"><svg width="100%" height="100%" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/>
@@ -736,13 +722,17 @@ body { max-width: 100vw; }
     <ul class="nav-links">
       <li><a href="our-work.html" class="active">Our Work</a></li>
       <li><a href="about.html">About</a></li>
+      <li class="nav-dd">
+        <a href="products.html" class="nav-dd-trigger">Products<span class="dd-caret" aria-hidden="true">▾</span></a>
+        <div class="nav-dd-menu">
+          <a href="interacto.html">Interacto</a>
+          <a href="products.html#hydgo">HydGo <span class="dd-soon">Soon</span></a>
+        </div>
+      </li>
       <li><a href="work-with-us.html">Work With Us</a></li>
     </ul>
   </div>
   <div class="nav-right">
-    <button class="mob-menu-btn" aria-label="Open navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
     <button class="t-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
       <!-- sun icon: shown in light mode -->
       <svg class="icon-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
@@ -757,17 +747,21 @@ body { max-width: 100vw; }
         <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z"/>
       </svg>
     </button>
+    <button class="mob-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <a href="work-with-us.html" class="nav-contact" magnetic>Work With Us</a>
   </div>
 </nav>
-<div class="mob-nav">
-    <div class="mob-nav-inner">
-      <a href="our-work.html" class="mob-nav-link active">Our Work <span class="mob-nav-arrow">→</span></a>
-      <a href="about.html" class="mob-nav-link">About <span class="mob-nav-arrow">→</span></a>
-      <a href="work-with-us.html" class="mob-nav-link">Work With Us <span class="mob-nav-arrow">→</span></a>
-      <a href="work-with-us.html" class="mob-nav-cta">Get in Touch</a>
-    </div>
-  </div>
+<div class="mob-drawer">
+  <ul>
+      <li><a href="our-work.html">Our Work<em class="mob-arrow">›</em></a></li>
+      <li><a href="about.html">About<em class="mob-arrow">›</em></a></li>
+      <li><a href="products.html">Products<em class="mob-arrow">›</em></a></li>
+      <li><a href="interacto.html" class="mob-sub">Interacto<em class="mob-arrow">›</em></a></li>
+      <li><a href="products.html#hydgo" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
+      <li><a href="work-with-us.html">Work With Us<em class="mob-arrow">›</em></a></li>
+  </ul>
+  <div class="mob-cta"><a href="work-with-us.html">Get in touch</a></div>
+</div>
 
 <!-- HERO -->
 <section class="work-hero">
@@ -893,7 +887,7 @@ body { max-width: 100vw; }
 
 <footer class="footer">
   <div class="footer-logo">
-    <a href="midan_v5.html" aria-label="Home" style="display:flex;align-items:center;">
+    <a href="index.html" aria-label="Home" style="display:flex;align-items:center;">
       <div style="width:16px;height:20px;flex-shrink:0;">
         <span class="logo-light-only" style="width:16px;height:20px;"><svg width="16" height="20" viewBox="0 0 330 489" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M165 0C256.127 0 330 52.8457 330 118.034V489H0V118.034C0.000236321 52.8457 73.8731 7.67105e-05 165 0Z" fill="#0D2A5C"/>
@@ -1013,45 +1007,7 @@ pillars.forEach(p=>pillarObs.observe(p));
 <script id="midan-anim-js">
 /* ═══════════════════════════════════════════
    MIDĀN — Shared Animation System
-   Inject before 
-<script id="midan-mobile-nav">
-/* ── Mobile Navigation ── */
-(function() {
-  const btn = document.querySelector('.mob-menu-btn');
-  const drawer = document.querySelector('.mob-nav');
-  if (!btn || !drawer) return;
-
-  btn.addEventListener('click', function() {
-    const open = drawer.classList.toggle('is-open');
-    btn.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', open);
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-
-  // Close on link click
-  drawer.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      drawer.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-
-  // Close on outside tap
-  document.addEventListener('touchstart', function(e) {
-    if (drawer.classList.contains('is-open') && !drawer.contains(e.target) && !btn.contains(e.target)) {
-      drawer.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  }, { passive: true });
-})();
-</script>
-
-</body> on every page
+   Inject before </body> on every page
 ═══════════════════════════════════════════ */
 
 (function(){
@@ -1182,6 +1138,41 @@ pillars.forEach(p=>pillarObs.observe(p));
     obs2.observe(el);
   });
 
+})();
+
+</script>
+
+<script id="midan-mobile-js">
+/* ── Mobile nav ── */
+(function(){
+  var nav = document.querySelector('nav');
+  var drawer = document.querySelector('.mob-drawer');
+  var btn = document.querySelector('.mob-btn');
+  if (!btn || !drawer || !nav) return;
+
+  function close() {
+    nav.classList.remove('mob-open');
+    drawer.classList.remove('mob-open');
+    btn.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = nav.classList.toggle('mob-open');
+    drawer.classList.toggle('mob-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+  document.addEventListener('click', function(e){
+    if (nav.classList.contains('mob-open') && !nav.contains(e.target) && !drawer.contains(e.target)) close();
+  }, { passive: true });
+
+  /* Active page highlight */
+  var page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a, .mob-drawer a').forEach(function(a){
+    if (a.getAttribute('href') === page) a.classList.add('active');
+  });
 })();
 
 </script>
