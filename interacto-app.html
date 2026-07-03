@@ -518,7 +518,7 @@ body{
 /* ── 🔧 SUPABASE CONFIG — replace these two values ───────────────────
    1. Create a free project at supabase.com
    2. Settings → API → copy URL + anon public key
-   3. Run this SQL once in the SQL editor:
+   3. Base schema (tables + realtime):
 
       create table sessions (
         id text primary key,
@@ -526,6 +526,7 @@ body{
         status text default 'lobby',
         current_question int,
         questions jsonb default '[]',
+        files jsonb default '[]',
         created_at timestamptz default now()
       );
       create table participants (
@@ -544,15 +545,15 @@ body{
         awarded int default 0,
         created_at timestamptz default now()
       );
-      -- enable realtime
       alter publication supabase_realtime add table sessions, participants, responses;
-      -- starter (open) RLS — TIGHTEN before production:
-      alter table sessions enable row level security;
-      alter table participants enable row level security;
-      alter table responses enable row level security;
-      create policy "open" on sessions for all using (true) with check (true);
-      create policy "open" on participants for all using (true) with check (true);
-      create policy "open" on responses for all using (true) with check (true);
+
+   4. SECURITY — run `interacto-security-migration.sql` (repo root) once
+      in the SQL editor. It locks RLS down (no more open policies) and
+      adds the RPCs this file calls: create_session, host_update_session,
+      host_delete_session, host_set_files, submit_response, upvote_response.
+      Without that migration applied, anyone with the anon key below can
+      read/write any session directly — see that file's header comment
+      for the exact exploit list it closes.
    ──────────────────────────────────────────────────────────────────── */
 const SUPABASE_URL = 'https://kvbcwdbdxqqcexfqwzpi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2YmN3ZGJkeHFxY2V4ZnF3enBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MzM4MDIsImV4cCI6MjA5ODMwOTgwMn0.mxvZXWOVb0cOlUd5B3KtRVeZw5jsu9XqY9aj7xQ-R80';
@@ -566,6 +567,14 @@ const Interacto = (function () {
   function ownedIds() { try { return JSON.parse(localStorage.getItem(OWNED) || '[]'); } catch (e) { return []; } }
   function ownedAdd(id) { const l = ownedIds(); if (!l.includes(id)) { l.unshift(id); localStorage.setItem(OWNED, JSON.stringify(l)); } }
   function ownedRemove(id) { localStorage.setItem(OWNED, JSON.stringify(ownedIds().filter(x => x !== id))); }
+
+  /* per-session host secret — proves to the backend that THIS browser created
+     the session, without any login. Never sent anywhere except as an RPC arg. */
+  const HOSTKEY = 'interacto:hostTokens';
+  function hostTokens() { try { return JSON.parse(localStorage.getItem(HOSTKEY) || '{}'); } catch (e) { return {}; } }
+  function hostTokenFor(id) { return hostTokens()[id] || null; }
+  function setHostToken(id, token) { const m = hostTokens(); m[id] = token; localStorage.setItem(HOSTKEY, JSON.stringify(m)); }
+  function clearHostToken(id) { const m = hostTokens(); delete m[id]; localStorage.setItem(HOSTKEY, JSON.stringify(m)); }
 
   /* ---------- shared helpers ---------- */
   function genId(len) {
@@ -675,20 +684,31 @@ const Interacto = (function () {
     }
     return {
       async createSession(name, questions) {
-        const id = genId(6); const c = client();
-        await c.from('sessions').insert({ id, name, status: 'lobby', current_question: null, questions });
-        ownedAdd(id);
-        return await assemble(id);
+        const c = client();
+        const { data, error } = await c.rpc('create_session', { p_name: name, p_questions: questions });
+        if (error) throw error;
+        setHostToken(data.id, data.host_token);
+        ownedAdd(data.id);
+        return await assemble(data.id);
       },
       async getSession(id) { return await assemble(id); },
       listSessions() { return []; /* presenter history lives client-side in demo; query sessions table if you add auth */ },
       async update(id, patch) {
-        const map = { currentQuestion: 'current_question' };
-        const row = {}; Object.keys(patch).forEach(k => row[map[k] || k] = patch[k]);
-        await client().from('sessions').update(row).eq('id', id);
+        const args = { p_id: id, p_host_token: hostTokenFor(id) };
+        if ('status' in patch) args.p_status = patch.status;
+        if ('currentQuestion' in patch) {
+          if (patch.currentQuestion === null) args.p_clear_current = true;
+          else args.p_current_question = patch.currentQuestion;
+        }
+        const { error } = await client().rpc('host_update_session', args);
+        if (error) throw error;
         return await assemble(id);
       },
-      async deleteSession(id) { await client().from('sessions').delete().eq('id', id); ownedRemove(id); },
+      async deleteSession(id) {
+        const { error } = await client().rpc('host_delete_session', { p_id: id, p_host_token: hostTokenFor(id) });
+        if (error) throw error;
+        ownedRemove(id); clearHostToken(id);
+      },
       async addParticipant(id, pid, name) {
         await client().from('participants').insert({ id: pid, session_id: id, name, score: 0 });
       },
@@ -700,7 +720,8 @@ const Interacto = (function () {
         const { data: pub } = c.storage.from('session-files').getPublicUrl(path);
         const meta = { id: genId(6), name: file.name, size: file.size, url: pub.publicUrl, path };
         const s = await assemble(id);
-        await c.from('sessions').update({ files: (s.files || []).concat(meta) }).eq('id', id);
+        const { error } = await c.rpc('host_set_files', { p_id: id, p_host_token: hostTokenFor(id), p_files: (s.files || []).concat(meta) });
+        if (error) throw error;
         return meta;
       },
       async removeFile(id, fileId) {
@@ -708,18 +729,16 @@ const Interacto = (function () {
         const s = await assemble(id);
         const f = (s.files || []).find(x => x.id === fileId);
         if (f && f.path) await c.storage.from('session-files').remove([f.path]);
-        await c.from('sessions').update({ files: (s.files || []).filter(x => x.id !== fileId) }).eq('id', id);
+        await c.rpc('host_set_files', { p_id: id, p_host_token: hostTokenFor(id), p_files: (s.files || []).filter(x => x.id !== fileId) });
       },
       async submit(id, qIndex, pid, value, msTaken) {
         const s = await assemble(id); const q = s.questions[qIndex];
         const { correct, awarded } = scoreFor(q, value, msTaken);
-        const c = client();
-        await c.from('responses').insert({ session_id: id, q_index: qIndex, participant_id: pid, value: String(value), correct, awarded });
-        if (awarded) await c.rpc; // (optional) increment via SQL; simple approach: re-read + update
-        if (awarded) {
-          const cur = (s.participants[pid]?.score || 0) + awarded;
-          await c.from('participants').update({ score: cur }).eq('id', pid);
-        }
+        const { error } = await client().rpc('submit_response', {
+          p_session_id: id, p_q_index: qIndex, p_participant_id: pid,
+          p_value: String(value), p_correct: correct, p_awarded: awarded
+        });
+        if (error) throw error;
         return { correct, awarded, correctAnswer: q.correctAnswer };
       },
       subscribe(id, cb) {
@@ -886,7 +905,10 @@ async function renderDashboard() {
   });
   document.querySelectorAll('[data-del]').forEach(el => el.onclick = async e => {
     e.stopPropagation();
-    if (confirm('Delete this session?')) { await Interacto.deleteSession(el.dataset.del); renderDashboard(); }
+    if (confirm('Delete this session?')) {
+      try { await Interacto.deleteSession(el.dataset.del); renderDashboard(); }
+      catch (err) { toast('Could not delete: ' + (err.message || err)); }
+    }
   });
 }
 
@@ -1043,7 +1065,9 @@ async function launchSession() {
     }
   }
   const clean = draft.questions.map(q => ({ ...q, options: q.options.filter(o => o.trim()) }));
-  const s = await Interacto.createSession(draft.name.trim(), clean);
+  let s;
+  try { s = await Interacto.createSession(draft.name.trim(), clean); }
+  catch (err) { toast('Could not create session: ' + (err.message || err)); return; }
   draft = null;
   renderLive(s.id);
 }
@@ -1130,7 +1154,7 @@ function paintLive(id, s) {
         <div class="nav-q-type">${QTYPES[q.type]}</div>
       </div>
     </div>`).join('');
-  document.querySelectorAll('[data-nav]').forEach(el => el.onclick = () => Interacto.update(id, { currentQuestion: +el.dataset.nav, status: 'active' }));
+  document.querySelectorAll('[data-nav]').forEach(el => el.onclick = () => Interacto.update(id, { currentQuestion: +el.dataset.nav, status: 'active' }).catch(err => toast('Could not switch question: ' + (err.message || err))));
 
   // files for download
   const fl = document.getElementById('filesList');
@@ -1272,7 +1296,7 @@ function paintRight(id, s) {
   right._sig = sig;
 
   const nextBtn = document.getElementById('nextQ');
-  if (nextBtn) nextBtn.onclick = () => Interacto.update(id, { currentQuestion: idx + 1, status: 'active' });
+  if (nextBtn) nextBtn.onclick = () => Interacto.update(id, { currentQuestion: idx + 1, status: 'active' }).catch(err => toast('Could not advance: ' + (err.message || err)));
   const toA = document.getElementById('toAnalytics');
   if (toA) toA.onclick = () => endSession(id);
 }
@@ -1307,7 +1331,8 @@ function renderPodium(s) {
 
 async function endSession(id) {
   if (!confirm('End this session? Participants will stop responding.')) return;
-  await Interacto.update(id, { status: 'ended', currentQuestion: null });
+  try { await Interacto.update(id, { status: 'ended', currentQuestion: null }); }
+  catch (err) { toast('Could not end session: ' + (err.message || err)); return; }
   renderAnalytics(id);
 }
 

@@ -639,6 +639,66 @@ a, button { touch-action: manipulation; }
 .mob-drawer ul li a.mob-sub{ padding-left:36px; font-size:13px; color:var(--text-3); position:relative; }
 .mob-drawer ul li a.mob-sub::before{ content:'—'; position:absolute; left:18px; color:var(--text-4); }
 </style>
+<style id="ow-polish">
+/* two-column hero with the people figure */
+.ow-hero{ position:relative; z-index:10; padding:150px 72px 96px; border-bottom:0.5px solid var(--border);
+  display:grid; grid-template-columns:1.08fr 0.92fr; gap:64px; align-items:center; }
+.ow-hero-left{ position:relative; z-index:2; }
+.ow-title{ font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(40px,5.4vw,72px); font-weight:600; line-height:1.02; letter-spacing:-0.025em; color:var(--text-1); margin:26px 0 30px; }
+.ow-title em{ font-style:italic; color:var(--gold); }
+.ow-desc{ font-size:15px; font-weight:300; line-height:1.85; color:var(--text-2); max-width:520px; }
+
+/* the compass-figure, given depth */
+.ow-figure{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:26px; }
+.ow-fig-stage{ position:relative; width:clamp(190px,20vw,250px); transform-style:preserve-3d; perspective:900px; }
+.ow-fig-stage::before{ content:''; position:absolute; left:50%; top:52%; width:78%; height:60%; transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(201,162,74,0.22), transparent 68%); filter:blur(26px); z-index:0; }
+.ow-fig-art{ position:relative; z-index:2; transform:rotateX(8deg) rotateY(-14deg); animation:owFloat 6s ease-in-out infinite;
+  filter:drop-shadow(0 26px 26px rgba(30,22,10,0.22)); }
+[data-theme="dark"] .ow-fig-art{ filter:drop-shadow(0 26px 30px rgba(0,0,0,0.55)); }
+.ow-fig-art svg{ width:100%; height:auto; display:block; }
+@keyframes owFloat{ 0%,100%{ transform:rotateX(8deg) rotateY(-14deg) translateY(0); } 50%{ transform:rotateX(8deg) rotateY(-14deg) translateY(-12px); } }
+.ow-fig-cap{ display:flex; align-items:center; gap:10px; }
+.ow-fig-cap-bar{ width:18px; height:1.5px; background:var(--gold); }
+.ow-fig-cap span{ font-size:10px; font-weight:600; letter-spacing:0.26em; text-transform:uppercase; color:var(--text-3); }
+.fig-light{ display:block; } .fig-dark{ display:none; }
+[data-theme="dark"] .fig-light{ display:none; } [data-theme="dark"] .fig-dark{ display:block; }
+
+/* value / commitment section */
+.ow-value{ position:relative; z-index:10; padding:96px 72px; border-bottom:0.5px solid var(--border); }
+.ow-lead{ font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(24px,3vw,38px); font-weight:500; line-height:1.28; letter-spacing:-0.015em; color:var(--text-1); max-width:760px; }
+.ow-lead em{ font-style:italic; color:var(--gold); }
+.ow-commit{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:0.5px solid var(--border); margin-top:56px; }
+.ow-c{ background:var(--bg); padding:38px 32px 42px; display:flex; flex-direction:column; gap:13px; transition:background .25s; }
+.ow-c:hover{ background:var(--bg-2); }
+.ow-c-n{ font-size:9px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); }
+.ow-c-t{ font-family:'Cormorant Garamond',Georgia,serif; font-size:22px; font-weight:600; letter-spacing:-0.01em; color:var(--text-1); line-height:1.2; }
+.ow-c-b{ font-size:13px; font-weight:300; line-height:1.8; color:var(--text-3); }
+.ow-c-btn{ margin-top:4px; align-self:flex-start; display:inline-flex; align-items:center; gap:8px; background:var(--text-1); color:var(--bg); text-decoration:none; font-size:11px; font-weight:500; letter-spacing:0.05em; padding:10px 18px; border-radius:2px; transition:background .2s; }
+.ow-c-btn:hover{ background:var(--navy); }
+.ow-c-btn .arr{ transition:transform .3s cubic-bezier(.22,1,.36,1); }
+.ow-c-btn:hover .arr{ transform:translateX(4px); }
+
+/* where we've started (light) */
+.ow-start{ position:relative; z-index:10; padding:88px 72px; background:var(--bg-2); border-bottom:0.5px solid var(--border); transition:background .4s; }
+.ow-start-lead{ font-size:15px; font-weight:300; line-height:1.85; color:var(--text-2); max-width:620px; }
+.ow-start-lead b{ font-weight:500; color:var(--text-1); }
+.ow-start-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; margin:44px 0 40px; }
+.ow-s-name{ font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.ow-s-body{ font-size:13.5px; font-weight:300; line-height:1.78; color:var(--text-2); }
+.ow-more{ display:inline-flex; align-items:center; gap:7px; font-size:11.5px; font-weight:500; letter-spacing:0.05em; color:var(--text-1); text-decoration:none; border-bottom:0.5px solid var(--border-md); padding-bottom:3px; transition:color .2s,border-color .2s; }
+.ow-more:hover{ color:var(--gold); border-color:var(--gold); }
+.ow-more .arr{ transition:transform .3s cubic-bezier(.22,1,.36,1); }
+.ow-more:hover .arr{ transform:translateX(4px); }
+
+@media (max-width:900px){
+  .ow-hero{ grid-template-columns:1fr; gap:40px; padding:120px 24px 64px; }
+  .ow-figure{ order:-1; }
+  .ow-value,.ow-start{ padding:64px 24px; }
+  .ow-commit{ grid-template-columns:1fr; }
+  .ow-start-row{ grid-template-columns:1fr; gap:28px; }
+}
+</style>
 </head>
 <body>
 
@@ -726,7 +786,7 @@ a, button { touch-action: manipulation; }
         <a href="products.html" class="nav-dd-trigger">Products<span class="dd-caret" aria-hidden="true">▾</span></a>
         <div class="nav-dd-menu">
           <a href="interacto.html">Interacto</a>
-          <a href="products.html#hydgo">HydGo <span class="dd-soon">Soon</span></a>
+          <a href="hydgo.html">HydGo <span class="dd-soon">Beta</span></a>
         </div>
       </li>
       <li><a href="work-with-us.html">Work With Us</a></li>
@@ -757,131 +817,82 @@ a, button { touch-action: manipulation; }
       <li><a href="about.html">About<em class="mob-arrow">›</em></a></li>
       <li><a href="products.html">Products<em class="mob-arrow">›</em></a></li>
       <li><a href="interacto.html" class="mob-sub">Interacto<em class="mob-arrow">›</em></a></li>
-      <li><a href="products.html#hydgo" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
+      <li><a href="hydgo.html" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
       <li><a href="work-with-us.html">Work With Us<em class="mob-arrow">›</em></a></li>
   </ul>
   <div class="mob-cta"><a href="work-with-us.html">Get in touch</a></div>
 </div>
 
 <!-- HERO -->
-<section class="work-hero">
-  <div class="wh-kicker reveal-left">
-    <div class="wh-kicker-bar"></div>
-    <span class="wh-kicker-text">Our Work</span>
+<section class="ow-hero">
+  <div class="ow-hero-left">
+    <div class="wh-kicker reveal-left">
+      <div class="wh-kicker-bar"></div>
+      <span class="wh-kicker-text">Our Work</span>
+    </div>
+    <h1 class="ow-title reveal">We build for the person<br>at the <em>end of it.</em></h1>
+    <p class="ow-desc reveal">Everything we make has one test behind it: does it actually make life better for the person on the receiving end? Not the institution buying it. Not the dashboard. The person. That's the whole job, and it's harder than it sounds, because most systems were never designed around them to begin with.</p>
   </div>
-  <h1 class="wh-title reveal">Three domains.<br>One <em>thread</em> through all of them.</h1>
-  <p class="wh-desc reveal">We work in education, healthcare, and the green economy. The connecting logic isn't the sector — it's the gap between what the institution claims and what the person it's supposed to serve actually receives. That gap is what we build into.</p>
+  <div class="ow-figure reveal-right">
+    <div class="ow-fig-stage">
+      <div class="ow-fig-art">
+        <span class="fig-light"><svg viewBox="0 0 462 526" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M228.521 9.98344C263.847 11.573 291.463 43.6847 290.125 81.7816C288.786 119.879 259.004 149.409 223.677 147.819C188.35 146.23 160.734 114.117 162.073 76.0201C163.412 37.9233 193.194 8.39399 228.521 9.98344Z" fill="#0D2A5C"/>
+<path d="M207.479 502.106L439.805 60.2717C441.326 57.3787 437.765 54.467 435.24 56.5395L223.662 230.231C222.509 231.177 220.831 231.126 219.728 230.11L26.0528 51.7217C23.695 49.55 20.0474 52.0691 21.2492 55.0392L202.045 501.812C203.005 504.184 206.293 504.362 207.479 502.106Z" fill="#E8C77A"/>
+</svg></span>
+        <span class="fig-dark"><svg viewBox="0 0 287 339" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M137.449 94.1413C160.112 93.7591 178.773 72.9344 179.129 47.6282C179.484 22.3219 161.4 2.11695 138.737 2.49916C116.073 2.88136 97.4127 23.706 97.057 49.0122C96.7014 74.3185 114.785 94.5235 137.449 94.1413Z" fill="#C9A24A"/>
+<path d="M132.861 325.546L271.348 32.264C272.769 29.2545 269.095 26.6293 266.648 28.9057L139.284 147.383C138.137 148.45 136.401 148.506 135.265 147.513L14.2333 41.6409C11.8653 39.5695 8.21326 42.2696 9.43952 45.185L127.386 325.602C128.378 327.96 131.737 327.925 132.861 325.546Z" fill="white" stroke="#E8C77A"/>
+</svg></span>
+      </div>
+    </div>
+    <div class="ow-fig-cap"><span class="ow-fig-cap-bar"></span><span>For the people</span></div>
+  </div>
 </section>
 
-<!-- HONEST NOTE -->
-<div class="honest-band">
-  <div class="hb-mark">
-    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
-      <circle cx="9" cy="9" r="7.5"/><line x1="9" y1="6" x2="9" y2="9.5"/><circle cx="9" cy="12" r="0.75" fill="currentColor"/>
-    </svg>
+<!-- VALUE / COMMITMENT -->
+<section class="ow-value">
+  <p class="ow-lead reveal">A few fair questions. Here's the straight answer to each.</p>
+  <div class="ow-commit">
+    <div class="ow-c reveal-up">
+      <div class="ow-c-n">01</div>
+      <div class="ow-c-t">Is this real or a pitch deck?</div>
+      <p class="ow-c-b">Click through and use it yourself.</p>
+      <a href="products.html" class="ow-c-btn">See What We're Building <span class="arr">→</span></a>
+    </div>
+    <div class="ow-c reveal-up">
+      <div class="ow-c-n">02</div>
+      <div class="ow-c-t">How do you decide what to build next?</div>
+      <p class="ow-c-b">Whatever gap is hurting the most people, closest to what we already understand.</p>
+    </div>
+    <div class="ow-c reveal-up">
+      <div class="ow-c-n">03</div>
+      <div class="ow-c-t">What happens when something doesn't work the way someone expects?</div>
+      <p class="ow-c-b">It either gets fixed or it gets explained, and you hear it from a real person, not a bot.</p>
+    </div>
   </div>
-  <p class="hb-text"><strong>An honest note:</strong> Midān is early. The products below are in active development or planned — not live, not shipped. We're listing them here because we think the problems are real and worth naming in public, and because we'd rather be honest about where we are than pretend otherwise. When these ship, this page will say so.</p>
-</div>
+</section>
 
-<!-- PILLAR 1: EDUCATION -->
-<div class="pillar" id="edu">
-  <div class="pillar-left reveal">
-    <div class="p-num">01</div>
-    <div class="p-sector"><div class="p-sector-line"></div>Education</div>
-    <h2 class="p-title">School operations are held together<br>by <em>individual effort</em><br>that doesn't compound.</h2>
-    <div class="p-body">
-      <p>Schools — especially independent and growing institutions — run on a patchwork of informal systems, disconnected tools, and individual effort that doesn't compound. Communication with families breaks down. Administrative tasks are repeated manually. The people running these schools are capable; the infrastructure around them isn't.</p>
-      <p>The gap isn't a technology problem — it's an infrastructure one. The right tools, assembled thoughtfully and priced for the institutions that actually need them, can change what a school is operationally capable of.</p>
-    </div>
-    <div class="p-status-tag"><div class="pst-dot"></div>In development</div>
+<!-- WHERE WE'VE STARTED -->
+<section class="ow-start">
+  <p class="ow-start-lead reveal">The idea isn't boxed into one field. Better systems help people everywhere. But you have to start somewhere, so we started where the gap hurts most. <b>The proof is in the products, not the pitch.</b></p>
+  <div class="ow-start-row">
+    <div class="reveal-up"><div class="ow-s-name">Education</div><p class="ow-s-body">Giving schools the operational backbone they've been working around, so the people running them can spend their time on students, not admin.</p></div>
+    <div class="reveal-up"><div class="ow-s-name">Civic Tech</div><p class="ow-s-body">HydGo makes your city legible: where you are, who governs it, and what public services are nearby. Verified, and free to reach.</p></div>
+    <div class="reveal-up"><div class="ow-s-name">AI Policy</div><p class="ow-s-body">Working on how the systems that increasingly shape public life should be governed, so the technology stays answerable to people.</p></div>
   </div>
-  <div class="pillar-right reveal">
-    <div class="p-problem-box" glow-card>
-      <div class="ppb-label">The Problem We're Solving</div>
-      <div class="ppb-title">Operational infrastructure for schools</div>
-      <p class="ppb-body">Tools that give school leaders a real operational backbone — from communicating with families, to managing enrolment, to producing personalised student records. Built for the schools that need it most: independent and growing institutions that are too complex for nothing and too lean for enterprise software.</p>
-    </div>
-    <div class="p-approach">
-      <div class="pa-label">What makes it different</div>
-      <div class="pa-items">
-        <div class="pa-item"><div class="pa-item-dot"></div>Designed around how these schools actually operate, not how enterprise assumes they do</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Priced and scoped for institutions without dedicated IT teams</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>AI-assisted where it saves real time — not as a feature, as a function</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Built to be adopted by people running schools, not managing software</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PILLAR 2: GREEN ECONOMY -->
-<div class="pillar" id="esg">
-  <div class="pillar-left reveal">
-    <div class="p-num">02</div>
-    <div class="p-sector"><div class="p-sector-line"></div>Green Economy</div>
-    <h2 class="p-title">Sustainability reporting is<br>now mandatory.<br><em>The infrastructure isn't ready.</em></h2>
-    <div class="p-body">
-      <p>Regulatory pressure to report environmental, social, and governance data is real and growing. Companies are being asked to produce structured, auditable sustainability disclosures — but most are still trying to meet these requirements manually, without audit trails, and without any way to verify the data they're submitting.</p>
-      <p>This is a compliance problem with a regulatory forcing function. Demand doesn't require convincing anyone the problem exists. What's missing is the infrastructure to meet it honestly, consistently, and at scale.</p>
-    </div>
-    <div class="p-status-tag"><div class="pst-dot"></div>In development</div>
-  </div>
-  <div class="pillar-right reveal">
-    <div class="p-problem-box" glow-card>
-      <div class="ppb-label">The Problem We're Solving</div>
-      <div class="ppb-title">Sustainability & accountability reporting infrastructure</div>
-      <p class="ppb-body">A platform for companies to track, structure, and report environmental and governance data for compliance — and beyond it. Structured data collection, built-in calculation methodology, audit trails throughout, and output formatted for regulatory submission. Built for organisations that need to get this right, not just done.</p>
-    </div>
-    <div class="p-approach">
-      <div class="pa-label">Why it fits Midān specifically</div>
-      <div class="pa-items">
-        <div class="pa-item"><div class="pa-item-dot"></div>Making invisible things measurable and accountable — the same DNA as everything else we build</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Regulatory pressure creates genuine demand without us having to evangelise the problem</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Accountability is built into the structure, not added as a feature</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Designed to be auditable from day one — not retrofitted later</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PILLAR 3: HEALTHCARE -->
-<div class="pillar" id="health">
-  <div class="pillar-left reveal">
-    <div class="p-num">03</div>
-    <div class="p-sector"><div class="p-sector-line"></div>Healthcare</div>
-    <h2 class="p-title">Health data is collected.<br>The people it's <em>about</em><br>never see it.</h2>
-    <div class="p-body">
-      <p>Community health programmes in India generate significant operational data — patient visits, treatment cycles, referral outcomes, programme coverage — but that data almost never flows back to the communities being served, or to the frontline workers making daily decisions. It flows upward to funders and administrators, stripped of the context that would make it useful.</p>
-      <p>The gap isn't between rich and poor data — it's between data that serves institutions and data that serves people. We're building toward infrastructure that reverses that direction: starting with what the frontline worker and the patient actually need to know.</p>
-    </div>
-    <div class="p-status-tag"><div class="pst-dot planned"></div>Planned</div>
-  </div>
-  <div class="pillar-right reveal">
-    <div class="p-problem-box" glow-card>
-      <div class="ppb-label">The Problem We're Solving</div>
-      <div class="ppb-title">Community health data infrastructure</div>
-      <p class="ppb-body">Operational and outcomes tracking for community health programmes — built with frontline workers rather than around them. Structured data collection, accessible interfaces, programme dashboards that surface what's actually happening at the point of care, and accountability reporting that doesn't require a separate data team to produce.</p>
-    </div>
-    <div class="p-approach">
-      <div class="pa-label">What makes this different</div>
-      <div class="pa-items">
-        <div class="pa-item"><div class="pa-item-dot"></div>Designed with the people doing the work — not imposed on them from above</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Data flows to the patient and frontline worker, not only upward to administrators</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Built for real-world conditions — low-connectivity, multilingual, high-pressure environments</div>
-        <div class="pa-item"><div class="pa-item-dot"></div>Accountability built in — funders can verify programme claims, not just receive reports</div>
-      </div>
-    </div>
-  </div>
-</div>
+  <a href="products.html" class="ow-more reveal">See what we're building <span class="arr">→</span></a>
+</section>
 
 <!-- CTA -->
 <div class="cta-band">
   <div class="cta-left">
-    <div class="cta-label">Get Involved</div>
-    <div class="cta-title">Interested in any of these problems?<br>We want to <em>hear from you.</em></div>
+    <div class="cta-label">See It For Yourself</div>
+    <div class="cta-title">The best of what we do<br>is already <em>in people's hands.</em></div>
   </div>
   <div class="cta-right">
-    <a href="work-with-us.html" class="btn-dark" magnetic>Work With Us</a>
-    <a href="about.html" class="btn-border">About Midān</a>
+    <a href="products.html" class="btn-dark" magnetic>See What We're Building</a>
+    <a href="work-with-us.html" class="btn-border">Work With Us</a>
   </div>
 </div>
 

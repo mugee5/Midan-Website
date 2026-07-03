@@ -102,7 +102,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 .ps-title em{font-style:italic;color:var(--gold);}
 .ps-intro{font-size:14px;font-weight:300;line-height:1.9;color:var(--text-2);max-width:620px;}
 
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);}
+.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);}
 .product-card{
   background:var(--bg);padding:40px 36px 44px;
   transition:background 0.25s;position:relative;
@@ -238,6 +238,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 .pbi-num{font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
 .pbi-title{font-size:14px;font-weight:500;color:var(--text-1);margin-bottom:6px;}
 .pbi-body{font-size:12.5px;font-weight:300;line-height:1.75;color:var(--text-2);}
+
+/* HOW IT STARTS */
+.process-band{position:relative;z-index:10;background:var(--bg-2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:80px 72px;}
+.process-head{margin-bottom:48px;max-width:640px;}
+.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);}
+.process-item{background:var(--bg);padding:32px 28px 36px;display:flex;flex-direction:column;gap:10px;transition:background .25s;}
+.process-item:hover{background:var(--bg-3);}
+.pr-num{font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);}
+.pr-title{font-size:14.5px;font-weight:600;color:var(--text-1);}
+.pr-body{font-size:13px;font-weight:300;line-height:1.8;color:var(--text-2);}
 
 /* CONTACT */
 .contact-section{
@@ -620,6 +630,8 @@ a, button { touch-action: manipulation; }
   .wont-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
   .partner-grid, .product-grid { grid-template-columns: 1fr !important; }
   .principles-band { padding: 48px 20px !important; grid-template-columns: 1fr !important; gap: 0 !important; }
+  .process-band { padding: 48px 20px !important; }
+  .process-grid { grid-template-columns: 1fr !important; }
   .contact-section { padding: 64px 20px !important; grid-template-columns: 1fr !important; gap: 40px !important; }
   .products-section { padding: 64px 20px !important; }
   .form-row { grid-template-columns: 1fr !important; }
@@ -723,7 +735,7 @@ a, button { touch-action: manipulation; }
         <a href="products.html" class="nav-dd-trigger">Products<span class="dd-caret" aria-hidden="true">▾</span></a>
         <div class="nav-dd-menu">
           <a href="interacto.html">Interacto</a>
-          <a href="products.html#hydgo">HydGo <span class="dd-soon">Soon</span></a>
+          <a href="hydgo.html">HydGo <span class="dd-soon">Beta</span></a>
         </div>
       </li>
       <li><a href="work-with-us.html" class="active">Work With Us</a></li>
@@ -754,7 +766,7 @@ a, button { touch-action: manipulation; }
       <li><a href="about.html">About<em class="mob-arrow">›</em></a></li>
       <li><a href="products.html">Products<em class="mob-arrow">›</em></a></li>
       <li><a href="interacto.html" class="mob-sub">Interacto<em class="mob-arrow">›</em></a></li>
-      <li><a href="products.html#hydgo" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
+      <li><a href="hydgo.html" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
       <li><a href="work-with-us.html">Work With Us<em class="mob-arrow">›</em></a></li>
   </ul>
   <div class="mob-cta"><a href="#contact">Get in touch</a></div>
@@ -767,24 +779,24 @@ a, button { touch-action: manipulation; }
       <div class="wh-kicker-bar"></div>
       <span class="wh-kicker-text">Work With Us</span>
     </div>
-    <h1 class="wh-title" data-parallax="0.05">Built for the<br>long term.<br><em>Selectively.</em></h1>
-    <p class="wh-desc" reveal>Midān is small, serious, and deliberate about who it works with. We're building software that closes the gap between what institutions claim to do and what they actually deliver — in education, the green economy, and healthcare. We want partners who care about that gap as much as we do.</p>
+    <h1 class="wh-title" data-parallax="0.05">Let's build<br>something that <em>lasts.</em></h1>
+    <p class="wh-desc" reveal>We build software that helps people and the institutions they rely on work better together. We'd genuinely love to hear from you, whether you're a school, a company, a government body, an NGO, or someone who wants to build with us. If you care about the gap between what a system promises and what a person actually gets, we're probably going to get along.</p>
   </div>
   <div class="wh-right">
     <div class="wh-term">
       <span class="wt-key">What we build</span>
-      <span class="wt-val">SaaS products — not bespoke solutions, not one-off engagements. Infrastructure that compounds.</span>
+      <span class="wt-val">Software products that many people use at once, and get better over time. Not one-off custom work.</span>
     </div>
     <div class="wh-term">
       <span class="wt-key">Where we are</span>
-      <span class="wt-val">Building software across education, sustainability, and community health. Looking for early users and the right first hires.</span>
+      <span class="wt-val">Working across education and civic life, with policy work on how AI should be governed. Looking for early users and the right first hires.</span>
     </div>
     <div class="wh-term">
-      <span class="wt-key">What we won't do</span>
-      <span class="wt-val">Government-dependent revenue. Retainer work that doesn't compound. NDAs on civic data.</span>
+      <span class="wt-key">How we work</span>
+      <span class="wt-val">Openly and for the long haul. We'll always tell you what the data actually shows, even when it's not what anyone hoped for.</span>
     </div>
     <div class="wh-term">
-      <span class="wt-key">What we need</span>
+      <span class="wt-key">Who we're after</span>
       <span class="wt-val">People who care about the problem more than the prestige of the project.</span>
     </div>
   </div>
@@ -794,30 +806,23 @@ a, button { touch-action: manipulation; }
 <section class="products-section">
   <div class="ps-header reveal">
     <div class="ps-label">What We're Building</div>
-    <h2 class="ps-title">Three problems.<br><em>Three products.</em></h2>
-    <p class="ps-intro">Every product Midān builds has the same underlying logic: give the people a system is built for a clear view of how it's actually performing. Here's what that looks like in practice.</p>
+    <h2 class="ps-title">The proof is<br>in the <em>products.</em></h2>
+    <p class="ps-intro">Every product comes back to the same idea: give the people a system is built for a clear view of how it's actually doing. One is live today, one is close.</p>
   </div>
   <div class="product-grid">
     <div class="product-card reveal">
       <div class="prod-num">01</div>
-      <div class="prod-sector">Education</div>
-      <div class="prod-name">Education Operations Platform</div>
-      <p class="prod-desc">Operational infrastructure for schools — from communicating with families to managing enrolment and producing personalised student records. Built for independent and growing institutions that need real tools, not enterprise software.</p>
-      <div class="prod-status"><div class="prod-dot"></div>In development</div>
+      <div class="prod-sector">Live Participation</div>
+      <div class="prod-name">Interacto</div>
+      <p class="prod-desc">Live participation for any room. Polls, quizzes, and Q&amp;A your audience joins from their phone by scanning a QR code. No app, no account. It's built, it's live, and it's free to try today.</p>
+      <div class="prod-status"><div class="prod-dot"></div>Live</div>
     </div>
     <div class="product-card reveal">
       <div class="prod-num">02</div>
-      <div class="prod-sector">Green Economy</div>
-      <div class="prod-name">Sustainability Reporting Platform</div>
-      <p class="prod-desc">A platform for companies to track, structure, and report environmental and governance data for regulatory compliance. Structured data collection, built-in calculation logic, and a full audit trail — built for organisations that need to get this right, not just done.</p>
+      <div class="prod-sector">Civic Tech</div>
+      <div class="prod-name">HydGo</div>
+      <p class="prod-desc">Your city, made legible. Open it anywhere in Hyderabad and it answers three questions: where am I, who governs here, and what public services are nearby. Every record is verified before it ships.</p>
       <div class="prod-status"><div class="prod-dot"></div>In development</div>
-    </div>
-    <div class="product-card reveal">
-      <div class="prod-num">03</div>
-      <div class="prod-sector">Workshops &amp; Events</div>
-      <div class="prod-name">Workshop Interaction Tool</div>
-      <p class="prod-desc">A lightweight live-session tool for facilitators running workshops, training programmes, and public engagements. Real-time participation, structured discussion, and exportable outputs — built for people who run rooms, not for enterprise IT procurement. Makes every session legible and accountable.</p>
-      <div class="prod-status"><div class="prod-dot" style="background:var(--text-4);animation:none;"></div>Planned</div>
     </div>
   </div>
 </section>
@@ -829,116 +834,43 @@ a, button { touch-action: manipulation; }
   <div class="partner-grid">
     <div class="partner-card reveal">
       <div class="pc-type">Early Users</div>
-      <div class="pc-name">Schools, Listed Companies &amp; Event Facilitators</div>
-      <p class="pc-desc">The institutions and individuals facing the problems we're building into. We want early users who'll tell us honestly when the product isn't working — and be the first proof that it does. In exchange: early access, direct input into the product roadmap, and pricing that reflects the relationship rather than the market rate.</p>
+      <div class="pc-name">Schools, Facilitators &amp; Civic Institutions</div>
+      <p class="pc-desc">The institutions and people facing the problems we're building into. We want early users who'll tell us honestly when something isn't working, and be the first proof that it does. In exchange: early access, a real say in the roadmap, and pricing that reflects the relationship.</p>
     </div>
     <div class="partner-card reveal">
       <div class="pc-type">Domain Partners</div>
       <div class="pc-name">NGOs, Researchers &amp; Ground Truth Holders</div>
-      <p class="pc-desc">Organisations with deep expertise in education, healthcare, or the green economy who bring institutional reach and field knowledge we can't substitute. The terms are always the same: open data, defined deliverables, and Midān retains full analytical independence. We bring the technical infrastructure; you bring the context that makes it matter.</p>
+      <p class="pc-desc">Organisations, including government and public bodies, with deep roots in education, civic life, or AI governance. You bring the reach and field knowledge we can't fake; we bring the technical side. We love this kind of collaboration and take it on gladly.</p>
     </div>
     <div class="partner-card reveal">
       <div class="pc-type">Team</div>
       <div class="pc-name">Builders Who Want the Long Game</div>
-      <p class="pc-desc">We're not hiring in any formal sense yet. But we're always interested in people who want to build with a 20-year horizon — developers, designers, researchers, and people who understand the Indian institutional context from the inside. If that's you, write and tell us what you'd want to build here.</p>
+      <p class="pc-desc">We're not formally hiring yet, but we're always interested in people who want to build for the long run: developers, designers, researchers, and anyone who understands the Indian institutional context from the inside. If that's you, write and tell us what you'd want to build here.</p>
     </div>
   </div>
 </section>
 
-<!-- WHAT WE BRING -->
-<section class="offer-section">
-  <div class="offer-left reveal">
-    <div class="ol-label">What a Collaboration Looks Like</div>
-    <h2 class="ol-title">What Midān<br>actually <em>brings.</em></h2>
-    <div class="ol-body">
-      <p>We're not a full-stack agency that does whatever the brief asks. We have a specific set of capabilities and a specific way of working — built around producing infrastructure that compounds, not deliverables that sit in a folder.</p>
-      <p>The right partners are the ones who want what we actually have, not a version of it reshaped to fit an existing procurement frame. We work in sectors we understand, on problems we've already validated, with partners who share our commitment to honest outcomes.</p>
-    </div>
+<!-- HOW IT STARTS -->
+<section class="process-band">
+  <div class="process-head reveal">
+    <div class="pb-label">How It Starts</div>
+    <h2 class="pb-title">No deck required.<br>Just tell us <em>what's going on.</em></h2>
   </div>
-  <div class="offer-right reveal">
-    <div class="offer-items">
-      <div class="offer-item">
-        <div class="oi-title">Working software — not wireframes</div>
-        <p class="oi-body">Not decks with product screenshots. Not prototypes that need another phase. Working software, built lean, that the people it's meant to serve can actually use from day one. We ship things.</p>
-      </div>
-      <div class="offer-item">
-        <div class="oi-title">Data infrastructure and systems thinking</div>
-        <p class="oi-body">We build the operational backbone — data models, automation layers, reporting pipelines — not just the interface. The kind of infrastructure that makes institutions run more honestly, and shows where they aren't.</p>
-      </div>
-      <div class="offer-item">
-        <div class="oi-title">Editorial and analytical independence</div>
-        <p class="oi-body">We don't adjust our findings to match what a partner wants to hear. If the data says an intervention isn't working, we say so. That's not a risk in a collaboration — it's the whole point of bringing us in.</p>
-      </div>
-      <div class="offer-item">
-        <div class="oi-title">A long-term perspective</div>
-        <p class="oi-body">We're not optimising for the deliverable. We're optimising for the outcome — what the person the system is built for actually experiences two years from now. Every engagement is evaluated against that standard.</p>
-      </div>
+  <div class="process-grid">
+    <div class="process-item reveal-up">
+      <div class="pr-num">01</div>
+      <div class="pr-title">Tell us what you're facing</div>
+      <p class="pr-body">Write in. A line or two about the problem is plenty. We'll ask for whatever else we need to know.</p>
     </div>
-  </div>
-</section>
-
-<!-- PRINCIPLES BAND -->
-<section class="principles-band">
-  <div class="pb-left reveal">
-    <div class="pb-label">How We Operate</div>
-    <h2 class="pb-title">The foundations<br>that <em>don't move.</em></h2>
-    <p class="pb-body">We don't manufacture dissatisfaction to sell software. We don't compromise our data or our findings for a client or a funder. We don't build things that extract value from the people they're meant to serve. These aren't constraints on our ambition — they're what makes it worth having.</p>
-  </div>
-  <div class="pb-right reveal">
-    <div class="pb-item" reveal>
-      <div class="pbi-num">I — Value</div>
-      <div class="pbi-title">Genuine value over manufactured attention</div>
-      <p class="pbi-body">Every product creates real benefit or it doesn't ship. We don't exploit time or attention to make numbers look good. Trust, earned slowly, compounds in ways that growth hacks don't.</p>
+    <div class="process-item reveal-up">
+      <div class="pr-num">02</div>
+      <div class="pr-title">We talk it through</div>
+      <p class="pr-body">A real conversation, not a sales call. We want to know if we're genuinely the right fit before anyone commits to anything.</p>
     </div>
-    <div class="pb-item" reveal>
-      <div class="pbi-num">II — Integrity</div>
-      <div class="pbi-title">Sufficiency as a strategic position</div>
-      <p class="pbi-body">We don't need to manufacture dissatisfaction to sell our products — because they work. Operating from a place of principle, not urgency, is what allows us to say no to the wrong partnerships and hold the line on our findings. The long-term credibility that comes from that is worth more than whatever we'd gain by abandoning it.</p>
-    </div>
-    <div class="pb-item" reveal>
-      <div class="pbi-num">III — Independence</div>
-      <div class="pbi-title">We work with institutions. We are not owned by them.</div>
-      <p class="pbi-body">Full editorial and analytical independence — always. A company that depends on a single funder cannot hold that funder accountable. We're built to avoid that dependency by design.</p>
-    </div>
-    <div class="pb-item" reveal>
-      <div class="pbi-num">IV — Horizon</div>
-      <div class="pbi-title">Every decision made with the 20-year view</div>
-      <p class="pbi-body">Not the next funding cycle. Not the quarterly number. The body of work someone can look back on with honest pride, and the institutional accountability it helped create.</p>
-    </div>
-  </div>
-</section>
-
-<!-- WHAT WE WON'T DO -->
-<section class="wont-section">
-  <div class="wont-inner">
-    <div class="wont-left">
-      <div class="wont-label">The Boundaries</div>
-      <div class="wont-title">What Midān<br>won't <em>do.</em></div>
-      <p class="wont-desc">These aren't negotiating positions. They're the lines that keep the mission coherent. A company that crosses them once has a different relationship with integrity than one that never did.</p>
-    </div>
-    <div class="wont-right">
-      <div class="wont-items">
-        <div class="wont-item" reveal>
-          <span class="wi-x">—</span>
-          <span class="wi-text"><strong>Sign NDAs on civic or public interest work.</strong> If it affects citizens, citizens can see the data. Full stop.</span>
-        </div>
-        <div class="wont-item" reveal>
-          <span class="wi-x">—</span>
-          <span class="wi-text"><strong>Adjust our findings for a client or funder.</strong> We share what the data shows. Partners who need different findings need a different partner.</span>
-        </div>
-        <div class="wont-item" reveal>
-          <span class="wi-x">—</span>
-          <span class="wi-text"><strong>Become government-dependent.</strong> We work with government as a partner on defined projects — never as the primary revenue source that shapes our positions.</span>
-        </div>
-        <div class="wont-item" reveal>
-          <span class="wi-x">—</span>
-          <span class="wi-text"><strong>Take retainer work that doesn't compound.</strong> We build products. Custom work for single clients is a distraction unless it validates a product direction.</span>
-        </div>
-        <div class="wont-item" reveal>
-          <span class="wi-x">—</span>
-          <span class="wi-text"><strong>Build products that exploit the people they serve.</strong> No dark patterns. No manufactured dissatisfaction. No extracting attention to sell something else.</span>
-        </div>
-      </div>
+    <div class="process-item reveal-up">
+      <div class="pr-num">03</div>
+      <div class="pr-title">We build or pilot something small</div>
+      <p class="pr-body">If it's a fit, we start small and real: something you can use, not a proposal to review.</p>
     </div>
   </div>
 </section>
@@ -948,7 +880,7 @@ a, button { touch-action: manipulation; }
   <div class="contact-left reveal">
     <div class="cl-label">Get In Touch</div>
     <h2 class="cl-title">Tell us what<br>you're <em>working on.</em></h2>
-    <p class="cl-body">Whether you're an institution working in one of our sectors, an NGO with ground truth on the problems we care about, or someone who wants to build with us — write and tell us what's on your mind.</p>
+    <p class="cl-body">Whether you're a school, a company, a government body, an NGO with ground truth on a problem we care about, or someone who wants to build with us, write and tell us what's on your mind. We read everything.</p>
     <div class="contact-details">
       <div class="cd-item">
         <span class="cd-label">Email</span>
@@ -978,8 +910,9 @@ a, button { touch-action: manipulation; }
         <select class="form-select" id="context" name="context">
           <option value="">Select one</option>
           <option value="school">A school or education institution</option>
-          <option value="corporate">A listed company or corporate</option>
+          <option value="corporate">A company or corporate team</option>
           <option value="facilitator">A workshop facilitator or trainer</option>
+          <option value="government">A government or public body</option>
           <option value="ngo">An NGO or civil society organisation</option>
           <option value="builder">Someone who wants to build with Midān</option>
           <option value="other">Something else</option>
@@ -992,7 +925,7 @@ a, button { touch-action: manipulation; }
       <button class="form-submit" type="submit" id="formSubmitBtn">Send Message</button>
     </form>
     <div class="form-success" id="formSuccess">
-      Thanks — we'll read this carefully and get back to you. We're a small team, so it might take a few days.
+      Thanks. We read every message ourselves, so it might take a few days to get back to you.
     </div>
 
     <script>
@@ -1017,7 +950,7 @@ a, button { touch-action: manipulation; }
           } else {
             btn.textContent = 'Send Message';
             btn.disabled = false;
-            alert('Something went wrong — please email us directly at hellomidan@gmail.com');
+            alert('Something went wrong. Please email us directly at hellomidan@gmail.com');
           }
         })
         .catch(function(){
