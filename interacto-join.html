@@ -375,11 +375,8 @@ const Interacto = (function () {
     return {
       async getSession(id) { return await assemble(id); },
       async addParticipant(id, pid, name) { await client().from('participants').insert({ id: pid, session_id: id, name, score: 0 }); },
-      async upvote(id, qIndex, targetPid) {
-        const c = client();
-        const { data } = await c.from('responses').select('id,awarded').eq('session_id', id).eq('q_index', qIndex).eq('participant_id', targetPid).order('id', { ascending: false }).limit(1);
-        const row = data && data[0];
-        if (row) await c.from('responses').update({ awarded: (row.awarded || 0) + 1 }).eq('id', row.id);
+      async upvote(id, qIndex, targetPid, voterId) {
+        await client().rpc('upvote_response', { p_session_id: id, p_q_index: qIndex, p_target_pid: targetPid, p_voter_id: voterId });
       },
       async submit(id, qIndex, pid, value, msTaken) {
         const s = await assemble(id); const q = s.questions[qIndex];
@@ -387,8 +384,11 @@ const Interacto = (function () {
         let streak = 0, streakBonus = 0;
         if (q.type === 'quiz' && correct) { streak = streakCount(s, pid, qIndex) + 1; streakBonus = Math.min(streak - 1, 5) * 25; awarded += streakBonus; }
         const c = client();
-        await c.from('responses').insert({ session_id: id, q_index: qIndex, participant_id: pid, value: String(value), correct, awarded });
-        if (awarded) { const cur = (s.participants[pid]?.score || 0) + awarded; await c.from('participants').update({ score: cur }).eq('id', pid); }
+        const { error } = await c.rpc('submit_response', {
+          p_session_id: id, p_q_index: qIndex, p_participant_id: pid,
+          p_value: String(value), p_correct: correct, p_awarded: awarded
+        });
+        if (error) throw error;
         return { correct, awarded, correctAnswer: q.correctAnswer, streak, streakBonus };
       },
       subscribe(id, cb) {
@@ -736,7 +736,7 @@ function updateQAList(idx) {
     if (target === participantId || upvoted.has(key)) return;
     markUpvoted(key); el.classList.add('voted'); el.disabled = true;
     const span = el.querySelector('span:last-child'); if (span) span.textContent = (parseInt(span.textContent, 10) || 0) + 1;
-    await Interacto.upvote(sessionId, idx, target);
+    await Interacto.upvote(sessionId, idx, target, participantId);
   });
 }
 

@@ -203,7 +203,8 @@ nav {
 .hero-desc-rule { width:32px; height:1px; background:var(--gold); margin-bottom:22px; }
 .hero-desc p { font-size:15px; font-weight:300; line-height:1.85; color:var(--text-2); letter-spacing:0.01em; }
 .hero-desc p strong { font-weight:500; color:var(--text-1); }
-.hero-cta-group { display:flex; align-items:center; gap:14px; margin-top:34px; }
+.hero-tagline { font-size:12px; font-weight:400; letter-spacing:0.03em; color:var(--text-4); margin-top:22px; }
+.hero-cta-group { display:flex; align-items:center; gap:14px; margin-top:22px; }
 .cta-primary { font-size:11.5px; font-weight:500; letter-spacing:0.07em; color:var(--bg); background:var(--text-1); text-decoration:none; padding:12px 26px; border-radius:2px; transition:background 0.25s; white-space:nowrap; }
 .cta-primary:hover { background:var(--navy); }
 .cta-secondary { font-size:11.5px; font-weight:400; letter-spacing:0.04em; color:var(--text-3); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color 0.2s; }
@@ -215,15 +216,6 @@ nav {
 .meta-year { font-size:46px; font-weight:600; letter-spacing:-0.04em; color:var(--border-md); line-height:1; font-family:'Cormorant Garamond',Georgia,serif; }
 
 
-
-/* ═══ DOMAIN BAND ═══ */
-.domain-band { position:relative; z-index:10; border-top:0.5px solid var(--border); border-bottom:0.5px solid var(--border); background:var(--bg-2); transition:background 0.4s; }
-.domain-band-inner { display:flex; align-items:stretch; }
-.db-item { flex:1; padding:20px 32px; display:flex; align-items:center; gap:14px; }
-.db-item--last { border-right:none; }
-.db-rule { width:0.5px; background:var(--border); flex-shrink:0; }
-.db-num { font-size:9px; font-weight:500; letter-spacing:0.2em; color:var(--gold); }
-.db-name { font-size:11px; font-weight:400; letter-spacing:0.08em; color:var(--text-3); }
 
 /* ═══ WHAT WE'RE BUILDING ═══ */
 .intent-section {
@@ -268,7 +260,7 @@ nav {
 /* Problem cards — 3 columns */
 .problem-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
   background: var(--border);
   border: 0.5px solid var(--border);
@@ -332,6 +324,12 @@ nav {
 }
 @keyframes statusBlink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
+.pc-cta { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:500; letter-spacing:0.04em; color:var(--text-1); text-decoration:none; border-bottom:0.5px solid var(--border-md); padding-bottom:2px; margin-top:auto; align-self:flex-start; transition:color 0.2s,border-color 0.2s; }
+.pc-cta:hover { color:var(--gold); border-color:var(--gold); }
+.pc-cta:hover .cta-arrow { transform:translateX(3px); }
+.intent-ai-line { margin-top:32px; font-size:13px; font-weight:300; line-height:1.7; color:var(--text-3); font-style:italic; max-width:640px; }
+.intent-more { margin-top:20px; }
+
 /* ═══ BELIEF SECTION ═══ */
 .belief-section {
   position:relative; z-index:10; background:var(--bg-2);
@@ -372,6 +370,11 @@ nav {
 .bi-num { font-size:9px; font-weight:600; letter-spacing:0.24em; color:var(--gold); margin-bottom:10px; font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; }
 .bi-title { font-size:16px; font-weight:500; letter-spacing:-0.005em; color:var(--text-1); margin-bottom:9px; }
 .bi-body { font-size:12.5px; font-weight:300; line-height:1.8; color:var(--text-2); }
+
+/* ═══ WHERE WE'RE STARTING ═══ */
+.starting-section { position:relative; z-index:10; background:var(--bg); padding:80px 72px 0 72px; transition:background 0.4s; }
+.starting-label { font-size:10px; font-weight:600; letter-spacing:0.22em; color:var(--gold); text-transform:uppercase; margin-bottom:16px; }
+.starting-intro { font-size:15px; font-weight:300; line-height:1.85; color:var(--text-2); max-width:640px; }
 
 /* ═══ SECTORS BAND ═══ */
 .sectors-band {
@@ -414,7 +417,7 @@ nav {
 @media (max-width: 960px) {
   nav { padding:0 24px; }
   .nav-links { display:none; }
-  .hero-inner, .intent-section, .belief-left, .footer { padding-left:24px; padding-right:24px; }
+  .hero-inner, .intent-section, .starting-section, .belief-left, .footer { padding-left:24px; padding-right:24px; }
   .bg-vline { left:24px; }
   .hero-top { grid-template-columns: 1fr; gap: 32px; }
   .hero-medallion { display: none; }
@@ -586,12 +589,6 @@ nav {
 }
 .pa-item:hover { color: var(--text-1); padding-left: 6px; }
 
-/* Domain band items */
-.db-item {
-  transition: background 0.2s;
-}
-.db-item:hover { background: var(--bg-3); }
-
 
 </style>
 
@@ -691,8 +688,6 @@ nav.mob-open .mob-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45
 
 /* ── Shared mobile improvements ── */
 a, button { touch-action: manipulation; }
-.domain-band-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-.domain-band-inner::-webkit-scrollbar { display: none; }
 
 /* ── 960px breakpoint ── */
 @media (max-width: 960px) {
@@ -710,13 +705,13 @@ a, button { touch-action: manipulation; }
   .hero-lower { grid-template-columns: 1fr !important; gap: 32px !important; }
   .hero-meta { display: none; }
   .intent-section { padding: 72px 20px !important; }
+  .starting-section { padding: 56px 20px 0 20px !important; }
   .intent-intro { grid-template-columns: 1fr !important; gap: 40px !important; }
   .problem-cards { grid-template-columns: 1fr 1fr !important; }
   .belief-section { grid-template-columns: 1fr !important; }
   .belief-left { padding: 64px 20px !important; border-right: none !important; border-bottom: 0.5px solid var(--border); }
   .belief-right { padding: 48px 20px 64px !important; }
   .sectors-band { grid-template-columns: 1fr 1fr !important; }
-  .db-item { min-width: 150px; padding: 18px 20px !important; }
   .footer { padding: 28px 20px !important; flex-wrap: wrap; gap: 12px; }
 
   /* About */
@@ -915,7 +910,7 @@ a, button { touch-action: manipulation; }
         <a href="products.html" class="nav-dd-trigger">Products<span class="dd-caret" aria-hidden="true">▾</span></a>
         <div class="nav-dd-menu">
           <a href="interacto.html">Interacto</a>
-          <a href="products.html#hydgo">HydGo <span class="dd-soon">Soon</span></a>
+          <a href="hydgo.html">HydGo <span class="dd-soon">Beta</span></a>
         </div>
       </li>
       <li><a href="work-with-us.html">Work With Us</a></li>
@@ -946,7 +941,7 @@ a, button { touch-action: manipulation; }
       <li><a href="about.html">About<em class="mob-arrow">›</em></a></li>
       <li><a href="products.html">Products<em class="mob-arrow">›</em></a></li>
       <li><a href="interacto.html" class="mob-sub">Interacto<em class="mob-arrow">›</em></a></li>
-      <li><a href="products.html#hydgo" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
+      <li><a href="hydgo.html" class="mob-sub">HydGo<em class="mob-arrow">›</em></a></li>
       <li><a href="work-with-us.html">Work With Us<em class="mob-arrow">›</em></a></li>
   </ul>
   <div class="mob-cta"><a href="work-with-us.html">Get in touch</a></div>
@@ -958,15 +953,15 @@ a, button { touch-action: manipulation; }
 
     <div class="kicker" reveal-left>
       <div class="kicker-bar"></div>
-      <span class="kicker-text">Education · Healthcare · Green Economy</span>
+      <span class="kicker-text">For people, first</span>
     </div>
 
     <div class="hero-top">
       <h1 class="headline" data-parallax="0.05">
         <span class="hl-row"><span class="hl-inner">Built for</span></span>
-        <span class="hl-row"><span class="hl-inner"><span class="hl-italic hl-gold">impact.</span></span></span>
-        <span class="hl-row"><span class="hl-inner">Engineered for</span></span>
-        <span class="hl-row"><span class="hl-inner">accountability<span class="hl-gold">.</span></span></span>
+        <span class="hl-row"><span class="hl-inner">people<span class="hl-gold">.</span></span></span>
+        <span class="hl-row"><span class="hl-inner">Made to</span></span>
+        <span class="hl-row"><span class="hl-inner"><span class="hl-italic hl-gold">last.</span></span></span>
       </h1>
 
       <div class="hero-medallion">
@@ -1023,14 +1018,14 @@ a, button { touch-action: manipulation; }
       <div class="hero-desc">
         <div class="hero-desc-rule"></div>
         <p>
-          Midān builds <strong>operational and accountability infrastructure</strong> for human development.
-          We work in education, healthcare, and the environment —
-          domains where the gap between what systems promise and what they deliver
-          is measurable, documentable, and closable with the right software.
-          Based in Hyderabad. Built for the long haul.
+          Midān builds software that helps people and the institutions they depend on work better, together.
+          What matters to us is simple: whether what we make actually improves life for the person at the end of it.
+          We start where the gap between promise and delivery is widest: classrooms, clinics, civic life.
+          And we build for the long haul, not the next quarter.
         </p>
+        <div class="hero-tagline">Based in Hyderabad. Here for the long run.</div>
         <div class="hero-cta-group">
-          <a href="our-work.html" class="cta-primary" magnetic>Our Work</a>
+          <a href="products.html" class="cta-primary" magnetic>See What We're Building</a>
           <a href="about.html" class="cta-secondary">Who We Are <span class="cta-arrow">→</span></a>
         </div>
       </div>
@@ -1043,72 +1038,76 @@ a, button { touch-action: manipulation; }
 
 </section>
 
-<!-- ══════════ DOMAIN BAND ══════════ -->
-<div class="domain-band">
-  <div class="domain-band-inner">
-    <div class="db-item" reveal>
-      <div class="db-num">01</div>
-      <div class="db-name">Education</div>
-    </div>
-    <div class="db-rule"></div>
-    <div class="db-item" reveal>
-      <div class="db-num">02</div>
-      <div class="db-name">Healthcare</div>
-    </div>
-    <div class="db-rule"></div>
-    <div class="db-item db-item--last">
-      <div class="db-num">03</div>
-      <div class="db-name">Green Economy</div>
-    </div>
-  </div>
-</div>
-
 <!-- ══════════ WHAT WE'RE BUILDING ══════════ -->
 <section class="intent-section">
   <div class="section-header" reveal>
     <span class="section-num">01 — What We're Building</span>
-    <span class="section-title">Problems worth solving</span>
+    <span class="section-title">Tools already in people's hands</span>
   </div>
 
   <div class="intent-intro" reveal>
     <div class="intent-pull">
-      The gap between what institutions <em>claim to do</em> and what they actually deliver
-      is rarely invisible. It just goes unmeasured.
+      We'd rather <em>show</em> you than tell you.
     </div>
     <div class="intent-body">
-      <p>Every domain we work in has the same underlying problem: the people the system is built for are the last to know how it's performing. Schools track enrolment, not learning. Companies track emissions disclosures, not emissions. Systems manage throughput, not outcomes.</p>
-      <p>We build software that closes that gap — tools that make the invisible visible, that give institutions the infrastructure to run honestly, and that give the people they serve a way to see what's actually happening.</p>
+      <p>Here's what we're building: some live, some close. Each one exists because a specific gap in someone's day was wide enough to build a product around.</p>
     </div>
   </div>
 
   <div class="problem-cards">
 
     <div class="problem-card" reveal-up>
-      <div class="pc-num">01</div>
-      <div class="pc-domain"><div class="pc-domain-dot"></div>Education</div>
-      <div class="pc-title">Rooms full of students. Results no one can account for.</div>
-      <p class="pc-problem">Schools run on a patchwork of disconnected systems and individual effort that doesn't compound. Communication breaks down. Administration is manual. There's no operational backbone — just capable people working around the absence of one.</p>
-      <div class="pc-status"><div class="pc-status-dot"></div>In development</div>
+      <div class="pc-status"><div class="pc-status-dot"></div>Live</div>
+      <div class="pc-title">Interacto</div>
+      <p class="pc-problem">Live participation for any room. Polls, quizzes, and Q&amp;A your audience joins from their phone. No app, no friction.</p>
+      <a href="interacto.html" class="pc-cta">Try it free <span class="cta-arrow">→</span></a>
     </div>
 
     <div class="problem-card" reveal-up>
-      <div class="pc-num">02</div>
-      <div class="pc-domain"><div class="pc-domain-dot"></div>Green Economy</div>
-      <div class="pc-title">Mandatory sustainability reporting. The infrastructure to do it honestly doesn't exist yet.</div>
-      <p class="pc-problem">Regulators now require companies to report environmental, social, and governance data. Most are still doing it manually, inconsistently, and without audit trails. The mandate is real and growing — the infrastructure to meet it honestly at scale isn't there yet.</p>
       <div class="pc-status"><div class="pc-status-dot"></div>In development</div>
-    </div>
-
-    <div class="problem-card" reveal-up>
-      <div class="pc-num">03</div>
-      <div class="pc-domain"><div class="pc-domain-dot"></div>Healthcare</div>
-      <div class="pc-title">Health data is collected. The people it's about never see it.</div>
-      <p class="pc-problem">Community health programmes generate significant operational data — patient visits, treatment cycles, referral outcomes — but that data almost never flows back to frontline workers or the communities being served. It flows upward to funders, stripped of the context that would make it useful at the point of care.</p>
-      <div class="pc-status"><div class="pc-status-dot" style="background:var(--text-4);animation:none;"></div>Planned</div>
+      <div class="pc-title">HydGo</div>
+      <p class="pc-problem">Your city, made legible. Open it anywhere in Hyderabad and it answers three questions: where am I, who governs here, and what public services are nearby.</p>
+      <a href="hydgo.html" class="pc-cta">See HydGo <span class="cta-arrow">→</span></a>
     </div>
 
   </div>
+
+  <p class="intent-ai-line"><em>We also care how these systems should be governed, not just built. It's an AI-policy initiative, and we'll share more on it soon.</em></p>
+
+  <div class="intent-more"><a href="products.html" class="cta-secondary">See all products <span class="cta-arrow">→</span></a></div>
 </section>
+
+<!-- ══════════ WHERE WE'RE STARTING ══════════ -->
+<div class="starting-section">
+  <div class="starting-label" reveal>Where We're Starting</div>
+  <p class="starting-intro" reveal>The idea isn't tied to one field. Better systems help people everywhere. But you have to start somewhere, so we started where the gap hurts most.</p>
+</div>
+<div class="sectors-band">
+  <div class="sector-cell" reveal-up>
+    <svg class="sector-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+      <!-- Graduation cap / open book -->
+      <path d="M16 6L4 12l12 6 12-6-12-6z"/><path d="M4 12v8"/><path d="M8 14.4V22c0 0 3 3 8 3s8-3 8-3v-7.6"/><circle cx="4" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+    </svg>
+    <div class="sector-name">Education</div>
+    <p class="sector-desc">Rooms full of students, and results no one can quite account for. We're building the operational backbone schools have been working around.</p>
+  </div>
+  <div class="sector-cell" reveal-up>
+    <svg class="sector-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+      <!-- Civic building / institution -->
+      <path d="M4 12L16 5l12 7"/><line x1="4" y1="12" x2="28" y2="12"/><line x1="7" y1="12" x2="7" y2="24"/><line x1="13" y1="12" x2="13" y2="24"/><line x1="19" y1="12" x2="19" y2="24"/><line x1="25" y1="12" x2="25" y2="24"/><line x1="4" y1="24" x2="28" y2="24"/><line x1="3" y1="27" x2="29" y2="27"/>
+    </svg>
+    <div class="sector-name">Civic Tech</div>
+    <p class="sector-desc">Cities hold answers people can't reach: who governs here, what's nearby, how to get help. We make the civic layer legible, one honest record at a time.</p>
+  </div>
+  <div class="sector-cell" reveal-up>
+    <svg class="sector-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+      <!-- Scales / balance for policy -->
+      <path d="M16 5v22"/><line x1="9" y1="27" x2="23" y2="27"/><line x1="6" y1="9" x2="26" y2="9"/><path d="M6 9L3 17c0 2 6 2 6 0L6 9z"/><path d="M26 9L23 17c0 2 6 2 6 0L26 9z"/>
+    </svg>
+    <div class="sector-name">AI Policy</div>
+    <p class="sector-desc">The systems shaping public life increasingly run on AI. We work on how they should be governed, the rules and not just the code, so the technology stays answerable to people.</p>
+  </div>
+</div>
 
 <!-- ══════════ BELIEF SECTION ══════════ -->
 <section class="belief-section">
@@ -1117,64 +1116,36 @@ a, button { touch-action: manipulation; }
     <div>
       <div class="belief-label" reveal>02 — What We Believe</div>
       <div class="belief-quote">
-        <span>Every decision is made<br>with a <em>20–30 year</em> horizon,<br>not a quarterly one.</span>
+        <span>We make every call<br>with a <em>20–30 year</em> view,<br>not a quarterly one.</span>
       </div>
     </div>
     <p class="belief-body">
-      We don't manufacture dissatisfaction to sell software. We don't compromise our data or our findings for a client or a funder. We don't build things that extract value from the people they're meant to serve. These aren't constraints on our ambition — they're the source of whatever long-term credibility we earn.
+      A few things we won't trade away, no matter who's asking or what it costs us in the short term.
     </p>
   </div>
   <div class="belief-right">
     <div class="belief-item" reveal>
       <div class="bi-num">I</div>
-      <div class="bi-title">Genuine value over manufactured attention</div>
-      <p class="bi-body">Every product must create real benefit. We don't exploit time or attention to make numbers look good.</p>
+      <div class="bi-title">Genuine value, never manufactured attention</div>
+      <p class="bi-body">Every product earns its place by actually helping. We won't exploit your time or attention to make a number go up.</p>
     </div>
     <div class="belief-item" reveal>
       <div class="bi-num">II</div>
-      <div class="bi-title">Full intellectual sovereignty</div>
-      <p class="bi-body">We never compromise our findings, our data, or our positions for a funding partner, government, or client. Independence is the product.</p>
+      <div class="bi-title">Independence, kept</div>
+      <p class="bi-body">We don't bend our findings, our data, or our positions for a client, funder, or government. Independence is the product.</p>
     </div>
     <div class="belief-item" reveal>
       <div class="bi-num">III</div>
-      <div class="bi-title">Citizen-first by design</div>
-      <p class="bi-body">Whatever the institutional client — government, school, corporation — the end beneficiary of every product is the person the system is supposed to serve.</p>
+      <div class="bi-title">The person comes first</div>
+      <p class="bi-body">Whoever's paying, a school, a company, a government, the one who matters is the person the system is meant to serve.</p>
     </div>
     <div class="belief-item" reveal>
       <div class="bi-num">IV</div>
-      <div class="bi-title">Legacy over transaction</div>
-      <p class="bi-body">Every decision is made with the 20–30 year view. We want to build something that outlasts the moment it was started in — not optimise for the next funding cycle.</p>
+      <div class="bi-title">Built to outlast us</div>
+      <p class="bi-body">We're not optimising for the next funding cycle. We want something still here, and still honest, in twenty years.</p>
     </div>
   </div>
 </section>
-
-<!-- ══════════ SECTORS BAND ══════════ -->
-<div class="sectors-band">
-  <div class="sector-cell" reveal-up>
-    <svg class="sector-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
-      <!-- Graduation cap / open book -->
-      <path d="M16 6L4 12l12 6 12-6-12-6z"/><path d="M4 12v8"/><path d="M8 14.4V22c0 0 3 3 8 3s8-3 8-3v-7.6"/><circle cx="4" cy="22" r="1.5" fill="currentColor" stroke="none"/>
-    </svg>
-    <div class="sector-name">Education</div>
-    <p class="sector-desc">School operations, learning infrastructure, and the gap between enrolment and outcomes.</p>
-  </div>
-  <div class="sector-cell" reveal-up>
-    <svg class="sector-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
-      <!-- Medical cross / heartbeat -->
-      <path d="M16 6C16 6 7 11 7 19a9 9 0 0018 0C25 11 16 6 16 6z"/><line x1="12" y1="19" x2="20" y2="19"/><line x1="16" y1="15" x2="16" y2="23"/>
-    </svg>
-    <div class="sector-name">Healthcare</div>
-    <p class="sector-desc">Data infrastructure for health delivery — built with communities, not around them.</p>
-  </div>
-  <div class="sector-cell" reveal-up>
-    <svg class="sector-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
-      <!-- Leaf / sprout for green economy -->
-      <path d="M16 28V14"/><path d="M16 14C16 14 8 12 6 5c0 0 10-1 14 6 2 3 2 7 2 7"/><path d="M16 14C16 14 22 10 26 5c0 0-8 0-12 6"/><path d="M10 22c2-2 4-2 6-2"/>
-    </svg>
-    <div class="sector-name">Green Economy</div>
-    <p class="sector-desc">ESG accounting, carbon tracking, and environmental accountability where it's mandatory and expanding.</p>
-  </div>
-</div>
 
 <!-- ══════════ FOOTER ══════════ -->
 <footer class="footer">
