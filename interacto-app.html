@@ -299,6 +299,14 @@ button { cursor:pointer; border:none; background:none; }
   .stat-grid { grid-template-columns:1fr 1fr; }
   .tb-brand { font-size:15px; }
 }
+.tb-btn-short { display:none; }
+@media (max-width:520px) {
+  .topbar { padding:0 12px; }
+  .tb-back-label { display:none; }
+  .tb-brand span { display:none; }
+  .tb-btn-full { display:none; }
+  .tb-btn-short { display:inline; }
+}
 </style>
 
 <style id="ui-v2">
@@ -486,11 +494,11 @@ body{
 <body>
 
 <div class="topbar">
-  <a href="index.html" class="tb-back">← Back to Midān</a>
+  <a href="index.html" class="tb-back">← <span class="tb-back-label">Back to Midān</span></a>
   <div class="tb-brand">Interacto <span>· Presenter</span></div>
   <div class="tb-right">
     <span class="mode-pill live" id="modePill" title="Live — synced via Supabase"><span class="dot"></span><span id="modeText">Live</span></span>
-    <button class="btn btn-primary btn-sm" id="newSessionTop">New Session</button>
+    <button class="btn btn-primary btn-sm" id="newSessionTop"><span class="tb-btn-full">New Session</span><span class="tb-btn-short">New</span></button>
   </div>
 </div>
 
@@ -736,14 +744,12 @@ const Interacto = (function () {
         await c.rpc('host_set_files', { p_id: id, p_host_token: hostTokenFor(id), p_files: (s.files || []).filter(x => x.id !== fileId) });
       },
       async submit(id, qIndex, pid, value, msTaken) {
-        const s = await assemble(id); const q = s.questions[qIndex];
-        const { correct, awarded } = scoreFor(q, value, msTaken);
-        const { error } = await client().rpc('submit_response', {
+        const { data, error } = await client().rpc('submit_and_score', {
           p_session_id: id, p_q_index: qIndex, p_participant_id: pid,
-          p_value: String(value), p_correct: correct, p_awarded: awarded
+          p_value: String(value), p_ms_taken: msTaken != null ? Math.round(msTaken) : null
         });
         if (error) throw error;
-        return { correct, awarded, correctAnswer: q.correctAnswer };
+        return data;
       },
       subscribe(id, cb) {
         const c = client();

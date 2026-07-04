@@ -625,6 +625,17 @@ nav.mob-open .mob-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45
   border-radius: 2px;
   transition: background 0.2s;
 }
+.mob-scrim {
+  position: fixed;
+  top: 60px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 198;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  display: none;
+}
+.mob-scrim.mob-open { opacity: 1; pointer-events: auto; }
 
 /* ── Shared mobile improvements ── */
 a, button { touch-action: manipulation; }
@@ -637,6 +648,7 @@ a, button { touch-action: manipulation; }
   .bg-vline { display: none; }
   .mob-btn { display: flex; }
   .mob-drawer { display: block; }
+  .mob-scrim { display: block; }
   .nav-links { display: none !important; }
   .nav-contact { display: none !important; }
 
@@ -877,6 +889,7 @@ a, button { touch-action: manipulation; }
     <a href="work-with-us.html" class="nav-contact" magnetic>Work With Us</a>
   </div>
 </nav>
+<div class="mob-scrim"></div>
 <div class="mob-drawer">
   <ul>
       <li><a href="our-work.html">Our Work<em class="mob-arrow">›</em></a></li>
@@ -1159,6 +1172,9 @@ window.addEventListener('scroll', () => {
       document.documentElement.style.opacity = '1';
     });
   });
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) document.documentElement.style.opacity = '1';
+  });
 
   /* ── 2. Page-exit transition on internal links ── */
   document.addEventListener('click', (e) => {
@@ -1286,12 +1302,14 @@ window.addEventListener('scroll', () => {
 (function(){
   var nav = document.querySelector('nav');
   var drawer = document.querySelector('.mob-drawer');
+  var scrim = document.querySelector('.mob-scrim');
   var btn = document.querySelector('.mob-btn');
   if (!btn || !drawer || !nav) return;
 
   function close() {
     nav.classList.remove('mob-open');
     drawer.classList.remove('mob-open');
+    if (scrim) scrim.classList.remove('mob-open');
     btn.setAttribute('aria-expanded','false');
     document.body.style.overflow = '';
   }
@@ -1299,9 +1317,11 @@ window.addEventListener('scroll', () => {
     e.stopPropagation();
     var open = nav.classList.toggle('mob-open');
     drawer.classList.toggle('mob-open', open);
+    if (scrim) scrim.classList.toggle('mob-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     document.body.style.overflow = open ? 'hidden' : '';
   });
+  if (scrim) scrim.addEventListener('click', close);
   drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
   document.addEventListener('click', function(e){
     if (nav.classList.contains('mob-open') && !nav.contains(e.target) && !drawer.contains(e.target)) close();

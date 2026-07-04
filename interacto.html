@@ -194,10 +194,12 @@ nav.mob-open .mob-btn span:nth-child(3) { transform:translateY(-7px) rotate(-45d
 .mob-drawer .mob-arrow { margin-left:auto; color:var(--text-4); font-style:normal; }
 .mob-drawer .mob-cta { padding:12px 24px 20px; border-top:0.5px solid var(--border); }
 .mob-drawer .mob-cta a { display:block; text-align:center; font-size:12px; font-weight:500; letter-spacing:0.08em; color:var(--bg); background:var(--text-1); text-decoration:none; padding:13px 20px; border-radius:2px; }
+.mob-scrim { position:fixed; top:60px; left:0; right:0; bottom:0; background:rgba(0,0,0,0.35); z-index:198; opacity:0; pointer-events:none; transition:opacity 0.25s ease; display:none; }
+.mob-scrim.mob-open { opacity:1; pointer-events:auto; }
 
 @media (max-width:960px) {
   nav { padding:0 16px !important; } .bg-vline { display:none; }
-  .mob-btn { display:flex; } .mob-drawer { display:block; }
+  .mob-btn { display:flex; } .mob-drawer { display:block; } .mob-scrim { display:block; }
   .nav-links { display:none !important; } .nav-contact { display:none !important; }
   .ix-hero { grid-template-columns:1fr; padding:120px 20px 64px; min-height:auto; gap:48px; }
   .ix-hero-visual { order:-1; }
@@ -345,6 +347,7 @@ nav.mob-open .mob-btn span:nth-child(3) { transform:translateY(-7px) rotate(-45d
     <a href="work-with-us.html" class="nav-contact magnetic">Work With Us</a>
   </div>
 </nav>
+<div class="mob-scrim"></div>
 <div class="mob-drawer">
   <ul>
       <li><a href="our-work.html">Our Work<em class="mob-arrow">›</em></a></li>
@@ -664,6 +667,7 @@ function toggleTheme() {
   document.documentElement.style.opacity = '0';
   document.documentElement.style.transition = 'opacity 0.35s ease';
   window.addEventListener('DOMContentLoaded', () => requestAnimationFrame(() => document.documentElement.style.opacity = '1'));
+  window.addEventListener('pageshow', (e) => { if (e.persisted) document.documentElement.style.opacity = '1'; });
 
   /* page-exit on internal links (skip in-page anchors) */
   document.addEventListener('click', (e) => {
@@ -700,14 +704,15 @@ function toggleTheme() {
 })();
 
 (function(){
-  var nav = document.querySelector('nav'), drawer = document.querySelector('.mob-drawer'), btn = document.querySelector('.mob-btn');
+  var nav = document.querySelector('nav'), drawer = document.querySelector('.mob-drawer'), scrim = document.querySelector('.mob-scrim'), btn = document.querySelector('.mob-btn');
   if (!btn || !drawer || !nav) return;
-  function close() { nav.classList.remove('mob-open'); drawer.classList.remove('mob-open'); btn.setAttribute('aria-expanded','false'); document.body.style.overflow = ''; }
+  function close() { nav.classList.remove('mob-open'); drawer.classList.remove('mob-open'); if (scrim) scrim.classList.remove('mob-open'); btn.setAttribute('aria-expanded','false'); document.body.style.overflow = ''; }
   btn.addEventListener('click', function(e){ e.stopPropagation();
-    var open = nav.classList.toggle('mob-open'); drawer.classList.toggle('mob-open', open);
+    var open = nav.classList.toggle('mob-open'); drawer.classList.toggle('mob-open', open); if (scrim) scrim.classList.toggle('mob-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false'); document.body.style.overflow = open ? 'hidden' : ''; });
   drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
   document.addEventListener('click', function(e){ if (nav.classList.contains('mob-open') && !nav.contains(e.target) && !drawer.contains(e.target)) close(); }, { passive: true });
+  if (scrim) scrim.addEventListener('click', close);
 })();
 </script>
 </body>

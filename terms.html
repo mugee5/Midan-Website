@@ -433,6 +433,17 @@ nav.mob-open .mob-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45
   border-radius: 2px;
   transition: background 0.2s;
 }
+.mob-scrim {
+  position: fixed;
+  top: 60px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 198;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  display: none;
+}
+.mob-scrim.mob-open { opacity: 1; pointer-events: auto; }
 
 /* ── Shared mobile improvements ── */
 a, button { touch-action: manipulation; }
@@ -445,6 +456,7 @@ a, button { touch-action: manipulation; }
   .bg-vline { display: none; }
   .mob-btn { display: flex; }
   .mob-drawer { display: block; }
+  .mob-scrim { display: block; }
   .nav-links { display: none !important; }
   .nav-contact { display: none !important; }
 
@@ -685,6 +697,7 @@ a, button { touch-action: manipulation; }
     <a href="work-with-us.html" class="nav-contact">Work With Us</a>
   </div>
 </nav>
+<div class="mob-scrim"></div>
 <div class="mob-drawer">
   <ul>
       <li><a href="our-work.html">Our Work<em class="mob-arrow">›</em></a></li>
@@ -804,10 +817,11 @@ a, button { touch-action: manipulation; }
     <div class="tc-section" id="ip">
       <div class="tc-section-num">06</div>
       <h2>Intellectual Property</h2>
-      <p>All software, design, content, trademarks, and materials that make up the Midān platforms are owned by Midan Digital or our licensors, protected under applicable Indian and international law.</p>
+      <p>All software, design, content, trademarks, and materials that make up the Midān platforms are owned by Midan Digital or our licensors, protected under applicable Indian and international law. This includes our source code, user interfaces, and product design — whether distributed to you, embedded in a page you can view in a browser, or otherwise made technically accessible — none of which is licensed for reuse.</p>
       <ul>
         <li>We grant you a limited, non-exclusive, non-transferable licence to use the Services during your active subscription, for your internal purposes only.</li>
-        <li>You may not copy, modify, distribute, sell, sublicense, or reverse-engineer any part of our Services.</li>
+        <li>You may not copy, modify, distribute, sell, sublicense, publicly display source, or reverse-engineer any part of our Services — including by viewing, extracting, or repurposing client-side code (HTML, CSS, JavaScript) served to your browser, or by cloning the look, feel, or functionality of our products for a competing or derivative offering.</li>
+        <li>The fact that part of our software is technically visible or inspectable (for example, via a browser's "view source" or developer tools) does not grant any licence to copy, reuse, or build upon it. All rights are reserved.</li>
         <li>You retain full ownership of your Client Data. We only use it to deliver and maintain the Services you've subscribed to.</li>
       </ul>
     </div>
@@ -978,6 +992,9 @@ document.documentElement.style.transition = 'opacity 0.35s ease';
 window.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(() => { document.documentElement.style.opacity = '1'; });
 });
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) document.documentElement.style.opacity = '1';
+});
 
 /* ── Page-exit transition ── */
 document.addEventListener('click', (e) => {
@@ -1035,12 +1052,14 @@ if (nav) {
 (function(){
   var nav = document.querySelector('nav');
   var drawer = document.querySelector('.mob-drawer');
+  var scrim = document.querySelector('.mob-scrim');
   var btn = document.querySelector('.mob-btn');
   if (!btn || !drawer || !nav) return;
 
   function close() {
     nav.classList.remove('mob-open');
     drawer.classList.remove('mob-open');
+    if (scrim) scrim.classList.remove('mob-open');
     btn.setAttribute('aria-expanded','false');
     document.body.style.overflow = '';
   }
@@ -1048,9 +1067,11 @@ if (nav) {
     e.stopPropagation();
     var open = nav.classList.toggle('mob-open');
     drawer.classList.toggle('mob-open', open);
+    if (scrim) scrim.classList.toggle('mob-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     document.body.style.overflow = open ? 'hidden' : '';
   });
+  if (scrim) scrim.addEventListener('click', close);
   drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
   document.addEventListener('click', function(e){
     if (nav.classList.contains('mob-open') && !nav.contains(e.target) && !drawer.contains(e.target)) close();
