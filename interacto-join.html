@@ -383,17 +383,13 @@ const Interacto = (function () {
         await client().rpc('upvote_response', { p_session_id: id, p_q_index: qIndex, p_target_pid: targetPid, p_voter_id: voterId });
       },
       async submit(id, qIndex, pid, value, msTaken) {
-        const s = await assemble(id); const q = s.questions[qIndex];
-        let { correct, awarded } = scoreFor(q, value, msTaken);
-        let streak = 0, streakBonus = 0;
-        if (q.type === 'quiz' && correct) { streak = streakCount(s, pid, qIndex) + 1; streakBonus = Math.min(streak - 1, 5) * 25; awarded += streakBonus; }
         const c = client();
-        const { error } = await c.rpc('submit_response', {
+        const { data, error } = await c.rpc('submit_and_score', {
           p_session_id: id, p_q_index: qIndex, p_participant_id: pid,
-          p_value: String(value), p_correct: correct, p_awarded: awarded
+          p_value: String(value), p_ms_taken: msTaken != null ? Math.round(msTaken) : null
         });
         if (error) throw error;
-        return { correct, awarded, correctAnswer: q.correctAnswer, streak, streakBonus };
+        return data;
       },
       subscribe(id, cb) {
         const c = client();
