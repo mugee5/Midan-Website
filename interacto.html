@@ -138,11 +138,11 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; height:60px; display:
 .uc-tile-desc { font-size:12.5px; font-weight:300; line-height:1.7; color:var(--text-3); }
 
 /* PRICING */
-.price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:0.5px solid var(--border); }
-.price-card { background:var(--bg); padding:40px 34px; display:flex; flex-direction:column; transition:background 0.25s; }
+.price-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); border:0.5px solid var(--border); max-width:820px; margin:0 auto; }
+.price-card { background:var(--bg); padding:40px 34px; display:flex; flex-direction:column; transition:background 0.25s, border-color 0.25s; }
 .price-card:hover { background:var(--bg-2); }
-.price-card.recommended { background:var(--bg-2); border-top:2px solid var(--gold); }
-.pr-rec-tag { font-size:9.5px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.price-card.pr-brand:hover { border-top:2px solid var(--gold); }
+.price-grid .price-card:nth-child(2) { transition-delay:0.08s; }
 .pr-name { font-size:13px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-2); margin-bottom:6px; }
 .pr-for { font-size:12.5px; font-weight:300; color:var(--text-3); margin-bottom:24px; min-height:18px; }
 .pr-price { font-family:'Cormorant Garamond',Georgia,serif; font-size:46px; font-weight:600; letter-spacing:-0.02em; color:var(--text-1); line-height:1; margin-bottom:4px; }
@@ -518,40 +518,26 @@ nav.mob-open .mob-btn span:nth-child(3) { transform:translateY(-7px) rotate(-45d
   <div class="price-grid">
     <div class="price-card reveal">
       <div class="pr-name">Free</div>
-      <div class="pr-for">For educators and small groups</div>
+      <div class="pr-for">No card, no catch, just start</div>
       <div class="pr-price">₹0</div>
       <div class="pr-sub">Always free</div>
       <ul class="pr-feats">
-        <li>Up to 30 participants</li>
-        <li>3 sessions a month</li>
-        <li>Polls &amp; basic quizzes</li>
-        <li>QR &amp; link join</li>
+        <li>Live polls &amp; quizzes</li>
+        <li>Instant QR &amp; link join</li>
+        <li>No app, no signup for participants</li>
+        <li>Free forever, no card required</li>
       </ul>
       <a href="interacto-app.html" class="pr-cta outline">Start Free</a>
     </div>
-    <div class="price-card recommended reveal">
-      <div class="pr-rec-tag">Most popular</div>
-      <div class="pr-name">Session Pass</div>
-      <div class="pr-for">For active facilitators</div>
-      <div class="pr-price">₹299 <small>/ session</small></div>
-      <div class="pr-sub">Pay only for the sessions you run</div>
-      <ul class="pr-feats">
-        <li>Up to 200 participants</li>
-        <li>Full quizzes, Q&amp;A &amp; leaderboard</li>
-        <li>Real-time analytics &amp; CSV export</li>
-        <li>One-tap WhatsApp share</li>
-      </ul>
-      <a href="work-with-us.html" class="pr-cta solid">Join the Waitlist</a>
-    </div>
-    <div class="price-card reveal">
+    <div class="price-card pr-brand reveal">
       <div class="pr-name">Institution</div>
-      <div class="pr-for">For schools, universities &amp; enterprises</div>
+      <div class="pr-for">Your brand, your domain, your platform</div>
       <div class="pr-price">Custom</div>
       <div class="pr-sub">Annual, billed to the institution</div>
       <ul class="pr-feats">
-        <li>Unlimited sessions &amp; participants</li>
-        <li>SSO &amp; admin dashboard</li>
-        <li>Priority support</li>
+        <li>Fully white-labeled, your branding throughout</li>
+        <li>Custom domain &amp; institutional login (SSO)</li>
+        <li>Dedicated onboarding &amp; priority support</li>
         <li>Data residency in India</li>
       </ul>
       <a href="work-with-us.html" class="pr-cta outline">Contact Us</a>
